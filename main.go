@@ -31,6 +31,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	defer c.Close()
 
 	for {
+		///test
 		mt, message, err := c.ReadMessage()
 		if err != nil {
 			log.Println("read:", err)
