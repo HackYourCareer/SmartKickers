@@ -44,7 +44,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			_ = c.WriteMessage(mt, json.RawMessage("{\"start\": \"1\" }"))
 		}
 
-		if strings.Contains(string(message), "goal") {
+		if strings.Contains(string(message), "GOAL!") {
 			if strings.Contains(string(message), "1") {
 				goalsOne++
 			}
