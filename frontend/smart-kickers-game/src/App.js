@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import './App.css'
+import {Button} from "./components/button"
 
 import * as WebSocket from "websocket"
 
@@ -32,9 +33,10 @@ function App() {
       <h1>Smart Kickers</h1>
       <div className="game-result-container">
         Blue: {blueScore}
-        <br></br>
+          {"   "}
         White: {whiteScore}
       </div>
+      <center><Button >Reset game</Button></center>
     </>
   )
 }
