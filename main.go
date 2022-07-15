@@ -38,7 +38,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-		var dispatcherMsg messages.DispatcherReqMsg
+		var dispatcherMsg messages.DispatcherReq
 		er := json.Unmarshal([]byte(message), &dispatcherMsg)
 
 		if er != nil {
@@ -46,7 +46,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if dispatcherMsg.MsgType == "INITIAL" {
-			message := messages.DispatcherResMsg{
+			message := messages.DispatcherRes{
 				GameId: dispatcherMsg.TableId,
 			}
 			msg, err := json.Marshal(message)
