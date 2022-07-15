@@ -3,10 +3,9 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
-	"strconv"
+	"remote/pkg/messages"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -36,12 +35,16 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		mt, message, err := c.ReadMessage()
 		if err != nil {
 			log.Println("read:", err)
-			if strings.Contains(string(err.Error()), "websocket") {
-				fmt.Println("Team 1 score: " + strconv.Itoa(goalsOne) + " Team 2 score: " + strconv.Itoa(goalsTwo))
-			}
 			break
 		}
-		log.Printf("recv: %s", message)
+
+		var dispatcherMsg messages.DispatcherMsg
+		er := json.Unmarshal([]byte(message), &dispatcherMsg)
+
+		if er != nil {
+			log.Println(err)
+		}
+
 		if strings.Contains(string(message), "INITIAL") {
 			_ = c.WriteMessage(mt, json.RawMessage("{\"start\": \"1\" }"))
 		}
@@ -55,7 +58,6 @@ func echo(w http.ResponseWriter, r *http.Request) {
 				goalsTwo++
 			}
 		}
-
 	}
 }
 
