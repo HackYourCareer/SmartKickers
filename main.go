@@ -3,14 +3,24 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
+
+type DispatcherMessage struct {
+	MsgType string `json:"type"`
+	Origin string `json:"origin"`
+	TableId int64 `json:"id"`
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
+	Goal int64 `json:"goal"`
+	GameStart int64 `json:"start"`
+	GameEnd int64 `json:"end"`
+}
 
 var addr = flag.String("addr", "0.0.0.0:3000", "http service addr")
 
@@ -34,26 +44,38 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		mt, message, err := c.ReadMessage()
 		if err != nil {
 			log.Println("read:", err)
-			if strings.Contains(string(err.Error()), "websocket") {
-				fmt.Println("Team 1 score: " + strconv.Itoa(goalsOne) + " Team 2 score: " + strconv.Itoa(goalsTwo))
-			}
 			break
 		}
-		log.Printf("recv: %s", message)
-		if strings.Contains(string(message), "INITIAL") {
-			_ = c.WriteMessage(mt, json.RawMessage("{\"start\": \"1\" }"))
+
+		var dispatcherMsg DispatcherMessage
+		er := json.Unmarshal([]byte(message), &dispatcherMsg)
+
+		if er != nil {
+			log.Println(err)
 		}
 
-		if strings.Contains(string(message), "goal") {
-			if strings.Contains(string(message), "1") {
-				goalsOne++
+		if dispatcherMsg.MsgType == "INITIAL" {
+			message := DispatcherMessage {
+				GameStart: time.Now().Unix(),
+			}
+			msg, err := json.Marshal(message)
+
+			if err != nil {
+				log.Fatalln(err)
 			}
 
-			if strings.Contains(string(message), "2") {
-				goalsTwo++
-			}
+			c.WriteMessage(mt, msg)
+		}
+		
+		if dispatcherMsg.Goal == 1 {
+			goalsOne++
 		}
 
+		if dispatcherMsg.Goal == 2 {
+			goalsTwo++
+		}
+
+		log.Println("Team 1 score: " + strconv.Itoa(goalsOne) + " Team 2 score: " + strconv.Itoa(goalsTwo))
 	}
 }
 
