@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import {Button} from "./components/button"
 
@@ -6,8 +6,8 @@ import * as WebSocket from "websocket"
 
 function App() {
 
-  var blueScore = 0
-  var whiteScore = 0
+  let [blueScore, setBlueScore] = useState(0);
+  let [whiteScore, setWhiteScore] = useState(0);
 
   useEffect(() => {
     const socket = new WebSocket.w3cwebsocket('ws://localhost:3000');
@@ -15,12 +15,13 @@ function App() {
     socket.onopen = function () {
       console.log("connected");
       socket.onmessage = (msg) => {
-        msg = JSON.parse(msg.toString())
+        msg = JSON.parse(msg.data)
+        console.log(msg)
         if (msg.type === "blueGoal") {
-          blueScore++
+          setBlueScore(blueScore + 1)
         }
         if (msg.type === "whiteGoal") {
-          whiteScore++
+          setWhiteScore(whiteScore + 1)
         }
      
         console.log(msg);

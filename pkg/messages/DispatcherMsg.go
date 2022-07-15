@@ -8,9 +8,5 @@ type DispatcherMsg struct {
 	Y         float64 `json:"y"`
 	Timestamp string  `json:"timestamp"`
 	Goal      int     `json:"goal"`
-}
-
-type DispatcherResMsg struct {
-	GameId    int `json:"start"`
-	GameEnded int `json:"end"`
+	Sequence  string  `json:"Sequence"`
 }

@@ -15,7 +15,7 @@ var goalsWhite, goalsBlue int
 //	Create a initial response and send back game id json
 func handleInitial(mt int, c *websocket.Conn, dm messages.DispatcherMsg) {
 	//	package id in json
-	message := messages.DispatcherResMsg{
+	message := messages.DispatcherResponse{
 		GameId: dm.TableId,
 	}
 
