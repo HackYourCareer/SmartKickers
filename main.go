@@ -5,23 +5,12 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"remote/pkg/messages"
 	"strconv"
-	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
-
-type DispatcherMessage struct {
-	MsgType string `json:"type"`
-	Origin string `json:"origin"`
-	TableId int64 `json:"id"`
-	X float64 `json:"x"`
-	Y float64 `json:"y"`
-	Goal int64 `json:"goal"`
-	GameStart int64 `json:"start"`
-	GameEnd int64 `json:"end"`
-}
 
 var addr = flag.String("addr", "0.0.0.0:3000", "http service addr")
 
@@ -49,7 +38,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-		var dispatcherMsg DispatcherMessage
+		var dispatcherMsg messages.DispatcherReqMsg
 		er := json.Unmarshal([]byte(message), &dispatcherMsg)
 
 		if er != nil {
@@ -57,8 +46,8 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if dispatcherMsg.MsgType == "INITIAL" {
-			message := DispatcherMessage {
-				GameStart: time.Now().Unix(),
+			message := messages.DispatcherResMsg{
+				GameId: dispatcherMsg.TableId,
 			}
 			msg, err := json.Marshal(message)
 
@@ -68,7 +57,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 			c.WriteMessage(mt, msg)
 		}
-		
+
 		if dispatcherMsg.Goal == 1 {
 			goalsOne++
 		}
