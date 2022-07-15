@@ -13,3 +13,8 @@ func SendResponse(dr *DispatcherRes) {
 		panic(err)
 	}
 }
+
+func (dr *DispatcherRes) New(gameId int, endId int) {
+	dr.GameId = gameId
+	dr.GameEnded = endId
+}
