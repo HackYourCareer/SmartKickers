@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
@@ -83,6 +84,10 @@ func echo(w http.ResponseWriter, r *http.Request) {
 func main() {
 	flag.Parse()
 	log.SetFlags(0)
-	http.HandleFunc("/", echo)
+
+	r := mux.NewRouter()
+	r.HandleFunc("/", echo)
+	http.Handle("/", r)
+
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
