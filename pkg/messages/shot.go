@@ -1,5 +1,7 @@
 package messages
 
+import "encoding/json"
+
 type ShotParams struct {
 	TimeStart int     `json:"TimeStart,omitempty"`
 	TimeEnd   int     `json:"TimeEnd,omitempty"`
@@ -11,7 +13,7 @@ type ShotParams struct {
 }
 
 type ShotMsg struct {
-	Mode        string   `json:"mode,omitempty"`
-	MessageType string   `json:"messageType,omitempty"`
-	Params      []string `json:"messages,omitempty"`
+	Mode        string            `json:"mode,omitempty"`
+	MessageType string            `json:"messageType,omitempty"`
+	Params      []json.RawMessage `json:"messages,omitempty"`
 }
