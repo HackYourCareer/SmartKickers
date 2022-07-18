@@ -20,7 +20,7 @@ describe('<App />', () => {
     expect(screen.getByTestId('blue-team-score')).toHaveTextContent('0')
   })
 
-  it('update score on goal message', async () => {
+  it('should update score on blue goal message', async () => {
     const { container } = render(<App />)
     await ws.connected
 
@@ -29,7 +29,7 @@ describe('<App />', () => {
     expect(screen.getByTestId('blue-team-score')).toHaveTextContent('Blue: 1')
   })
 
-  it('update score on goal message', async () => {
+  it('should update score on white goal message', async () => {
     const { container } = render(<App />)
     await ws.connected
 
