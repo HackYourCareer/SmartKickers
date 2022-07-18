@@ -3,8 +3,8 @@ package messages
 import "encoding/json"
 
 type DispatcherResponse struct {
-	GameId    int `json:"start,omitempty"`
-	GameEnded int `json:"end,omitempty"`
+	GameId    string `json:"start,omitempty"`
+	GameEnded int    `json:"end,omitempty"`
 }
 
 func SendResponse(dr *DispatcherResponse) {
@@ -14,7 +14,7 @@ func SendResponse(dr *DispatcherResponse) {
 	}
 }
 
-func (dr *DispatcherResponse) New(gameId int, endId int) {
+func (dr *DispatcherResponse) New(gameId string, endId int) {
 	dr.GameId = gameId
 	dr.GameEnded = endId
 }
