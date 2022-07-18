@@ -39,10 +39,10 @@ func handleGoal(team int) {
 
 	}
 	if team == 2 {
-		gameScore.WhiteScore++
+		gameScore.BlueScore++
 	}
 
-	log.Println("Team 1 score: " + strconv.Itoa(gameScore.WhiteScore) + " Team 2 score: " + strconv.Itoa(gameScore.WhiteScore))
+	log.Println("Team 1 score: " + strconv.Itoa(gameScore.WhiteScore) + " Team 2 score: " + strconv.Itoa(gameScore.BlueScore))
 }
 
 //	Upgrade the http to websocket connection and check for errors, return the upgraded connection
@@ -91,9 +91,29 @@ func Echo(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func SendScore(w http.ResponseWriter, r *http.Request) {
+//func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
+//	c := connect(w, r)
+//	defer func(c *websocket.Conn) {
+//		err := c.Close()
+//		if err != nil {
+//
+//		}
+//	}(c) //	Close connection when infinite loop below exits
+//	sendScore(c, gameScore)
+//}
+//
+//func sendScore(c *websocket.Conn, gameScore messages.GameScore) {
+//	var mt int
+//	for {
+//		gameScoreMsg, _ := json.Marshal(gameScore)
+//		err := c.WriteMessage(mt, gameScoreMsg)
+//		if err != nil {
+//			return
+//		}
+//	}
+//}
+func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	c := connect(w, r)
-
 	defer func(c *websocket.Conn) {
 		err := c.Close()
 		if err != nil {
@@ -102,14 +122,8 @@ func SendScore(w http.ResponseWriter, r *http.Request) {
 	}(c) //	Close connection when infinite loop below exits
 	var mt int
 	for {
-
-		msgBlue, _ := json.Marshal(gameScore.BlueScore)
-		msgWhite, _ := json.Marshal(gameScore.WhiteScore)
-		err := c.WriteMessage(mt, msgBlue)
-		if err != nil {
-			return
-		}
-		err = c.WriteMessage(mt, msgWhite)
+		gameScoreMsg, _ := json.Marshal(gameScore)
+		err := c.WriteMessage(mt, gameScoreMsg)
 		if err != nil {
 			return
 		}
