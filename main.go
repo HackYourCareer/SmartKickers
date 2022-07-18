@@ -61,12 +61,44 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func receiveShotMsg(w http.ResponseWriter, r *http.Request) {
+
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+
+	c, err := upgrader.Upgrade(w, r, nil)
+
+	if err != nil {
+		log.Print("upgrade:", err)
+		return
+	}
+
+	defer c.Close()
+
+	for {
+		_, message, err := c.ReadMessage()
+		if err != nil {
+			log.Println("read:", err)
+			break
+		}
+
+		var shotMsg messages.ShotMsg
+		_ = json.Unmarshal(message, &shotMsg)
+		var shotParams messages.ShotParams
+		_ = json.Unmarshal(shotMsg.Params[0], &shotParams)
+
+		log.Printf("Shot with speeed of %v\n", shotParams.Speed)
+
+	}
+}
+
 func main() {
 	flag.Parse()
 	log.SetFlags(0)
 
 	r := mux.NewRouter()
+
 	r.HandleFunc("/", echo)
+	r.HandleFunc("/shot", receiveShotMsg)
 	http.Handle("/", r)
 
 	log.Fatal(http.ListenAndServe(*addr, nil))
