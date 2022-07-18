@@ -1,12 +1,12 @@
 package messages
 
 type DispatcherMsg struct {
-	TypeMess  string `json:"type"`
-	Origin    string `json:"origin"`
-	Id        string `json:"id"`
-	XVal      string `json:"X"`
-	YVal      string `json:"Y"`
-	Timestamp string `json:"timestamp"`
-	GameID    string `json:"GameID"`
-	Sequence  string `json:"Sequence"`
+	MsgType   string  `json:"type,omitempty"`
+	Origin    string  `json:"origin,omitempty"`
+	TableId   string  `json:"id,omitempty"`
+	X         float64 `json:"x,omitempty"`
+	Y         float64 `json:"y,omitempty"`
+	Timestamp string  `json:"timestamp,omitempty"`
+	Goal      int     `json:"goal,omitempty"`
+	Sequence  string  `json:"Sequence,omitempty"`
 }
