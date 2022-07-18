@@ -91,27 +91,6 @@ func Echo(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
-//	c := connect(w, r)
-//	defer func(c *websocket.Conn) {
-//		err := c.Close()
-//		if err != nil {
-//
-//		}
-//	}(c) //	Close connection when infinite loop below exits
-//	sendScore(c, gameScore)
-//}
-//
-//func sendScore(c *websocket.Conn, gameScore messages.GameScore) {
-//	var mt int
-//	for {
-//		gameScoreMsg, _ := json.Marshal(gameScore)
-//		err := c.WriteMessage(mt, gameScoreMsg)
-//		if err != nil {
-//			return
-//		}
-//	}
-//}
 func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	c := connect(w, r)
 	defer func(c *websocket.Conn) {
