@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"remote/internal"
 	"remote/internal/echo"
 
 	"github.com/gorilla/mux"
