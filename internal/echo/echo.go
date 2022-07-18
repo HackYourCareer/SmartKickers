@@ -15,9 +15,14 @@ var goalsWhite, goalsBlue int
 //	Create a initial response and send back game id json
 func handleInitial(mt int, c *websocket.Conn, dm messages.DispatcherMsg) {
 	//	package id in json
+	/*id, err := strconv.Atoi(dm.TableId)
+	if err != nil {
+		log.Fatalln("Initial: ", err)
+	}*/
 	message := messages.DispatcherResponse{
 		GameId: dm.TableId,
 	}
+	log.Println("success")
 
 	msg, err := json.Marshal(message)
 	if err != nil {
@@ -67,6 +72,7 @@ func Echo(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		log.Println(string(message))
 		//	Resolve given json into provided struct
 		var dm messages.DispatcherMsg
 		err = json.Unmarshal([]byte(message), &dm)
