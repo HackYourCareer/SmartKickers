@@ -23,10 +23,6 @@ func ReceiveShotMsg(w http.ResponseWriter, r *http.Request) {
 		var shotMsg messages.ShotMsg
 		_ = json.Unmarshal(message, &shotMsg)
 
-		for _, param := range shotMsg.Params {
-			log.Println(string(param))
-		}
-
 		var shotParams messages.ShotParams
 		if len(shotMsg.Params) > 0 {
 			_ = json.Unmarshal(shotMsg.Params[0], &shotParams)
