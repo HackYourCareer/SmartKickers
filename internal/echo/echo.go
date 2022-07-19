@@ -115,7 +115,7 @@ func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	defer func(c *websocket.Conn) {
 		err := c.Close()
 		if err != nil {
-
+			log.Fatal(err)
 		}
 	}(c) //	Close connection when infinite loop below exits
 	var mt int
