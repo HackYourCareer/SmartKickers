@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var goalsWhite, goalsBlue int
+var gameScore messages.GameScore
 
 //	Create a initial response and send back game id json
 func handleInitial(mt int, c *websocket.Conn, dm messages.DispatcherMsg) {
@@ -30,15 +30,15 @@ func handleInitial(mt int, c *websocket.Conn, dm messages.DispatcherMsg) {
 
 //	Add point if message had a goal field, and print out score
 func handleGoal(team int) {
-
 	if team == 1 {
-		goalsWhite++
+		gameScore.WhiteScore++
+
 	}
 	if team == 2 {
-		goalsBlue++
+		gameScore.BlueScore++
 	}
 
-	log.Println("Team 1 score: " + strconv.Itoa(goalsWhite) + " Team 2 score: " + strconv.Itoa(goalsBlue))
+	log.Println("Team 1 score: " + strconv.Itoa(gameScore.WhiteScore) + " Team 2 score: " + strconv.Itoa(gameScore.BlueScore))
 }
 
 //	Upgrade the http to websocket connection and check for errors, return the upgraded connection
@@ -81,7 +81,49 @@ func Echo(w http.ResponseWriter, r *http.Request) {
 
 		if dm.Goal != 0 {
 			handleGoal(dm.Goal)
+
 		}
 	}
 
+}
+
+func ClientServerConn(w http.ResponseWriter, r *http.Request) {
+	c := connect(w, r)
+	defer c.Close()
+	for {
+		messageType, p, err := c.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		log.Println(string(p))
+
+		// send to client
+		if err := c.WriteMessage(messageType, []byte("Hello from server")); err != nil {
+			log.Println(err)
+			return
+		}
+		if err := c.WriteMessage(messageType, p); err != nil {
+			log.Println(err)
+			return
+		}
+	}
+}
+
+func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
+	c := connect(w, r)
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+
+		}
+	}(c) //	Close connection when infinite loop below exits
+	var mt int
+	for {
+		gameScoreMsg, _ := json.Marshal(gameScore)
+		err := c.WriteMessage(mt, gameScoreMsg)
+		if err != nil {
+			return
+		}
+	}
 }
