@@ -23,6 +23,8 @@ assignees: ''
 **Acceptance Criteria**
 
 <!-- Describe quickly what criteria should be met in order to consider it closed -->
+To consider the issue as closed, the following tasks should be done:
+
 
 **Attachments**
 

@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import {Button} from "./components/button"
 
-import * as WebSocket from "websocket"
-
 function App() {
 
   let [blueScore, setBlueScore] = useState(0);
@@ -11,7 +9,7 @@ function App() {
 
   useEffect(() => {
     const socket = new WebSocket.w3cwebsocket('ws://localhost:3006/csc');
-
+    //const socket = new WebSocket("ws://localhost:3000")
     socket.onopen = function () {
       console.log("connected");
       //send to server
@@ -35,7 +33,7 @@ function App() {
   return (
     <>
       <h1>Smart Kickers</h1>
-      <div className="game-result-container">
+      <div className="game-result-container" data-testid="blue-team-score">
         Blue: {blueScore}
           {"   "}
         White: {whiteScore}
