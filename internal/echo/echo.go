@@ -15,10 +15,6 @@ var gameScore messages.GameScore
 //	Create a initial response and send back game id json
 func handleInitial(mt int, c *websocket.Conn, dm messages.DispatcherMsg) {
 	//	package id in json
-	/*id, err := strconv.Atoi(dm.TableId)
-	if err != nil {
-		log.Fatalln("Initial: ", err)
-	}*/
 	message := messages.DispatcherResponse{
 		GameId: dm.TableId,
 	}
@@ -119,7 +115,7 @@ func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	defer func(c *websocket.Conn) {
 		err := c.Close()
 		if err != nil {
-
+			log.Fatal(err)
 		}
 	}(c) //	Close connection when infinite loop below exits
 	var mt int
