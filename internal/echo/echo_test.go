@@ -1,6 +1,10 @@
 package echo
 
 import (
+<<<<<<< HEAD
+=======
+
+>>>>>>> 268b9706fad47ae80e671536ad8bda8f59e8ad16
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -9,7 +13,12 @@ import (
 	"testing"
 
 	"github.com/gorilla/websocket"
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
+=======
+  "github.com/stretchr/testify/assert"
+	"testing"
+>>>>>>> 268b9706fad47ae80e671536ad8bda8f59e8ad16
 )
 
 func NewWsServer(t *testing.T, h http.Handler) (*httptest.Server, *websocket.Conn) {
@@ -109,9 +118,14 @@ func TestEcho(t *testing.T) {
 					t.Fatalf("Expected '%+v', got '%+v'", tt.reply, reply)
 				}
 			}
+<<<<<<< HEAD
 		})
 	}
 }
+=======
+
+)
+>>>>>>> 268b9706fad47ae80e671536ad8bda8f59e8ad16
 
 func Test_handleGoal(t *testing.T) {
 	type args struct {
