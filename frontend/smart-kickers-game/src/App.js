@@ -8,7 +8,7 @@ function App() {
   let [whiteScore, setWhiteScore] = useState(0);
 
   useEffect(() => {
-    const socket = new WebSocket.w3cwebsocket('ws://localhost:3006/csc');
+    const socket = new WebSocket('ws://localhost:3006/csc');
     //const socket = new WebSocket("ws://localhost:3000")
     socket.onopen = function () {
       console.log("connected");
