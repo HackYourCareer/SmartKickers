@@ -118,8 +118,13 @@ func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 	}(c) //	Close connection when infinite loop below exits
-	var mt int
+	mt := 1
+	var previousScore messages.GameScore
 	for {
+		if previousScore.BlueScore == gameScore.BlueScore && previousScore.WhiteScore == gameScore.WhiteScore {
+			continue
+		}
+		previousScore = gameScore
 		gameScoreMsg, _ := json.Marshal(gameScore)
 		err := c.WriteMessage(mt, gameScoreMsg)
 		if err != nil {
