@@ -7,11 +7,12 @@ type DispatcherResponse struct {
 	GameEnded int    `json:"end,omitempty"`
 }
 
-func SendResponse(dr *DispatcherResponse) {
-	_, err := json.Marshal(DispatcherResponse{GameId: dr.GameId, GameEnded: dr.GameEnded})
+func SendResponse(dr *DispatcherResponse) []byte {
+	res, err := json.Marshal(DispatcherResponse{GameId: dr.GameId, GameEnded: dr.GameEnded})
 	if err != nil {
 		panic(err)
 	}
+	return res
 }
 
 func (dr *DispatcherResponse) New(gameId string, endId int) {
