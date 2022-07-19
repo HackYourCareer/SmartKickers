@@ -93,7 +93,7 @@ func Echo(w http.ResponseWriter, r *http.Request) {
 
 func ClientServerConn(w http.ResponseWriter, r *http.Request) {
 	c := connect(w, r)
-  defer c.Close()
+	defer c.Close()
 	for {
 		messageType, p, err := c.ReadMessage()
 		if err != nil {
@@ -111,6 +111,8 @@ func ClientServerConn(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 			return
 		}
+	}
+}
 
 func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	c := connect(w, r)
