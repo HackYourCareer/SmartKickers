@@ -8,11 +8,14 @@ function App() {
   let [whiteScore, setWhiteScore] = useState(0);
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:3000")
-
+    const socket = new WebSocket('ws://localhost:3006/csc');
+    //const socket = new WebSocket("ws://localhost:3000")
     socket.onopen = function () {
       console.log("connected");
+      //send to server
+      socket.send("Hello from client")
       socket.onmessage = (msg) => {
+        console.log(msg);
         msg = JSON.parse(msg.data)
         console.log(msg)
         if (msg.type === "blueGoal") {

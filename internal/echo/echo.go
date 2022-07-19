@@ -91,6 +91,27 @@ func Echo(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func ClientServerConn(w http.ResponseWriter, r *http.Request) {
+	c := connect(w, r)
+  defer c.Close()
+	for {
+		messageType, p, err := c.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		log.Println(string(p))
+
+		// send to client
+		if err := c.WriteMessage(messageType, []byte("Hello from server")); err != nil {
+			log.Println(err)
+			return
+		}
+		if err := c.WriteMessage(messageType, p); err != nil {
+			log.Println(err)
+			return
+		}
+
 func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	c := connect(w, r)
 	defer func(c *websocket.Conn) {
