@@ -9,7 +9,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var addr = flag.String("addr", "0.0.0.0:3000", "http service addr")
+var nodeAddr = flag.String("addr", "0.0.0.0:3000", "nodeAddr")
+var reactAddr = flag.String("addr2", "0.0.0.0:3006", "reactAddr")
 
 func main() {
 	flag.Parse()
@@ -18,7 +19,9 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", echo.Echo)
 	r.HandleFunc("/shot", echo.ReceiveShotMsg)
-	http.Handle("/", r)
+	go http.ListenAndServe(*nodeAddr, r)
 
-	log.Fatal(http.ListenAndServe(*addr, nil))
+	r2 := mux.NewRouter()
+	r2.HandleFunc("/csc", echo.ClientServerConn)
+	http.ListenAndServe(*reactAddr, r2)
 }
