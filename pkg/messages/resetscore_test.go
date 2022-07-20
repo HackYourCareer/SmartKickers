@@ -17,7 +17,7 @@ func Test_resetScore(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gameScore.resetScore()
+			gameScore.ResetScore()
 		})
 		if *&tt.args.score.WhiteScore != 0 || *&tt.args.score.BlueScore != 0 {
 			t.Errorf("Score did not reset. Goals white: %v, Goals blue: %v", *&tt.args.score.WhiteScore, *&tt.args.score.BlueScore)

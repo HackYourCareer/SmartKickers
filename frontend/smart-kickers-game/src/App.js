@@ -7,8 +7,9 @@ function App() {
   let [blueScore, setBlueScore] = useState(0);
   let [whiteScore, setWhiteScore] = useState(0);
 
+  const socket = new WebSocket('ws://localhost:3006/csc');
+
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:3006/csc');
     //const socket = new WebSocket("ws://localhost:3000")
     socket.onopen = function () {
       console.log("connected");
@@ -26,6 +27,13 @@ function App() {
     };
   });
 
+  function sendResetGameMsg() {
+
+    console.log(socket.url)
+    socket.send("Reset score");
+    
+  }
+
   return (
     <>
       <h1>Smart Kickers</h1>
@@ -34,7 +42,7 @@ function App() {
           {"   "}
         White: {whiteScore}
       </div>
-      <center><Button >Reset game</Button></center>
+      <center><Button onClick={sendResetGameMsg} >Reset game</Button></center>
     </>
   )
 }
