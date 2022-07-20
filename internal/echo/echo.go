@@ -2,13 +2,11 @@ package echo
 
 import (
 	"encoding/json"
+	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"remote/pkg/messages"
 	"strconv"
-	"strings"
-
-	"github.com/gorilla/websocket"
 )
 
 var gameScore messages.GameScore
@@ -31,14 +29,12 @@ func handleInitial(mt int, c *websocket.Conn, dm messages.DispatcherMsg) {
 
 //	Add point if message had a goal field, and print out score
 func handleGoal(team int) {
-	if team == 1 {
+	switch team {
+	case 1:
 		gameScore.WhiteScore++
-
-	}
-	if team == 2 {
+	case 2:
 		gameScore.BlueScore++
 	}
-
 	log.Println("Team 1 score: " + strconv.Itoa(gameScore.WhiteScore) + " Team 2 score: " + strconv.Itoa(gameScore.BlueScore))
 }
 
@@ -118,10 +114,10 @@ func reader(c *websocket.Conn) {
 			log.Println(err)
 			return
 		}
-		log.Println(string(p))
-		if strings.Contains(string(p), "Reset score") {
+		reset := false
+		err = json.Unmarshal(p, &reset)
+		if reset {
 			gameScore.ResetScore()
-			log.Println("Score reset")
 		}
 	}
 }
@@ -136,43 +132,16 @@ func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	}(c) //	Close connection when infinite loop below exits
 	mt := 1
 	var previousScore messages.GameScore
-
-	// tempMsg, _ := json.Marshal(gameScore)
-	// err := c.WriteMessage(mt, tempMsg)
-	// if err != nil {
-	// 	return
-	// }
 	go reader(c)
 
 	for {
-
 		if previousScore.BlueScore != gameScore.BlueScore || previousScore.WhiteScore != gameScore.WhiteScore {
 			previousScore = gameScore
 			gameScoreMsg, _ := json.Marshal(gameScore)
 			err := c.WriteMessage(mt, gameScoreMsg)
 			if err != nil {
 				panic(err)
-				//return
 			}
 		}
-
-		/*if previousScore.BlueScore != gameScore.BlueScore || previousScore.WhiteScore != gameScore.WhiteScore {
-			log.Println("Prevoius score: ", previousScore)
-			log.Println("Game score: ", gameScore)
-			previousScore = gameScore
-			gameScoreMsg, _ := json.Marshal(gameScore)
-			err := c.WriteMessage(mt, gameScoreMsg)
-			if err != nil {
-				return
-			}
-		} /*else {
-			_, message, _ := c.ReadMessage()
-			log.Println(string(message))
-			/*if strings.Contains(string(message), "Reset score") {
-				gameScore.ResetScore()
-				log.Println("Score reset")
-			}
-		}*/
-
 	}
 }
