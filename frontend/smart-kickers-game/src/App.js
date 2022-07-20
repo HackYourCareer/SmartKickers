@@ -18,12 +18,8 @@ function App() {
         console.log(msg);
         msg = JSON.parse(msg.data)
         console.log(msg)
-        if (msg.type === "blueGoal") {
-          setBlueScore(blueScore + 1)
-        }
-        if (msg.type === "whiteGoal") {
-          setWhiteScore(whiteScore + 1)
-        }
+        setBlueScore(msg.blueScore)
+        setWhiteScore(msg.whiteScore)
      
         console.log(msg);
       };

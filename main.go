@@ -22,6 +22,6 @@ func main() {
 	go http.ListenAndServe(*nodeAddr, r1)
 
 	r2 := mux.NewRouter()
-	r2.HandleFunc("/csc", echo.ClientServerConn)
+	r2.HandleFunc("/csc", echo.SendScoreHandler)
 	http.ListenAndServe(*reactAddr, r2)
 }
