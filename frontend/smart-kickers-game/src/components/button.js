@@ -10,7 +10,7 @@ export const Button = ({
   onClick,
   buttonStyle,
   buttonSize,
-                       }) => {
+}) => {
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle
     : STYLES[0];
