@@ -2,12 +2,11 @@ package echo
 
 import (
 	"encoding/json"
+	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"remote/pkg/messages"
 	"strconv"
-
-	"github.com/gorilla/websocket"
 )
 
 var gameScore messages.GameScore
@@ -30,14 +29,12 @@ func handleInitial(mt int, c *websocket.Conn, dm messages.DispatcherMsg) {
 
 //	Add point if message had a goal field, and print out score
 func handleGoal(team int) {
-	if team == 1 {
+	switch team {
+	case 1:
 		gameScore.WhiteScore++
-
-	}
-	if team == 2 {
+	case 2:
 		gameScore.BlueScore++
 	}
-
 	log.Println("Team 1 score: " + strconv.Itoa(gameScore.WhiteScore) + " Team 2 score: " + strconv.Itoa(gameScore.BlueScore))
 }
 
@@ -110,6 +107,21 @@ func ClientServerConn(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func reader(c *websocket.Conn) {
+	for {
+		_, p, err := c.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		reset := false
+		err = json.Unmarshal(p, &reset)
+		if reset {
+			gameScore.ResetScore()
+		}
+	}
+}
+
 func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	c := connect(w, r)
 	defer func(c *websocket.Conn) {
@@ -120,15 +132,16 @@ func SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	}(c) //	Close connection when infinite loop below exits
 	mt := 1
 	var previousScore messages.GameScore
+	go reader(c)
+
 	for {
-		if previousScore.BlueScore == gameScore.BlueScore && previousScore.WhiteScore == gameScore.WhiteScore {
-			continue
-		}
-		previousScore = gameScore
-		gameScoreMsg, _ := json.Marshal(gameScore)
-		err := c.WriteMessage(mt, gameScoreMsg)
-		if err != nil {
-			return
+		if previousScore.BlueScore != gameScore.BlueScore || previousScore.WhiteScore != gameScore.WhiteScore {
+			previousScore = gameScore
+			gameScoreMsg, _ := json.Marshal(gameScore)
+			err := c.WriteMessage(mt, gameScoreMsg)
+			if err != nil {
+				panic(err)
+			}
 		}
 	}
 }
