@@ -16,7 +16,7 @@
 
 html {
   color: var(--html-color);
-  font-family: "lato", "Arial", sans-serif;
+  font-family: 'lato', 'Arial', sans-serif;
   font-weight: 300;
   font-size: 20px;
   text-rendering: optimizeLegibility;
@@ -31,7 +31,7 @@ h1,
 h2 {
   text-transform: uppercase;
   letter-spacing: 1.7px;
-  font-family: "Spectral", serif, Arial;
+  font-family: 'Spectral', serif, Arial;
 }
 
 h1 {
@@ -82,7 +82,7 @@ h1 {
   }
 }
 
-.game-result-container{
+.game-result-container {
   padding-top: 3rem;
   display: flex;
   justify-content: center;
