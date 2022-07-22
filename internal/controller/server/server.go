@@ -7,19 +7,21 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type server struct {
+type Server struct {
 	router  *mux.Router
 	address string
 }
 
-func New(addr string) server {
-	s := server{}
+func New(addr string) Server {
+	s := Server{}
 	s.router = mux.NewRouter()
 	s.address = addr
-	s.router.HandleFunc("/", handlers.HandleMessage)
+	s.router.HandleFunc("/", handlers.HandleTableMessages)
+	//s.router.HandleFunc("/shot", handlers.)
+	//s.router.HandleFunc("/csc", handlers.)
 	return s
 }
 
-func (s *server) Start() error {
+func (s *Server) Start() error {
 	return http.ListenAndServe(s.address, s.router)
 }
