@@ -1,25 +1,25 @@
 package server
 
 import (
-	"flag"
 	"net/http"
+	"remote/internal/controller/server/handlers"
 
 	"github.com/gorilla/mux"
 )
 
 type server struct {
 	router  *mux.Router
-	address *string
+	address string
 }
 
 func New(addr string) server {
 	s := server{}
 	s.router = mux.NewRouter()
-	s.address = flag.String("address", addr, "Address of the server")
+	s.address = addr
+	s.router.HandleFunc("/", handlers.HandleMessage)
 	return s
 }
 
 func (s *server) Start() error {
-	http.ListenAndServe(*s.address, s.router)
-	return nil
+	return http.ListenAndServe(s.address, s.router)
 }
