@@ -25,16 +25,6 @@ describe('<App />', () => {
     render(<App />);
     await ws.connected;
 
-    ws.send(JSON.stringify({ blueScore: 1, whiteScore: 1 }));
-
-    expect(getElementWhichContain('Blue:')).toHaveTextContent('1');
-    expect(getElementWhichContain('White:')).toHaveTextContent('1');
-  });
-
-  it('should update score on score message', async () => {
-    render(<App />);
-    await ws.connected;
-
     ws.send(JSON.stringify({ blueScore: 10, whiteScore: 14 }));
 
     expect(getElementWhichContain('Blue:')).toHaveTextContent('10');
