@@ -1,6 +1,6 @@
 package adapter
 
-type dispatcherMsg struct {
+type DispatcherMsg struct {
 	MsgType   string  `json:"type,omitempty"`
 	Origin    string  `json:"origin,omitempty"`
 	TableId   string  `json:"id,omitempty"`

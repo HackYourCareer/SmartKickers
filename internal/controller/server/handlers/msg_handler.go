@@ -3,22 +3,44 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"remote/internal/controller/server/adapter"
 )
 
-func HandleMessage(w http.ResponseWriter, r *http.Request) {
+func HandleTableMessages(w http.ResponseWriter, r *http.Request) {
 	c, err := Connect(w, r)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
 	defer c.Close()
 
 	for {
-		_, message, err := c.ReadMessage()
+		connMsgType, message, err := c.ReadMessage()
 		if err != nil {
 			log.Println(err)
 			return
 		}
-		log.Println(message)
+
+		//mes := adapter(message)
+		log.Print(message)
+		mes := adapter.DispatcherMsg{}
+
+		checkMessageType(connMsgType, mes)
 	}
+}
+
+func checkMessageType(connMsgType int, msg adapter.DispatcherMsg) {
+	if msg.MsgType == "INITIAL" {
+		initialResponse(connMsgType, msg)
+	} else if msg.Goal != 0 {
+		goalResponse(msg.Goal)
+	}
+}
+
+func initialResponse(connMsgType int, msg adapter.DispatcherMsg) {
+
+}
+
+func goalResponse(team int) {
+
 }
