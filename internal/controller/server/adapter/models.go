@@ -1,4 +1,4 @@
-package messages
+package adapter
 
 type DispatcherMsg struct {
 	MsgType   string  `json:"type,omitempty"`
@@ -9,4 +9,9 @@ type DispatcherMsg struct {
 	Timestamp string  `json:"timestamp,omitempty"`
 	Goal      int     `json:"goal,omitempty"`
 	Sequence  string  `json:"Sequence,omitempty"`
+}
+
+type DispatcherResponse struct {
+	GameId    string `json:"start,omitempty"`
+	GameEnded int    `json:"end,omitempty"`
 }
