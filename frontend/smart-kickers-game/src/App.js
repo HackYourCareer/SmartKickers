@@ -18,7 +18,7 @@ function App() {
         setWhiteScore(msg.whiteScore);
       };
     };
-  });
+  }, []);
 
   return (
     <>
