@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Button } from './components/button';
+import { Button } from './components/Button';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
