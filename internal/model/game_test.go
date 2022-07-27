@@ -7,7 +7,7 @@ import (
 )
 
 func TestResetScore(t *testing.T) {
-	gameScore := &gameScore{3, 1}
+	gS := &gameScore{3, 1}
 	type args struct {
 		score *gameScore
 	}
@@ -15,11 +15,11 @@ func TestResetScore(t *testing.T) {
 		name string
 		args args
 	}{
-		{"Check if values are set to 0", args{gameScore}},
+		{"Check if values are set to 0", args{gS}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gameScore.ResetScore()
+			gS.ResetScore()
 		})
 		if tt.args.score.WhiteScore != 0 || tt.args.score.BlueScore != 0 {
 			t.Errorf("Score did not reset. Goals white: %v, Goals blue: %v", tt.args.score.WhiteScore, tt.args.score.BlueScore)
@@ -28,7 +28,7 @@ func TestResetScore(t *testing.T) {
 }
 
 func TestAddGoal(t *testing.T) {
-	gameScore := &gameScore{3, 1}
+	gS := &gameScore{3, 1}
 	type args struct {
 		team int
 	}
@@ -45,11 +45,11 @@ func TestAddGoal(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gameScore.WhiteScore = 0
-			gameScore.BlueScore = 0
-			gameScore.AddGoal(tt.args.team)
-			assert.Equal(t, gameScore.BlueScore, tt.wantedBlueScore, "blue team score changes incorrectly")
-			assert.Equal(t, gameScore.WhiteScore, tt.wantedWhiteScore, "white team score changes incorrectly")
+			gS.WhiteScore = 0
+			gS.BlueScore = 0
+			gS.AddGoal(tt.args.team)
+			assert.Equal(t, gS.BlueScore, tt.wantedBlueScore, "blue team score changes incorrectly")
+			assert.Equal(t, gS.WhiteScore, tt.wantedWhiteScore, "white team score changes incorrectly")
 		})
 	}
 }
