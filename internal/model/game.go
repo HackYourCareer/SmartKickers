@@ -1,8 +1,12 @@
 package model
 
-type GameScore struct {
+type gameScore struct {
 	BlueScore  int `json:"blueScore"`
 	WhiteScore int `json:"whiteScore"`
+}
+
+func New() *gameScore {
+	return &gameScore{}
 }
 
 func (gameScore *GameScore) ResetScore() {
