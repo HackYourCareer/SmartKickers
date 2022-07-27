@@ -4,22 +4,28 @@ import (
 	"log"
 	"net/http"
 	"remote/internal/controller/server/adapter"
+	"remote/internal/model"
 
 	"github.com/gorilla/websocket"
 )
 
-func HandleTableMessages(w http.ResponseWriter, r *http.Request) {
-	c, err := Connect(w, r)
-	if err != nil {
-		log.Println(err)
+func HandleTableMessages(game model.Game) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		c, err := Connect(w, r)
+		if err != nil {
+			log.Println(err)
+		}
+
+		defer c.Close()
+
+		err = readTableMessage(c, game)
+		if err != nil {
+			log.Println(err)
+		}
 	}
-
-	defer c.Close()
-
-	readTableMessage(c)
 }
 
-func readTableMessage(c *websocket.Conn) error {
+func readTableMessage(c *websocket.Conn, game model.Game) error {
 	for {
 		mt, message, err := c.ReadMessage()
 		if err != nil {
@@ -39,7 +45,6 @@ func readTableMessage(c *websocket.Conn) error {
 			c.WriteMessage(mt, response)
 		}
 		if mes.Goal != 0 {
-			//TODO
 			game.AddGoal(mes.Goal)
 		}
 
