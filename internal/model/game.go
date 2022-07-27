@@ -9,12 +9,12 @@ func New() *gameScore {
 	return &gameScore{}
 }
 
-func (gameScore *GameScore) ResetScore() {
+func (gameScore *gameScore) ResetScore() {
 	gameScore.BlueScore = 0
 	gameScore.WhiteScore = 0
 }
 
-func (gameScore *GameScore) AddGoal(teamID int) {
+func (gameScore *gameScore) AddGoal(teamID int) {
 	switch teamID {
 	case 1:
 		gameScore.WhiteScore++
