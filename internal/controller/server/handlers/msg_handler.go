@@ -19,34 +19,34 @@ func HandleTableMessages(w http.ResponseWriter, r *http.Request) {
 	readTableMessage(c)
 }
 
-func readTableMessage(c *websocket.Conn) {
+func readTableMessage(c *websocket.Conn) error {
 	for {
-		connMsgType, message, err := c.ReadMessage()
+		mt, message, err := c.ReadMessage()
 		if err != nil {
-			log.Println(err)
-			return
+			return err
 		}
 
-		//mes := adapter(message)
-		log.Print(message)
-		mes := adapter.DispatcherMsg{}
+		mes, err := adapter.Unpack(message)
+		if err != nil {
+			return err
+		}
 
-		checkMessageType(connMsgType, mes)
+		if mes.MsgType == "INITIAL" {
+			response, err := initialResponse(mt, mes.TableId)
+			if err != nil {
+				return err
+			}
+			c.WriteMessage(mt, response)
+		}
+		if mes.Goal != 0 {
+			//TODO
+			game.AddGoal(mes.Goal)
+		}
+
 	}
 }
 
-func checkMessageType(connMsgType int, msg adapter.DispatcherMsg) {
-	if msg.MsgType == "INITIAL" {
-		initialResponse(connMsgType, msg)
-	} else if msg.Goal != 0 {
-		goalResponse(msg.Goal)
-	}
-}
-
-func initialResponse(connMsgType int, msg adapter.DispatcherMsg) {
-
-}
-
-func goalResponse(team int) {
-
+func initialResponse(connMsgType int, tableId string) ([]byte, error) {
+	rec, err := adapter.PackGameId(tableId)
+	return rec, err
 }
