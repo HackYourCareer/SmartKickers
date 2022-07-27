@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { Button } from './components/Button';
+import GameResults from './components/GameResults.js';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
@@ -23,10 +24,7 @@ function App() {
   return (
     <>
       <h1>Smart Kickers</h1>
-      <div className="game-result-container">
-        <p className="game-result-item">Blue: {blueScore}</p>
-        <p className="game-result-item">White: {whiteScore}</p>
-      </div>
+      <GameResults blueScore={blueScore} whiteScore={whiteScore} />
       <center>
         <Button>Reset game</Button>
       </center>
