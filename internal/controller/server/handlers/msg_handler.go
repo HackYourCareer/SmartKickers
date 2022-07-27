@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"remote/internal/controller/server/adapter"
+
+	"github.com/gorilla/websocket"
 )
 
 func HandleTableMessages(w http.ResponseWriter, r *http.Request) {
@@ -14,6 +16,10 @@ func HandleTableMessages(w http.ResponseWriter, r *http.Request) {
 
 	defer c.Close()
 
+	readTableMessage(c)
+}
+
+func readTableMessage(c *websocket.Conn) {
 	for {
 		connMsgType, message, err := c.ReadMessage()
 		if err != nil {
