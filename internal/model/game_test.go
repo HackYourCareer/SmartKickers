@@ -7,9 +7,9 @@ import (
 )
 
 func TestResetScore(t *testing.T) {
-	gameScore := &GameScore{3, 1}
+	gameScore := &gameScore{3, 1}
 	type args struct {
-		score *GameScore
+		score *gameScore
 	}
 	tests := []struct {
 		name string
