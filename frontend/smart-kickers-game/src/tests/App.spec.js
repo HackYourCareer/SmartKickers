@@ -2,6 +2,8 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import WS from 'jest-websocket-mock';
 import { getElementWhichContain } from './helpers';
+jest.mock('../apis/Game');
+import * as GameAPI from '../apis/Game';
 import App from '../App';
 
 let ws;
@@ -29,5 +31,13 @@ describe('<App />', () => {
 
     expect(getElementWhichContain('Blue:')).toHaveTextContent('10');
     expect(getElementWhichContain('White:')).toHaveTextContent('14');
+  });
+
+  it('should send game reset request on button click', () => {
+    render(<App />);
+
+    getElementWhichContain('Reset Game').click();
+
+    expect(GameAPI.resetGame).toHaveBeenCalled();
   });
 });

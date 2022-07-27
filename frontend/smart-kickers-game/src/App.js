@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import * as GameAPI from './apis/Game';
 import { Button } from './components/Button';
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
         <p className="game-result-item">White: {whiteScore}</p>
       </div>
       <center>
-        <Button>Reset game</Button>
+        <Button onClick={() => GameAPI.resetGame(1) /* TODO set gameId here */}>Reset game</Button>
       </center>
     </>
   );
