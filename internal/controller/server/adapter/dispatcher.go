@@ -25,15 +25,15 @@ type dispatcherResponse struct {
 }
 
 type DispatcherMsgConverter struct {
-	dispatcherMsg *dispatcherMsg
+	DispatcherMsg *dispatcherMsg
 }
 
 func (mg *DispatcherMsgConverter) Unpack(message []byte) error {
-	return json.Unmarshal(message, mg.dispatcherMsg)
+	return json.Unmarshal(message, mg.DispatcherMsg)
 }
 
 type DispatcherResConverter struct {
-	dispatcherRes *dispatcherResponse
+	DispatcherRes *dispatcherResponse
 }
 
 func (mg DispatcherResConverter) Pack(message []byte) ([]byte, error) {
