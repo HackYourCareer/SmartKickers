@@ -1,5 +1,5 @@
 import React from 'react';
-import './button.css';
+import './Button.css';
 
 export const Button = ({ children, type, onClick, className = 'btn--primary btn--medium' }) => {
   return (
