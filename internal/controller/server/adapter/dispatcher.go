@@ -1,14 +1,10 @@
 package adapter
 
-<<<<<<< HEAD
 import (
 	"encoding/json"
 )
 
 type dispatcherMsg struct {
-=======
-type DispatcherMsg struct {
->>>>>>> 283bc55 (tabla message handler)
 	MsgType   string  `json:"type,omitempty"`
 	Origin    string  `json:"origin,omitempty"`
 	TableId   string  `json:"id,omitempty"`
