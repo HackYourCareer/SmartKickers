@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     const socket = new WebSocket('ws://localhost:3006/csc');
-    
+
     socket.onopen = function () {
       //send to server
       socket.send('Hello from client');
