@@ -20,18 +20,17 @@ type dispatcherResponse struct {
 	GameEnded int    `json:"end,omitempty"`
 }
 
-type DispatcherMsgConverter struct {
-	dispatcherMsg *dispatcherMsg
+func Unpack(message []byte) (*dispatcherMsg, error) {
+	mg := new(dispatcherMsg)
+	return mg, json.Unmarshal(message, &mg)
 }
 
-func (mg *DispatcherMsgConverter) Unpack(message []byte) error {
-	return json.Unmarshal(message, mg.dispatcherMsg)
+func NewDisRes(tableId string) *dispatcherResponse {
+	dr := new(dispatcherResponse)
+	dr.GameId = tableId
+	return dr
 }
 
-type DispatcherResConverter struct {
-	dispatcherRes *dispatcherResponse
-}
-
-func (mg DispatcherResConverter) Pack(message []byte) ([]byte, error) {
-	return json.Marshal(message)
+func PackGameId(tableId string) ([]byte, error) {
+	return json.Marshal(NewDisRes(tableId))
 }
