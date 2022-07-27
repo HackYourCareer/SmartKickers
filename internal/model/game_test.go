@@ -28,7 +28,7 @@ func TestResetScore(t *testing.T) {
 }
 
 func TestAddGoal(t *testing.T) {
-	gS := &gameScore{3, 1}
+	game := &Game{gameScore{3, 1}}
 	type args struct {
 		team int
 	}
@@ -45,11 +45,11 @@ func TestAddGoal(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gS.WhiteScore = 0
-			gS.BlueScore = 0
-			gS.AddGoal(tt.args.team)
-			assert.Equal(t, gS.BlueScore, tt.wantedBlueScore, "blue team score changes incorrectly")
-			assert.Equal(t, gS.WhiteScore, tt.wantedWhiteScore, "white team score changes incorrectly")
+			game.score.WhiteScore = 0
+			game.score.BlueScore = 0
+			game.AddGoal(tt.args.team)
+			assert.Equal(t, game.score.BlueScore, tt.wantedBlueScore, "blue team score changes incorrectly")
+			assert.Equal(t, game.score.WhiteScore, tt.wantedWhiteScore, "white team score changes incorrectly")
 		})
 	}
 }
