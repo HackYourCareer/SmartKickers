@@ -28,7 +28,7 @@ func TestResetScore(t *testing.T) {
 }
 
 func TestAddGoal(t *testing.T) {
-	gameScore := &GameScore{3, 1}
+	gameScore := &gameScore{3, 1}
 	type args struct {
 		team int
 	}
