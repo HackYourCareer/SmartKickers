@@ -9,16 +9,16 @@ type gameScore struct {
 	WhiteScore int `json:"whiteScore"`
 }
 
-func (gameScore *gameScore) ResetScore() {
-	gameScore.BlueScore = 0
-	gameScore.WhiteScore = 0
+func (gS *gameScore) ResetScore() {
+	gS.BlueScore = 0
+	gS.WhiteScore = 0
 }
 
-func (game *Game) AddGoal(teamID int) {
+func (g *Game) AddGoal(teamID int) {
 	switch teamID {
 	case 1:
-		game.score.WhiteScore++
+		g.score.WhiteScore++
 	case 2:
-		game.score.BlueScore++
+		g.score.BlueScore++
 	}
 }
