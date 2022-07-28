@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"remote/internal/controller/server/adapter"
@@ -58,6 +59,6 @@ func readTableMessage(c *websocket.Conn, game model.Game) error {
 }
 
 func initialResponse(tableID string) ([]byte, error) {
-	rec, err := adapter.PackGameID(tableID)
+	rec, err := json.Marshal(adapter.NewDisRes(tableID))
 	return rec, err
 }

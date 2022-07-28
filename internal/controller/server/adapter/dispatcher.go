@@ -30,7 +30,3 @@ func NewDisRes(tableID string) *dispatcherResponse {
 	dr.GameID = tableID
 	return dr
 }
-
-func PackGameID(tableID string) ([]byte, error) {
-	return json.Marshal(NewDisRes(tableID))
-}
