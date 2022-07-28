@@ -11,7 +11,7 @@ import (
 
 func TableMessages(game model.Game) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		c, err := Connect(w, r)
+		c, err := connectWebSocket(w, r)
 		if err != nil {
 			log.Println(err)
 		}
@@ -38,7 +38,7 @@ func readTableMessage(c *websocket.Conn, game model.Game) error {
 		}
 
 		if mes.MsgType == "INITIAL" {
-			response, err := initialResponse(mt, mes.TableID)
+			response, err := initialResponse(mes.TableID)
 			if err != nil {
 				return err
 			}
@@ -57,7 +57,7 @@ func readTableMessage(c *websocket.Conn, game model.Game) error {
 	}
 }
 
-func initialResponse(connMsgType int, tableID string) ([]byte, error) {
+func initialResponse(tableID string) ([]byte, error) {
 	rec, err := adapter.PackGameID(tableID)
 	return rec, err
 }
