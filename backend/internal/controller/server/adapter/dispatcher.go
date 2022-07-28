@@ -7,7 +7,7 @@ import (
 type dispatcherMsg struct {
 	MsgType   string  `json:"type,omitempty"`
 	Origin    string  `json:"origin,omitempty"`
-	TableId   string  `json:"id,omitempty"`
+	TableID   string  `json:"id,omitempty"`
 	X         float64 `json:"x,omitempty"`
 	Y         float64 `json:"y,omitempty"`
 	Timestamp string  `json:"timestamp,omitempty"`
@@ -16,7 +16,7 @@ type dispatcherMsg struct {
 }
 
 type dispatcherResponse struct {
-	GameId    string `json:"start,omitempty"`
+	GameID    string `json:"start,omitempty"`
 	GameEnded int    `json:"end,omitempty"`
 }
 
@@ -25,12 +25,8 @@ func Unpack(message []byte) (*dispatcherMsg, error) {
 	return mg, json.Unmarshal(message, &mg)
 }
 
-func NewDisRes(tableId string) *dispatcherResponse {
+func NewDisRes(tableID string) *dispatcherResponse {
 	dr := new(dispatcherResponse)
-	dr.GameId = tableId
+	dr.GameID = tableID
 	return dr
-}
-
-func PackGameId(tableId string) ([]byte, error) {
-	return json.Marshal(NewDisRes(tableId))
 }
