@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"remote/internal/controller/server/adapter"
-	"remote/internal/model"
+
+	"github.com/HackYourCareer/SmartKickers/internal/controller/server/adapter"
+	"github.com/HackYourCareer/SmartKickers/internal/model"
 
 	"github.com/gorilla/websocket"
 )
@@ -33,13 +34,14 @@ func readTableMessage(c *websocket.Conn, game model.Game) error {
 			return err
 		}
 
-		mes, err := adapter.Unpack(message)
+		var mes adapter.DispatcherMsg
+		err = json.Unmarshal(message, &mes)
 		if err != nil {
 			return err
 		}
 
 		if mes.MsgType == "INITIAL" {
-			response, err := initialResponse(mes.TableID)
+			response, err := json.Marshal(adapter.NewDispatcherResponse(mes.TableID))
 			if err != nil {
 				return err
 			}
@@ -56,9 +58,4 @@ func readTableMessage(c *websocket.Conn, game model.Game) error {
 		}
 
 	}
-}
-
-func initialResponse(tableID string) ([]byte, error) {
-	rec, err := json.Marshal(adapter.NewDisRes(tableID))
-	return rec, err
 }

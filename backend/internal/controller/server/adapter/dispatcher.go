@@ -1,10 +1,6 @@
 package adapter
 
-import (
-	"encoding/json"
-)
-
-type dispatcherMsg struct {
+type DispatcherMsg struct {
 	MsgType   string  `json:"type,omitempty"`
 	Origin    string  `json:"origin,omitempty"`
 	TableID   string  `json:"id,omitempty"`
@@ -15,18 +11,13 @@ type dispatcherMsg struct {
 	Sequence  string  `json:"Sequence,omitempty"`
 }
 
-type dispatcherResponse struct {
+type DispatcherResponse struct {
 	GameID    string `json:"start,omitempty"`
 	GameEnded int    `json:"end,omitempty"`
 }
 
-func Unpack(message []byte) (*dispatcherMsg, error) {
-	mg := new(dispatcherMsg)
-	return mg, json.Unmarshal(message, &mg)
-}
-
-func NewDisRes(tableID string) *dispatcherResponse {
-	dr := new(dispatcherResponse)
+func NewDispatcherResponse(tableID string) *DispatcherResponse {
+	dr := new(DispatcherResponse)
 	dr.GameID = tableID
 	return dr
 }
