@@ -42,7 +42,13 @@ func readTableMessage(c *websocket.Conn, game model.Game) error {
 			if err != nil {
 				return err
 			}
-			c.WriteMessage(mt, response)
+
+			err = c.WriteMessage(mt, response)
+
+			if err != nil {
+				return err
+			}
+
 		}
 		if mes.Goal != 0 {
 			game.AddGoal(mes.Goal)
