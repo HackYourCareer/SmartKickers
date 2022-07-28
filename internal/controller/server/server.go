@@ -18,9 +18,7 @@ func New(addr string) Server {
 	s := Server{}
 	s.router = mux.NewRouter()
 	s.address = addr
-	s.router.HandleFunc("/", handlers.HandleTableMessages(s.game))
-	//s.router.HandleFunc("/shot", handlers.)
-	//s.router.HandleFunc("/csc", handlers.)
+	s.router.HandleFunc("/", handlers.TableMessages(s.game))
 	return s
 }
 

@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-func HandleTableMessages(game model.Game) http.HandlerFunc {
+func TableMessages(game model.Game) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		c, err := Connect(w, r)
 		if err != nil {
@@ -38,7 +38,7 @@ func readTableMessage(c *websocket.Conn, game model.Game) error {
 		}
 
 		if mes.MsgType == "INITIAL" {
-			response, err := initialResponse(mt, mes.TableId)
+			response, err := initialResponse(mt, mes.TableID)
 			if err != nil {
 				return err
 			}
@@ -51,7 +51,7 @@ func readTableMessage(c *websocket.Conn, game model.Game) error {
 	}
 }
 
-func initialResponse(connMsgType int, tableId string) ([]byte, error) {
-	rec, err := adapter.PackGameId(tableId)
+func initialResponse(connMsgType int, tableID string) ([]byte, error) {
+	rec, err := adapter.PackGameID(tableID)
 	return rec, err
 }
