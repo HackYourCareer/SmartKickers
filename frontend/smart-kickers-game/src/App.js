@@ -1,44 +1,37 @@
-import { useEffect } from 'react'
-import './App.css'
-import {Button} from "./components/button"
-
-import * as WebSocket from "websocket"
+import { useEffect, useState } from 'react';
+import './App.css';
+import { Button } from './components/Button';
 
 function App() {
-
-  var blueScore = 0
-  var whiteScore = 0
+  const [blueScore, setBlueScore] = useState(0);
+  const [whiteScore, setWhiteScore] = useState(0);
 
   useEffect(() => {
-    const socket = new WebSocket.w3cwebsocket('ws://localhost:3000');
+    const socket = new WebSocket('ws://localhost:3006/csc');
 
     socket.onopen = function () {
-      console.log("connected");
+      //send to server
+      socket.send('Hello from client');
       socket.onmessage = (msg) => {
-        msg = JSON.parse(msg.toString())
-        if (msg.type === "blueGoal") {
-          blueScore++
-        }
-        if (msg.type === "whiteGoal") {
-          whiteScore++
-        }
-     
-        console.log(msg);
+        msg = JSON.parse(msg.data);
+        setBlueScore(msg.blueScore);
+        setWhiteScore(msg.whiteScore);
       };
     };
-  });
+  }, []);
 
   return (
     <>
       <h1>Smart Kickers</h1>
       <div className="game-result-container">
-        Blue: {blueScore}
-          {"   "}
-        White: {whiteScore}
+        <p className="game-result-item">Blue: {blueScore}</p>
+        <p className="game-result-item">White: {whiteScore}</p>
       </div>
-      <center><Button >Reset game</Button></center>
+      <center>
+        <Button>Reset game</Button>
+      </center>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
