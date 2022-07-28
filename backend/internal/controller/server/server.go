@@ -15,11 +15,14 @@ type server struct {
 }
 
 func New(addr string) server {
-	s := server{}
-	s.router = mux.NewRouter()
-	s.address = addr
-	s.game = model.Game{}
+	s := server{
+		router:  mux.NewRouter(),
+		address: addr,
+		game:    model.Game{},
+	}
+
 	s.router.HandleFunc("/", handlers.TableMessages(s.game))
+
 	return s
 }
 
