@@ -9,10 +9,6 @@ type gameScore struct {
 	WhiteScore int `json:"whiteScore"`
 }
 
-func New() *Game {
-	return &Game{}
-}
-
 func (gS *gameScore) ResetScore() {
 	gS.BlueScore = 0
 	gS.WhiteScore = 0
