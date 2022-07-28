@@ -1,24 +1,24 @@
 package model
 
+type Game struct {
+	score gameScore
+}
+
 type gameScore struct {
 	BlueScore  int `json:"blueScore"`
 	WhiteScore int `json:"whiteScore"`
 }
 
-func New() *gameScore {
-	return &gameScore{}
+func (gS *gameScore) ResetScore() {
+	gS.BlueScore = 0
+	gS.WhiteScore = 0
 }
 
-func (gameScore *gameScore) ResetScore() {
-	gameScore.BlueScore = 0
-	gameScore.WhiteScore = 0
-}
-
-func (gameScore *gameScore) AddGoal(teamID int) {
+func (g *Game) AddGoal(teamID int) {
 	switch teamID {
 	case 1:
-		gameScore.WhiteScore++
+		g.score.WhiteScore++
 	case 2:
-		gameScore.BlueScore++
+		g.score.BlueScore++
 	}
 }
