@@ -9,4 +9,4 @@ Definition of Done
 - Code review by devs
 - Sanity check with mentors
 - Acceptance criteria fulfilled 
-- Work presented and accepted
+- Work accepted by Product Owner
