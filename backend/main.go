@@ -1,6 +1,6 @@
 package main
 
-import "github.com/HackYourCareer/SmartKickers/internal/controller/server"
+import "github.com/HackYourCareer/SmartKickers/internal/controller/server/server"
 
 const serverAddress = "0.0.0.0:3000"
 
