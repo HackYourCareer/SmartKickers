@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"io"
 	"log"
 	"net/http"
@@ -9,54 +10,13 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+const (
+	messageText = 1
+)
+
 func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
 	c, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err) //TODO change logging to logrus
-	}
-
-	defer c.Close()
-
-	for {
-		_, receivedMsg, err := c.NextReader()
-		if err != nil {
-			log.Println(err) //TODO change logging to logrus
-			continue
-		}
-		err = s.readAndRespond(receivedMsg)
-		if err != nil {
-			log.Println(err) //TODO change logging to logrus
-			continue
-		}
-	}
-}
-
-func (s server) readAndRespond(r io.Reader) error {
-
-	message, err := adapter.Unpack(r) //	Unpack will return our internal message type
-	if err != nil {
-		return err //TODO change logging to logrus
-	}
-
-	switch message.Category {
-	case adapter.Initial:
-		initial(message.TableID)
-	case adapter.Goal:
-		s.game.AddGoal(message.Team)
-	default:
-		log.Println("TableMessagesHandler: Bad message") //TODO change logging to logrus
-	}
-
-	return nil
-}
-
-func initial(tableID string) {
-	log.Println("initial")
-}
-
-/*func (s server) TableMessages(w http.ResponseWriter, r *http.Request) {
-	c, err := connectWebSocket(w, r)
 	if err != nil {
 		log.Println(err)
 	}
@@ -64,33 +24,42 @@ func initial(tableID string) {
 	defer c.Close()
 
 	for {
-		mt, message, err := c.ReadMessage()
+		_, receivedMsg, err := c.NextReader()
 		if err != nil {
 			log.Println(err)
+			continue
 		}
+		response, err := s.createResponse(receivedMsg)
 
-		var mes adapter.DispatcherMsg
-		err = json.Unmarshal(message, &mes)
 		if err != nil {
 			log.Println(err)
+			continue
 		}
-
-		if mes.MsgType == "INITIAL" {
-			response, err := json.Marshal(adapter.NewDispatcherResponse(mes.TableID))
+		if response != nil {
+			err = c.WriteMessage(messageText, response)
 			if err != nil {
 				log.Println(err)
+				continue
 			}
-
-			err = c.WriteMessage(mt, response)
-
-			if err != nil {
-				log.Println(err)
-			}
-
 		}
-		if mes.Goal != 0 {
-			s.game.AddGoal(mes.Goal)
-		}
-
 	}
-}*/
+}
+
+func (s server) createResponse(reader io.Reader) ([]byte, error) {
+
+	message, err := adapter.Unpack(reader) //	Unpack will return our internal message type
+	if err != nil {
+		return nil, err
+	}
+	switch message.Category {
+	case adapter.Initial:
+		return json.Marshal(adapter.NewDispatcherResponse(message.TableID))
+	case adapter.Goal:
+		s.game.AddGoal(message.Team)
+		return nil, nil
+	default:
+		log.Println("TableMessagesHandler: Bad message")
+	}
+
+	return nil, nil
+}

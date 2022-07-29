@@ -24,6 +24,7 @@ func New(addr string) Server {
 		game:    model.Game{},
 	}
 	serv.router.HandleFunc("/", serv.TableMessagesHandler)
+
 	return serv
 }
 

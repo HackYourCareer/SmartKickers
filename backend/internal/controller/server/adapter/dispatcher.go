@@ -11,6 +11,7 @@ const (
 	Initial Category = iota
 	Goal
 	Position
+	None
 )
 
 type Message struct {
@@ -18,7 +19,6 @@ type Message struct {
 	TableID  string
 	Team     int
 }
-
 type DispatcherMsg struct {
 	MsgType   string  `json:"type,omitempty"`
 	Origin    string  `json:"origin,omitempty"`
@@ -30,36 +30,38 @@ type DispatcherMsg struct {
 	Sequence  string  `json:"Sequence,omitempty"`
 }
 
-type DispatcherResponse struct {
+type InitialResponse struct {
 	GameID    string `json:"start,omitempty"`
 	GameEnded int    `json:"end,omitempty"`
 }
 
 func Unpack(message io.Reader) (*Message, error) {
 	var tableMessage DispatcherMsg
-	var newMessage Message
 
 	err := json.NewDecoder(message).Decode(&tableMessage)
 	if err != nil {
-		return &newMessage, err
+		return &Message{}, err
 	}
 
-	var cat Category
-	if tableMessage.MsgType == "INITIAL" {
-		cat = Initial
-	} else if tableMessage.Goal != 0 {
-		cat = Goal
-	}
-
-	newMessage.Category = cat
-	newMessage.TableID = tableMessage.TableID
-	newMessage.Team = tableMessage.Goal
-
-	return &newMessage, nil
+	return &Message{
+		Category: tableMessage.getMessageCategory(),
+		TableID:  tableMessage.TableID,
+		Team:     tableMessage.Goal,
+	}, nil
 }
 
-func NewDispatcherResponse(tableID string) *DispatcherResponse {
-	dr := new(DispatcherResponse)
+func (dispMsg DispatcherMsg) getMessageCategory() Category {
+	if dispMsg.MsgType == "INITIAL" {
+		return Initial
+	}
+	if dispMsg.Goal != 0 {
+		return Goal
+	}
+	return None
+}
+
+func NewDispatcherResponse(tableID string) *InitialResponse {
+	dr := new(InitialResponse)
 	dr.GameID = tableID
 	return dr
 }
