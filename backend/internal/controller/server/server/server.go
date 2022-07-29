@@ -3,7 +3,6 @@ package server
 import (
 	"net/http"
 
-	"github.com/HackYourCareer/SmartKickers/internal/controller/server/handlers"
 	"github.com/HackYourCareer/SmartKickers/internal/model"
 
 	"github.com/gorilla/mux"
@@ -24,7 +23,8 @@ func New(addr string) Server {
 		address: addr,
 		game:    model.Game{},
 	}
-	serv.router.HandleFunc("/", handlers.TableMessages(serv.game))
+	serv.router.HandleFunc("/", serv.TableMessagesHandler)
+
 	return serv
 }
 
