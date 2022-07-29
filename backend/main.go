@@ -1,10 +1,18 @@
 package main
 
-import "remote/internal/controller/server"
+import (
+	"log"
+
+	"github.com/HackYourCareer/SmartKickers/internal/controller/server/server"
+)
 
 const serverAddress = "0.0.0.0:3000"
 
 func main() {
 	s := server.New(serverAddress)
-	s.Start()
+
+	err := s.Start()
+	if err != nil {
+		log.Println(err)
+	}
 }
