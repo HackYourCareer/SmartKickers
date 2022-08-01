@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/HackYourCareer/SmartKickers/internal/controller/server/adapter"
+	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
 	"github.com/gorilla/websocket"
 )
 

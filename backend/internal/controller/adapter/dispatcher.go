@@ -8,10 +8,10 @@ import (
 type Category int
 
 const (
-	Initial Category = iota
+	None Category = iota
+	Initial
 	Goal
 	Position
-	None
 )
 
 type Message struct {
@@ -19,6 +19,7 @@ type Message struct {
 	TableID  string
 	Team     int
 }
+
 type DispatcherMsg struct {
 	MsgType   string  `json:"type,omitempty"`
 	Origin    string  `json:"origin,omitempty"`

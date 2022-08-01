@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/HackYourCareer/SmartKickers/internal/controller/server/server"
+	"github.com/HackYourCareer/SmartKickers/internal/controller/server"
 )
 
 const serverAddress = "0.0.0.0:3000"
