@@ -3,7 +3,7 @@
 Definition of Done
 
 - Working code
-- Created code need to be merged
+- Created code need to be merged to the main branch
 - Tests implemented
 - Tests passed
 - Code review by devs
