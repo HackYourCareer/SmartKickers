@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -58,12 +59,6 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 		s.game.AddGoal(message.Team)
 		return nil, nil
 	default:
-		return nil, BadMessageError{}
+		return nil, fmt.Errorf("unrecognized message type")
 	}
-}
-
-type BadMessageError struct{}
-
-func (err BadMessageError) Error() string {
-	return "msg_handlers/createResponse(): Unrecognized message type"
 }
