@@ -41,8 +41,8 @@ func TestAddGoal(t *testing.T) {
 		expectedError      error
 	}
 	tests := []args{
-		{name: "should increment team white score by one", teamID: 1, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: nil},
-		{name: "should increment team blue score by one", teamID: 2, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: nil},
+		{name: "should increment team white score by one", teamID: teamWhite, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: nil},
+		{name: "should increment team blue score by one", teamID: teamBlue, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: nil},
 		{name: "should cause an error when invalid team ID", teamID: -1, expectedBlueScore: 0, expectedWhiteScore: 0, expectedError: errors.New("bad team ID")},
 	}
 
