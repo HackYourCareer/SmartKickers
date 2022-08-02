@@ -36,15 +36,15 @@ type initialResponse struct {
 	GameEnded int    `json:"end,omitempty"`
 }
 
-func Unpack(message io.Reader) (*Message, error) {
+func Unpack(message io.Reader) (Message, error) {
 	var tableMessage dispatcherMsg
 
 	err := json.NewDecoder(message).Decode(&tableMessage)
 	if err != nil {
-		return &Message{}, err
+		return Message{}, err
 	}
 
-	return &Message{
+	return Message{
 		Category: tableMessage.getMessageCategory(),
 		TableID:  tableMessage.TableID,
 		Team:     tableMessage.Goal,
