@@ -5,17 +5,17 @@ import (
 	"io"
 )
 
-type Category int
+type MsgCategory int
 
 const (
-	None Category = iota
-	Initial
-	Goal
-	Position
+	MsgNone MsgCategory = iota
+	MsgInitial
+	MsgGoal
+	MsgPosition
 )
 
 type Message struct {
-	Category Category
+	Category MsgCategory
 	TableID  string
 	Team     int
 }
@@ -51,14 +51,14 @@ func Unpack(message io.Reader) (*Message, error) {
 	}, nil
 }
 
-func (dispMsg dispatcherMsg) getMessageCategory() Category {
+func (dispMsg dispatcherMsg) getMessageCategory() MsgCategory {
 	if dispMsg.MsgType == "INITIAL" {
-		return Initial
+		return MsgInitial
 	}
 	if dispMsg.Goal != 0 {
-		return Goal
+		return MsgGoal
 	}
-	return None
+	return MsgNone
 }
 
 func NewDispatcherResponse(tableID string) *initialResponse {

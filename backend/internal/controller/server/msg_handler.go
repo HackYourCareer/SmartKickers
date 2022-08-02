@@ -53,9 +53,9 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 		return nil, err
 	}
 	switch message.Category {
-	case adapter.Initial:
+	case adapter.MsgInitial:
 		return json.Marshal(adapter.NewDispatcherResponse(message.TableID))
-	case adapter.Goal:
+	case adapter.MsgGoal:
 		s.game.AddGoal(message.Team)
 		return nil, nil
 	default:
