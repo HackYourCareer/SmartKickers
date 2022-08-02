@@ -4,8 +4,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
-	"errors"
 )
 
 func TestResetScore(t *testing.T) {
@@ -38,12 +36,12 @@ func TestAddGoal(t *testing.T) {
 		teamID             int
 		expectedBlueScore  int
 		expectedWhiteScore int
-		expectedError      error
+		expectedError      string
 	}
 	tests := []args{
-		{name: "should increment team white score by one", teamID: teamWhite, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: nil},
-		{name: "should increment team blue score by one", teamID: teamBlue, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: nil},
-		{name: "should cause an error when invalid team ID", teamID: -1, expectedBlueScore: 0, expectedWhiteScore: 0, expectedError: errors.New("bad team ID")},
+		{name: "should increment team white score by one", teamID: teamWhite, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: ""},
+		{name: "should increment team blue score by one", teamID: teamBlue, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: ""},
+		{name: "should cause an error when invalid team ID", teamID: -1, expectedBlueScore: 0, expectedWhiteScore: 0, expectedError: "bad team ID"},
 	}
 
 	for _, tt := range tests {
@@ -51,7 +49,11 @@ func TestAddGoal(t *testing.T) {
 			game.score.WhiteScore = 0
 			game.score.BlueScore = 0
 			err := game.AddGoal(tt.teamID)
-			assert.ErrorIs(t, err, tt.expectedError)
+			if tt.expectedError == "" {
+				assert.Nil(t, err)
+			} else {
+				assert.EqualError(t, err, tt.expectedError)
+			}
 			assert.Equal(t, game.score.BlueScore, tt.expectedBlueScore, "blue team score changes incorrectly")
 			assert.Equal(t, game.score.WhiteScore, tt.expectedWhiteScore, "white team score changes incorrectly")
 		})

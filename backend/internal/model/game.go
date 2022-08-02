@@ -21,7 +21,7 @@ type gameScore struct {
 	WhiteScore int `json:"whiteScore"`
 }
 
-func NewGame() *game {
+func NewGame() Game {
 	return &game{}
 }
 

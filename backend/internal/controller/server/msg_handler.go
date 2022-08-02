@@ -48,7 +48,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 
 func (s server) createResponse(reader io.Reader) ([]byte, error) {
 
-	message, err := adapter.Unpack(reader) //	Unpack will return our internal message type
+	message, err := adapter.Unpack(reader)
 	if err != nil {
 		return nil, err
 	}
