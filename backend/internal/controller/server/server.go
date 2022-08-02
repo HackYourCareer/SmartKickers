@@ -17,11 +17,11 @@ type server struct {
 	game    model.Game
 }
 
-func New(addr string) Server {
+func New(addr string, game model.Game) Server {
 	serv := server{
 		router:  mux.NewRouter(),
 		address: addr,
-		game:    model.NewGame(),
+		game:    game,
 	}
 	serv.router.HandleFunc("/", serv.TableMessagesHandler)
 
