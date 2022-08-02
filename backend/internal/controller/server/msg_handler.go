@@ -59,8 +59,12 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 		s.game.AddGoal(message.Team)
 		return nil, nil
 	default:
-		log.Println("TableMessagesHandler: Bad message")
+		return nil, BadMessageError{}
 	}
+}
 
-	return nil, nil
+type BadMessageError struct{}
+
+func (err BadMessageError) Error() string {
+	return "msg_handlers/createResponse(): Unrecognized message type"
 }
