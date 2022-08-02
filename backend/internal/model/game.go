@@ -1,6 +1,18 @@
 package model
 
-type Game struct {
+import "errors"
+
+const (
+	teamWhite = 1
+	teamBlue  = 2
+)
+
+type Game interface {
+	AddGoal(int) error
+	ResetScore()
+}
+
+type game struct {
 	score gameScore
 }
 
@@ -9,16 +21,23 @@ type gameScore struct {
 	WhiteScore int `json:"whiteScore"`
 }
 
-func (gS *gameScore) ResetScore() {
-	gS.BlueScore = 0
-	gS.WhiteScore = 0
+func NewGame() Game {
+	return &game{}
 }
 
-func (g *Game) AddGoal(teamID int) {
+func (g *game) ResetScore() {
+	g.score.BlueScore = 0
+	g.score.WhiteScore = 0
+}
+
+func (g *game) AddGoal(teamID int) error {
 	switch teamID {
-	case 1:
+	case teamWhite:
 		g.score.WhiteScore++
-	case 2:
+	case teamBlue:
 		g.score.BlueScore++
+	default:
+		return errors.New("bad team ID")
 	}
+	return nil
 }
