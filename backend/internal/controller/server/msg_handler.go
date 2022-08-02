@@ -3,8 +3,9 @@ package server
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
 	"github.com/gorilla/websocket"

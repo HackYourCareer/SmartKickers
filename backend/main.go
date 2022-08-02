@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/HackYourCareer/SmartKickers/internal/controller/server"
 )
@@ -9,6 +9,8 @@ import (
 const serverAddress = "0.0.0.0:3000"
 
 func main() {
+	log.SetLevel(log.DebugLevel)
+
 	s := server.New(serverAddress)
 
 	err := s.Start()
