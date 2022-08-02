@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
@@ -61,4 +62,10 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 	default:
 		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
 	}
+}
+
+func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
+	s.game.ResetScore()
+	params := mux.Vars(r)
+	log.Printf("Score reset for game with game ID %s\n", string(params["gameID"]))
 }
