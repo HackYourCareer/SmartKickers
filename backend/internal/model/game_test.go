@@ -50,7 +50,8 @@ func TestAddGoal(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			game.score.WhiteScore = 0
 			game.score.BlueScore = 0
-			game.AddGoal(tt.teamID)
+			err := game.AddGoal(tt.teamID)
+			assert.EqualError(t, err, tt.expectedError.Error())
 			assert.Equal(t, game.score.BlueScore, tt.expectedBlueScore, "blue team score changes incorrectly")
 			assert.Equal(t, game.score.WhiteScore, tt.expectedWhiteScore, "white team score changes incorrectly")
 		})
