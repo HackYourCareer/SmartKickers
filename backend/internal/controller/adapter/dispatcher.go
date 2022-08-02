@@ -20,7 +20,7 @@ type Message struct {
 	Team     int
 }
 
-type DispatcherMsg struct {
+type dispatcherMsg struct {
 	MsgType   string  `json:"type,omitempty"`
 	Origin    string  `json:"origin,omitempty"`
 	TableID   string  `json:"id,omitempty"`
@@ -31,13 +31,13 @@ type DispatcherMsg struct {
 	Sequence  string  `json:"Sequence,omitempty"`
 }
 
-type InitialResponse struct {
+type initialResponse struct {
 	GameID    string `json:"start,omitempty"`
 	GameEnded int    `json:"end,omitempty"`
 }
 
 func Unpack(message io.Reader) (*Message, error) {
-	var tableMessage DispatcherMsg
+	var tableMessage dispatcherMsg
 
 	err := json.NewDecoder(message).Decode(&tableMessage)
 	if err != nil {
@@ -51,7 +51,7 @@ func Unpack(message io.Reader) (*Message, error) {
 	}, nil
 }
 
-func (dispMsg DispatcherMsg) getMessageCategory() Category {
+func (dispMsg dispatcherMsg) getMessageCategory() Category {
 	if dispMsg.MsgType == "INITIAL" {
 		return Initial
 	}
@@ -61,8 +61,8 @@ func (dispMsg DispatcherMsg) getMessageCategory() Category {
 	return None
 }
 
-func NewDispatcherResponse(tableID string) *InitialResponse {
-	dr := new(InitialResponse)
+func NewDispatcherResponse(tableID string) *initialResponse {
+	dr := new(initialResponse)
 	dr.GameID = tableID
 	return dr
 }
