@@ -56,8 +56,8 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 	case adapter.MsgInitial:
 		return json.Marshal(adapter.NewDispatcherResponse(message.TableID))
 	case adapter.MsgGoal:
-		s.game.AddGoal(message.Team)
-		return nil, nil
+		err := s.game.AddGoal(message.Team)
+		return nil, err
 	default:
 		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
 	}
