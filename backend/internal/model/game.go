@@ -2,7 +2,12 @@ package model
 
 import "errors"
 
-type Game struct {
+type Game interface {
+	AddGoal(int) error
+	ResetScore()
+}
+
+type game struct {
 	score gameScore
 }
 
@@ -11,12 +16,16 @@ type gameScore struct {
 	WhiteScore int `json:"whiteScore"`
 }
 
-func (g *Game) ResetScore() {
+func NewGame() *game {
+	return &game{}
+}
+
+func (g *game) ResetScore() {
 	g.score.BlueScore = 0
 	g.score.WhiteScore = 0
 }
 
-func (g *Game) AddGoal(teamID int) error {
+func (g *game) AddGoal(teamID int) error {
 	switch teamID {
 	case 1:
 		g.score.WhiteScore++

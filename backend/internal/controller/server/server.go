@@ -21,7 +21,7 @@ func New(addr string) Server {
 	serv := server{
 		router:  mux.NewRouter(),
 		address: addr,
-		game:    model.Game{},
+		game:    model.NewGame(),
 	}
 	serv.router.HandleFunc("/", serv.TableMessagesHandler)
 
