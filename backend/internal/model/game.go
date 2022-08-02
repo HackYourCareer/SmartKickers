@@ -3,8 +3,8 @@ package model
 import "errors"
 
 const (
-	teamWhite int = 1
-	teamBlue  int = 2
+	teamWhite = 1
+	teamBlue  = 2
 )
 
 type Game interface {

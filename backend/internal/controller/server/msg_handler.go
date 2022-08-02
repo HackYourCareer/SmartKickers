@@ -59,6 +59,6 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 		s.game.AddGoal(message.Team)
 		return nil, nil
 	default:
-		return nil, fmt.Errorf("unrecognized message type")
+		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
 	}
 }
