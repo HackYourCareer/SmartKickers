@@ -2,6 +2,11 @@ package model
 
 import "errors"
 
+const (
+	teamWhite int = 1
+	teamBlue  int = 2
+)
+
 type Game interface {
 	AddGoal(int) error
 	ResetScore()
@@ -27,9 +32,9 @@ func (g *game) ResetScore() {
 
 func (g *game) AddGoal(teamID int) error {
 	switch teamID {
-	case 1:
+	case teamWhite:
 		g.score.WhiteScore++
-	case 2:
+	case teamBlue:
 		g.score.BlueScore++
 	default:
 		return errors.New("bad team ID")
