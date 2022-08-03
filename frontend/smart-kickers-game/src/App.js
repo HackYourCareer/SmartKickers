@@ -29,7 +29,7 @@ function App() {
         <p className="game-result-item">White: {whiteScore}</p>
       </div>
       <center>
-        <Button onClick={() => GameAPI.resetGame(1) /* TODO set gameId here */}>Reset game</Button>
+        <Button onClick={() => GameAPI.resetGame()}>Reset game</Button>
       </center>
     </>
   );

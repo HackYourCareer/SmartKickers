@@ -14,11 +14,18 @@ describe('resetGame API caller', () => {
   });
 
   it('should send reset game request', async () => {
-    const gameId = 'anyGameId';
-    mock.onPost(`http://localhost:3006/reset/${gameId}`).reply(200);
+    mock.onPost(`http://localhost:3000/reset`).reply(200);
 
-    const result = await resetGame(gameId);
+    const result = await resetGame();
 
     expect(result.status).toBe(200);
+  });
+
+  it('should ignore backend errors (result not updated)', async () => {
+    mock.onPost(`http://localhost:3000/reset`).reply(500);
+
+    const result = await resetGame();
+
+    expect(result.status).toBe(500);
   });
 });
