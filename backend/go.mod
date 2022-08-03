@@ -1,4 +1,4 @@
-module remote
+module github.com/HackYourCareer/SmartKickers
 
 go 1.18
 
