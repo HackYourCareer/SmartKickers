@@ -100,7 +100,7 @@ We are using macOS to build and run everything locally for now.
 
     After launching the node server you should see the following output from your go server.
 
-    As we can see the last message is the score that is being send to the react app.
+    As you can see, the last message is the score that has been sent to the react app.
 
     <h1 align="center">
         <img src="assets/goWithNode.png">
