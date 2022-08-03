@@ -62,3 +62,7 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
 	}
 }
+
+func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
+	s.game.ResetScore()
+}

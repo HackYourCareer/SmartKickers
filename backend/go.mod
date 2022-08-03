@@ -1,4 +1,4 @@
-module "github.com/HackYourCareer/SmartKickers"
+module github.com/HackYourCareer/SmartKickers
 
 go 1.18
 
