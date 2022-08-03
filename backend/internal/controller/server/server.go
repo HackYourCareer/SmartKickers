@@ -25,6 +25,7 @@ func New(addr string, game model.Game) Server {
 	}
 	serv.router.HandleFunc("/", serv.TableMessagesHandler)
 	serv.router.HandleFunc("/reset", serv.ResetScoreHandler).Methods("PUT")
+	serv.router.HandleFunc("/goal", serv.ManipulateScoreHandler).Methods("PUT")
 
 	return serv
 }

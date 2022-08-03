@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
 	"github.com/gorilla/websocket"
@@ -65,4 +66,24 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 
 func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 	s.game.ResetScore()
+}
+
+func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
+
+	team := r.URL.Query().Get("team")
+
+	teamID, err := strconv.Atoi(team)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	switch action := r.URL.Query().Get("action"); action {
+	case "add":
+		s.game.AddGoal(teamID)
+	case "sub":
+		// PLACEHOLDER
+		//s.game.SubGoal(teamID)
+	default:
+		log.Panic("Wrong action")
+	}
 }
