@@ -2,11 +2,6 @@
 
 checkPassed=true
 
-if ! python3 --version > /dev/null 2>&1; then
-    echo Python 3.x not detected!
-    checkPassed=false
-fi
-
 if ! node --version > /dev/null 2>&1; then
     echo Node.js not detected!
     checkPassed=false
@@ -15,6 +10,11 @@ fi
 if ! npm --version > /dev/null 2>&1; then
     echo NPM not detected!
     checkPassed=false
+fi
+
+if ! python3 --version > /dev/null 2>&1; then
+    echo Python not detected!
+    exit 1
 fi
 
 if ! python3 -c "import ximea" > /dev/null 2>&1; then

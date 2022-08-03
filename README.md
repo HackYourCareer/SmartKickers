@@ -7,27 +7,19 @@ SmartKickers is a project to make your kickers more immersive. It uses Ximea cam
 The following repository contains: 
 * Golang server for processing the data.
 * React client to display game information.
-
-You will also need SmartKickersAI provided by the developers per request. It contains:
-* Ball tracking software.
-* Node server responsible for sending data to the Golang server.
-
-Link to SmartKickerAI
-https://github.com/HackYourCareer/SmartKickersAI.
-
 ## Features
 
 * Keeping track of the score.
 
-## Prerequirements
+## Prerequisites
 
-* [python 3.10.5](https://www.python.org/downloads/macos/)
-* [node 16.16.0](https://nodejs.org/en/download/)
-* npm 8.11.0
-* macOS 12.4
+* [python](https://www.python.org/downloads/macos/) in version 3.10.5 or higher
+* [node](https://nodejs.org/en/download/) in version 16.16.0 or higher
+* npm in version 8.11.0 or higher
+* [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI.)
 ## Requirements
 
-* [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package)
+* [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package) (macOS)
 * opencv-python 
 
     ```bash 
@@ -50,41 +42,45 @@ https://github.com/HackYourCareer/SmartKickersAI.
 
 We are using macOS to build and run everything locally for now.
 
-> **NOTE:** Ensure you have also SmartKickersAI source code.
-
 1. Clone the repositories.
 
     ```bash 
     git clone git@github.com:HackYourCareer/SmartKickers.git
-
     git clone git@github.com:HackYourCareer/SmartKickersAI.git
     ```
 
 2. Run the requirementsCheck.sh script to check if your system fulfils all requirements.
 
+    The script will look for open-cv, numpy, imutils, ximer driver only after successfully installing python! So if you don't have python it won't print missing python dependent packages except python itself.
+
     ```bash 
+    cd SmartKickers
     ./requirementsCheck.sh
     ```
 
     > **NOTE:** Be sure to give permission for the script to execute.
 
-3. Install missing dependencies if any missing.
+3. Install missing dependencies.
 
-4. Switch to **SmartKickers/frontend/smart-kickers-game** and run the following command.
+4. Switch to **SmartKickers/frontend/smart-kickers-game** and run npm install.
 
     ```bash 
+    cd SmartKickers/frontend/smart-kickers-game
     npm install
     ```
 
 ## Launching
 
-> **NOTE:** The configuration for the table in SmartKickersAI is provided by the developers. In the future there will be a manual to help to customize the configuration for any table to achieve the best ball detection accuracy.
+> **NOTE:** The configuration for the table is provided by the developers in SmartKickersAI. In the future, there will be a manual to help to customize the configuration for any table to achieve the best ball detection accuracy.
 
 1. Switch to **SmartKickers/backend** and launch the go server.
 
     ```bash 
+    cd SmartKickers/backend
     go run main.go
     ```
+
+    After launching you should see no response. The server is waiting for data from the node server. We plan to add an indicator of a successful launch in the future using logrus logs.
 
     <h1 align="center">
         <img src="assets/goLaunch.png">
@@ -93,19 +89,22 @@ We are using macOS to build and run everything locally for now.
 2. Switch to **SmartKickersAI/LocalServer/server** and launch the node server.
 
     ```bash 
+    cd SmartKickersAI/LocalServer/server
     node server.js
     ```
+    You should see the following output indicating that we have successfully connected to the go server.
+
     <h1 align="center">
         <img src="assets/nodeLaunch.png">
     </h1>
 
     After launching the node server you should see the following output from your go server.
 
+    As we can see the last message is the score that is being send to the react app.
+
     <h1 align="center">
         <img src="assets/goWithNode.png">
     </h1>
-
-    As we can see the last message is the score that is being send to the react app.
 
 3. Switch to **SmartKickers/frontend/smart-kickers-game** and launch the react client.
 
@@ -121,3 +120,7 @@ We are using macOS to build and run everything locally for now.
         <img src="assets/reactApp.png">
     </h1>
 
+
+## Development
+
+More details for developers will be provided soon in separate Readme files for the frontend, backend and SmartKickersAI.
