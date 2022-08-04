@@ -1,8 +1,7 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import WS from 'jest-websocket-mock';
 import { getElementWhichContain } from './helpers';
-jest.mock('../apis/Game');
 import * as GameAPI from '../apis/Game';
 import App from '../App';
 import config from '../config';
@@ -35,10 +34,26 @@ describe('<App />', () => {
   });
 
   it('should send game reset request on button click', () => {
+    const resetGameMock = jest.spyOn(GameAPI, 'resetGame');
     render(<App />);
 
     getElementWhichContain('Reset Game').click();
 
-    expect(GameAPI.resetGame).toHaveBeenCalled();
+    expect(resetGameMock).toHaveBeenCalled();
+  });
+
+  it('should show alert when backend error occured', () => {
+    const alertMock = jest.spyOn(global, 'alert').mockImplementation();
+    jest.spyOn(GameAPI, 'resetGame').mockResolvedValue({
+      error: new Error('backend error occured'),
+      status: 500,
+    });
+
+    render(<App />);
+    getElementWhichContain('Reset Game').click();
+
+    waitFor(() => {
+      expect(alertMock).toBeCalled();
+    });
   });
 });

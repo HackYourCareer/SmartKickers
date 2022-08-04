@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import * as GameAPI from './apis/Game';
+import { resetGame } from './apis/Game';
 import { Button } from './components/Button';
 import config from './config';
 
@@ -22,6 +22,12 @@ function App() {
     };
   }, []);
 
+  function handleResetGame() {
+    resetGame().then((data) => {
+      alert(data.error);
+    });
+  }
+
   return (
     <>
       <h1>Smart Kickers</h1>
@@ -30,7 +36,7 @@ function App() {
         <p className="game-result-item">White: {whiteScore}</p>
       </div>
       <center>
-        <Button onClick={() => GameAPI.resetGame()}>Reset game</Button>
+        <Button onClick={() => handleResetGame()}>Reset game</Button>
       </center>
     </>
   );
