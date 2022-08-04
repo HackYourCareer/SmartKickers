@@ -10,10 +10,13 @@ const (
 type Game interface {
 	AddGoal(int) error
 	ResetScore()
+	GetScore() gameScore
+	GetChannel() chan bool
 }
 
 type game struct {
-	score gameScore
+	score        gameScore
+	ScoreChannel chan bool
 }
 
 type gameScore struct {
@@ -22,7 +25,7 @@ type gameScore struct {
 }
 
 func NewGame() Game {
-	return &game{}
+	return &game{ScoreChannel: make(chan bool)}
 }
 
 func (g *game) ResetScore() {
@@ -39,5 +42,14 @@ func (g *game) AddGoal(teamID int) error {
 	default:
 		return errors.New("bad team ID")
 	}
+	g.ScoreChannel <- true
 	return nil
+}
+
+func (g *game) GetScore() gameScore {
+	return g.score
+}
+
+func (g *game) GetChannel() chan bool {
+	return g.ScoreChannel
 }

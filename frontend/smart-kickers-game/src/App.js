@@ -7,7 +7,7 @@ function App() {
   const [whiteScore, setWhiteScore] = useState(0);
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:3006/csc');
+    const socket = new WebSocket('ws://localhost:3000/score');
 
     socket.onopen = function () {
       //send to server

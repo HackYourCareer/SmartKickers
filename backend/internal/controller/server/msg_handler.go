@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	messageText = 1
+	messageTypeText = 1
 )
 
 func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +37,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 		if response != nil {
-			err = c.WriteMessage(messageText, response)
+			err = c.WriteMessage(messageTypeText, response)
 			if err != nil {
 				log.Println(err)
 				continue
@@ -65,4 +65,28 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 
 func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 	s.game.ResetScore()
+}
+
+func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
+
+	var upgrader websocket.Upgrader
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+	c, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+	}
+
+	defer c.Close()
+
+	for {
+		if <-s.game.GetChannel() {
+			gameScoreMsg, _ := json.Marshal(s.game.GetScore())
+			log.Println(gameScoreMsg)
+			err := c.WriteMessage(messageTypeText, gameScoreMsg)
+			if err != nil {
+				log.Println(err)
+			}
+		}
+
+	}
 }
