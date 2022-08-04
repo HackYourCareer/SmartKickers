@@ -60,7 +60,7 @@ func TestAddGoal(t *testing.T) {
 	}
 }
 
-func Test_game_SubGoal(t *testing.T) {
+func TestGameSubGoal(t *testing.T) {
 	game := &game{gameScore{0, 2}}
 
 	type args struct {
