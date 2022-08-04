@@ -24,7 +24,7 @@ function App() {
 
   function handleResetGame() {
     resetGame().then((data) => {
-      alert(data.error);
+      if (data.error) alert(data.error);
     });
   }
 
