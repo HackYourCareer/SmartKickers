@@ -1,5 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import config from '../config';
 import { resetGame } from './Game';
 
 describe('resetGame API caller', () => {
@@ -14,7 +15,7 @@ describe('resetGame API caller', () => {
   });
 
   it('should send reset game request', async () => {
-    mock.onPut(`http://localhost:3000/reset`).reply(200);
+    mock.onPut(`${config.apiBaseUrl}/reset`).reply(200);
 
     const result = await resetGame();
 
@@ -22,7 +23,7 @@ describe('resetGame API caller', () => {
   });
 
   it('should ignore backend errors (result not updated)', async () => {
-    mock.onPut(`http://localhost:3000/reset`).reply(500);
+    mock.onPut(`${config.apiBaseUrl}/reset`).reply(500);
 
     const result = await resetGame();
 

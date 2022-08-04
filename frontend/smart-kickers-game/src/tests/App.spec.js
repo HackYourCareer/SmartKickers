@@ -5,11 +5,12 @@ import { getElementWhichContain } from './helpers';
 jest.mock('../apis/Game');
 import * as GameAPI from '../apis/Game';
 import App from '../App';
+import config from '../config';
 
 let ws;
 describe('<App />', () => {
   beforeEach(() => {
-    ws = new WS('ws://localhost:3006/csc');
+    ws = new WS(`${config.wsBaseUrl}/csc`);
   });
 
   afterEach(() => {

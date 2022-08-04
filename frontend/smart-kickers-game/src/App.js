@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import * as GameAPI from './apis/Game';
 import { Button } from './components/Button';
+import config from './config';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:3006/csc');
+    const socket = new WebSocket(`${config.wsBaseUrl}/csc`);
 
     socket.onopen = function () {
       //send to server
