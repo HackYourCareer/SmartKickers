@@ -1,16 +1,16 @@
 import axios from 'axios';
+import config from '../config';
 
 export async function resetGame() {
   try {
-    let result = await axios.put(`http://localhost:3000/reset`);
+    let result = await axios.put(`${config.apiBaseUrl}/reset`);
 
     return {
       status: result.status,
-      data: result.data,
     };
   } catch (e) {
     return {
-      error: e.response.data,
+      error: e,
       status: e.response.status,
     };
   }

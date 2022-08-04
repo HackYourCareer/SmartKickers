@@ -20,13 +20,15 @@ describe('resetGame API caller', () => {
     const result = await resetGame();
 
     expect(result.status).toBe(200);
+    expect(result.error).not.toBeDefined();
   });
 
-  it('should ignore backend errors (result not updated)', async () => {
+  it('should return error with correct status code if received error from backend', async () => {
     mock.onPut(`${config.apiBaseUrl}/reset`).reply(500);
 
     const result = await resetGame();
 
+    expect(result.error).toBeDefined();
     expect(result.status).toBe(500);
   });
 });
