@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function resetGame() {
   try {
-    let result = await axios.post(`http://localhost:3000/reset`);
+    let result = await axios.put(`http://localhost:3000/reset`);
 
     return {
       status: result.status,
