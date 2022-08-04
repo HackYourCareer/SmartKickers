@@ -68,6 +68,9 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 	s.game.ResetScore()
 }
 
+//Incoming URL should be in the format:
+// '/goal?action=[add/sub]&team=[1/2]'
+// team 1 - White; team 2 - Blue
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	team := r.URL.Query().Get("team")
