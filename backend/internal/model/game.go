@@ -10,6 +10,7 @@ const (
 type Game interface {
 	AddGoal(int) error
 	ResetScore()
+	SubGoal(int) error
 }
 
 type game struct {
@@ -36,6 +37,22 @@ func (g *game) AddGoal(teamID int) error {
 		g.score.WhiteScore++
 	case teamBlue:
 		g.score.BlueScore++
+	default:
+		return errors.New("bad team ID")
+	}
+	return nil
+}
+
+func (g *game) SubGoal(teamID int) error {
+	switch teamID {
+	case teamWhite:
+		if g.score.WhiteScore > 0 {
+			g.score.WhiteScore--
+		}
+	case teamBlue:
+		if g.score.BlueScore > 0 {
+			g.score.BlueScore--
+		}
 	default:
 		return errors.New("bad team ID")
 	}
