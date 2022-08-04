@@ -11,7 +11,7 @@ function App() {
     const socket = new WebSocket('ws://localhost:3006/csc');
 
     socket.onopen = function () {
-      //send to server
+      // Send to server
       socket.send('Hello from client');
       socket.onmessage = (msg) => {
         msg = JSON.parse(msg.data);

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button } from '../components/Button';
-import { addPoint, subPoint } from '../apis/goalManipulation.js';
+import { pointsManipulation } from '../apis/goalManipulation.js';
 import './GameResults.css';
+import { TeamID, ScoreChange} from '../constants/score.js';
 
 function GameResults({ blueScore, whiteScore }) {
   return (
@@ -10,7 +11,7 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              addPoint(2);
+              pointsManipulation(TeamID.Team_blue, ScoreChange.Add_goal);
             }}
           >
             +
@@ -18,7 +19,7 @@ function GameResults({ blueScore, whiteScore }) {
           Blue: {blueScore}
           <Button
             onClick={() => {
-              subPoint(2);
+              pointsManipulation(TeamID.Team_blue, ScoreChange.Sub_goal);
             }}
           >
             -
@@ -28,7 +29,7 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              addPoint(1);
+              pointsManipulation(TeamID.Team_white, ScoreChange.Add_goal);
             }}
           >
             +
@@ -36,7 +37,7 @@ function GameResults({ blueScore, whiteScore }) {
           White: {whiteScore}
           <Button
             onClick={() => {
-              subPoint(1);
+              pointsManipulation(TeamID.Team_white, ScoreChange.Sub_goal);
             }}
           >
             -
