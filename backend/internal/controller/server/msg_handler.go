@@ -68,25 +68,31 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 	s.game.ResetScore()
 }
 
-//Incoming URL should be in the format:
-// '/goal?action=[add/sub]&team=[1/2]'
-// team 1 - White; team 2 - Blue
+// ManipulateScoreHandler is handler for manipulation of the score.
+// Incoming URL should be in the format: '/goal?action=[add/sub]&team=[1/2]'.
+// Team ID 1 stands for white and 2 for Blue.
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	team := r.URL.Query().Get("team")
 
 	teamID, err := strconv.Atoi(team)
-	if err != nil {
-		log.Fatal(err)
+	if err != nil || !(teamID == 1 || teamID == 2) {
+		handleError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		return
 	}
 
 	switch action := r.URL.Query().Get("action"); action {
 	case "add":
 		s.game.AddGoal(teamID)
 	case "sub":
-		// PLACEHOLDER
-		//s.game.SubGoal(teamID)
+		// TODO: s.game.SubGoal(teamID)
 	default:
-		log.Panic("Wrong action")
+		handleError(w, http.StatusBadRequest, "Wrong action")
 	}
+}
+
+func handleError(w http.ResponseWriter, header int, msg string) {
+	log.Println("Error handling request: ", msg)
+	w.WriteHeader(header)
+	w.Write([]byte(msg))
 }
