@@ -68,9 +68,9 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 	s.game.ResetScore()
 }
 
-// ManipulateScoreHandler is handler for manipulation of the score.
+// ManipulateScoreHandler is a handler for manipulation of the score.
 // Incoming URL should be in the format: '/goal?action=[add/sub]&team=[1/2]'.
-// Team ID 1 stands for white and 2 for Blue.
+// Team ID 1 stands for white and 2 for blue.
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	team := r.URL.Query().Get("team")
