@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { resetGame } from './apis/Game';
 import { Button } from './components/Button';
+import GameResults from './components/GameResults.js';
+
 import config from './config';
 
 function App() {
@@ -12,7 +14,7 @@ function App() {
     const socket = new WebSocket(`${config.wsBaseUrl}/csc`);
 
     socket.onopen = function () {
-      //send to server
+      // Send to server
       socket.send('Hello from client');
       socket.onmessage = (msg) => {
         msg = JSON.parse(msg.data);
@@ -31,10 +33,7 @@ function App() {
   return (
     <>
       <h1>Smart Kickers</h1>
-      <div className="game-result-container">
-        <p className="game-result-item">Blue: {blueScore}</p>
-        <p className="game-result-item">White: {whiteScore}</p>
-      </div>
+      <GameResults blueScore={blueScore} whiteScore={whiteScore} />
       <center>
         <Button onClick={() => handleResetGame()}>Reset game</Button>
       </center>
