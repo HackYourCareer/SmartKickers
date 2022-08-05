@@ -77,6 +77,8 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
+	closeConnChan := make(chan bool)
+
 	defer c.Close()
 
 	gameScoreMsg, _ := json.Marshal(s.game.GetScore())
@@ -85,17 +87,32 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
+	go reader(c, closeConnChan)
+
 	for {
-		channel := <-s.game.GetChannel()
-		log.Println(channel)
-		if true {
+		select {
+		case <-s.game.GetChannel():
 			gameScoreMsg, _ := json.Marshal(s.game.GetScore())
 			err := c.WriteMessage(messageTypeText, gameScoreMsg)
 			if err != nil {
 				log.Println(err)
 				break
 			}
+		case <-closeConnChan:
+			return
 
 		}
+	}
+}
+
+func reader(c *websocket.Conn, ch chan bool) {
+	for {
+		_, _, err := c.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			ch <- true
+			return
+		}
+
 	}
 }
