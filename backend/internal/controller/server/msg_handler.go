@@ -70,6 +70,7 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	var upgrader websocket.Upgrader
+	// TODO
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -78,15 +79,23 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer c.Close()
 
+	gameScoreMsg, _ := json.Marshal(s.game.GetScore())
+	err = c.WriteMessage(messageTypeText, gameScoreMsg)
+	if err != nil {
+		log.Println(err)
+	}
+
 	for {
-		if <-s.game.GetChannel() {
+		channel := <-s.game.GetChannel()
+		log.Println(channel)
+		if true {
 			gameScoreMsg, _ := json.Marshal(s.game.GetScore())
-			log.Println(gameScoreMsg)
 			err := c.WriteMessage(messageTypeText, gameScoreMsg)
 			if err != nil {
 				log.Println(err)
+				break
 			}
-		}
 
+		}
 	}
 }
