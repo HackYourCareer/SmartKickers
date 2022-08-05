@@ -87,7 +87,7 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	go reader(c, closeConnChan)
+	go waitForError(c, closeConnChan)
 
 	for {
 		select {
@@ -105,7 +105,7 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func reader(c *websocket.Conn, ch chan bool) {
+func waitForError(c *websocket.Conn, ch chan bool) {
 	for {
 		_, _, err := c.ReadMessage()
 		if err != nil {
