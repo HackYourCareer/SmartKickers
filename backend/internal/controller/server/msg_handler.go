@@ -69,21 +69,19 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
+	closeConnChan := make(chan bool)
+
 	var upgrader websocket.Upgrader
-	// TODO
+	// TODO: We should check the origin in the future. For now we enable every connection to the server.
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 	}
 
-	closeConnChan := make(chan bool)
-
 	defer c.Close()
 
-	gameScoreMsg, _ := json.Marshal(s.game.GetScore())
-	err = c.WriteMessage(messageTypeText, gameScoreMsg)
-	if err != nil {
+	if err := s.writeScoreMessage(c); err != nil {
 		log.Println(err)
 	}
 
@@ -92,9 +90,7 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case <-s.game.GetChannel():
-			gameScoreMsg, _ := json.Marshal(s.game.GetScore())
-			err := c.WriteMessage(messageTypeText, gameScoreMsg)
-			if err != nil {
+			if err := s.writeScoreMessage(c); err != nil {
 				log.Println(err)
 				break
 			}
@@ -103,6 +99,17 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 		}
 	}
+}
+
+func (s *server) writeScoreMessage(c *websocket.Conn) error {
+	gameScoreMsg, err := json.Marshal(s.game.GetScore())
+	if err != nil {
+		return err
+	}
+
+	err = c.WriteMessage(messageTypeText, gameScoreMsg)
+
+	return err
 }
 
 func waitForError(c *websocket.Conn, ch chan bool) {
