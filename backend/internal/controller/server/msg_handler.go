@@ -13,7 +13,9 @@ import (
 )
 
 const (
-	messageText = 1
+	messageText     = 1
+	attributeTeam   = "team"
+	attributeAction = "action"
 )
 
 func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
@@ -73,15 +75,15 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 // Team ID 1 stands for white and 2 for blue.
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
-	team := r.URL.Query().Get("team")
+	team := r.URL.Query().Get(attributeTeam)
 
 	teamID, err := strconv.Atoi(team)
-	if err != nil || !(teamID == 1 || teamID == 2) {
+	if err != nil || !isValidTeamID(teamID) {
 		handleError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
 		return
 	}
 
-	switch action := r.URL.Query().Get("action"); action {
+	switch action := r.URL.Query().Get(attributeAction); action {
 	case "add":
 		s.game.AddGoal(teamID)
 	case "sub":
@@ -95,4 +97,8 @@ func handleError(w http.ResponseWriter, header int, msg string) {
 	log.Println("Error handling request: ", msg)
 	w.WriteHeader(header)
 	w.Write([]byte(msg))
+}
+
+func isValidTeamID(teamID int) bool {
+	return (teamID == 1 || teamID == 2)
 }
