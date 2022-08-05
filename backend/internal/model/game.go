@@ -12,6 +12,7 @@ type Game interface {
 	ResetScore()
 	GetScore() gameScore
 	GetChannel() chan bool
+	SubGoal(int) error
 }
 
 type game struct {
@@ -46,10 +47,27 @@ func (g *game) AddGoal(teamID int) error {
 	return nil
 }
 
+
 func (g *game) GetScore() gameScore {
 	return g.score
 }
 
 func (g *game) GetChannel() chan bool {
 	return g.ScoreChannel
+
+func (g *game) SubGoal(teamID int) error {
+	switch teamID {
+	case teamWhite:
+		if g.score.WhiteScore > 0 {
+			g.score.WhiteScore--
+		}
+	case teamBlue:
+		if g.score.BlueScore > 0 {
+			g.score.BlueScore--
+		}
+	default:
+		return errors.New("bad team ID")
+	}
+	return nil
+
 }
