@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
+	"github.com/HackYourCareer/SmartKickers/internal/model"
 	"github.com/gorilla/websocket"
 )
 
@@ -100,5 +101,5 @@ func handleError(w http.ResponseWriter, header int, msg string) {
 }
 
 func isValidTeamID(teamID int) bool {
-	return (teamID == 1 || teamID == 2)
+	return (teamID == model.TeamWhite || teamID == model.TeamBlue)
 }
