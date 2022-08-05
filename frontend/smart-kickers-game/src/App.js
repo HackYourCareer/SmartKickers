@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { Button } from './components/Button';
+import GameResults from './components/GameResults.js';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
@@ -10,7 +11,7 @@ function App() {
     const socket = new WebSocket('ws://localhost:3006/csc');
 
     socket.onopen = function () {
-      //send to server
+      // Send to server
       socket.send('Hello from client');
       socket.onmessage = (msg) => {
         msg = JSON.parse(msg.data);
@@ -23,10 +24,7 @@ function App() {
   return (
     <>
       <h1>Smart Kickers</h1>
-      <div className="game-result-container">
-        <p className="game-result-item">Blue: {blueScore}</p>
-        <p className="game-result-item">White: {whiteScore}</p>
-      </div>
+      <GameResults blueScore={blueScore} whiteScore={whiteScore} />
       <center>
         <Button>Reset game</Button>
       </center>

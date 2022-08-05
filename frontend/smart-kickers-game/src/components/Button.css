@@ -11,6 +11,7 @@
   background-color: var(--main-purple);
   color: #fff;
   border: 1px solid var(--main-purple);
+  transition: 0.3s;
 }
 
 .btn--outline {
@@ -34,8 +35,5 @@
 
 .btn--large:hover,
 .btn--medium:hover {
-  background: #fff;
-  color: #242424;
-  border: 1px solid #242424;
-  transition: 250ms;
+  opacity: 0.7;
 }
