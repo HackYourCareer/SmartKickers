@@ -89,6 +89,9 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 		s.game.AddGoal(teamID)
 	case "sub":
 		// TODO: s.game.SubGoal(teamID)
+		if err = writeHTTPError(w, http.StatusBadRequest, "Action not implemented yet"); err != nil {
+			log.Println(err)
+		}
 	default:
 		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
 			log.Println(err)
