@@ -82,7 +82,7 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer c.Close()
 
-	if err := s.writeScoreMessage(c); err != nil {
+	if err := c.WriteJSON(s.game.GetScore()); err != nil {
 		log.Println(err)
 	}
 
@@ -91,7 +91,7 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case <-s.game.GetChannel():
-			if err := s.writeScoreMessage(c); err != nil {
+			if err := c.WriteJSON(s.game.GetScore()); err != nil {
 				log.Println(err)
 				break
 			}
@@ -100,17 +100,6 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 		}
 	}
-}
-
-func (s *server) writeScoreMessage(c *websocket.Conn) error {
-	gameScoreMsg, err := json.Marshal(s.game.GetScore())
-	if err != nil {
-		return err
-	}
-
-	err = c.WriteMessage(messageTypeText, gameScoreMsg)
-
-	return err
 }
 
 func waitForError(c *websocket.Conn, ch chan bool) {
