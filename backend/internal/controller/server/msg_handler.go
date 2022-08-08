@@ -82,11 +82,9 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer c.Close()
 
-	go func() {
-		if err := c.WriteJSON(s.game.GetScore()); err != nil {
-			log.Println(err)
-		}
-	}()
+	if err := c.WriteJSON(s.game.GetScore()); err != nil {
+		log.Println(err)
+	}
 
 	go waitForError(c, closeConnChan)
 

@@ -30,7 +30,7 @@ type GameScore struct {
 }
 
 func NewGame() Game {
-	return &game{scoreChannel: make(chan GameScore)}
+	return &game{scoreChannel: make(chan GameScore, 32)}
 }
 
 func (g *game) ResetScore() {
