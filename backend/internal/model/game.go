@@ -23,7 +23,6 @@ type game struct {
 	score        GameScore
 	scoreChannel chan GameScore
 	m            sync.RWMutex
-	mut          sync.Mutex
 }
 
 type GameScore struct {
