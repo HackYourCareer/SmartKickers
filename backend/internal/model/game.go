@@ -20,7 +20,7 @@ type Game interface {
 
 type game struct {
 	score        gameScore
-	ScoreChannel chan gameScore
+	scoreChannel chan gameScore
 	m            sync.RWMutex
 }
 
@@ -30,7 +30,7 @@ type gameScore struct {
 }
 
 func NewGame() Game {
-	return &game{ScoreChannel: make(chan gameScore)}
+	return &game{scoreChannel: make(chan gameScore)}
 }
 
 func (g *game) ResetScore() {
@@ -38,7 +38,7 @@ func (g *game) ResetScore() {
 	defer g.m.Unlock()
 	g.score.BlueScore = 0
 	g.score.WhiteScore = 0
-	g.ScoreChannel <- g.score
+	g.scoreChannel <- g.score
 }
 
 func (g *game) AddGoal(teamID int) error {
@@ -52,7 +52,7 @@ func (g *game) AddGoal(teamID int) error {
 	default:
 		return errors.New("bad team ID")
 	}
-	g.ScoreChannel <- g.score
+	g.scoreChannel <- g.score
 	return nil
 }
 
@@ -61,7 +61,7 @@ func (g *game) GetScore() gameScore {
 }
 
 func (g *game) GetScoreChannel() chan gameScore {
-	return g.ScoreChannel
+	return g.scoreChannel
 }
 
 func (g *game) SubGoal(teamID int) error {
@@ -79,7 +79,7 @@ func (g *game) SubGoal(teamID int) error {
 	default:
 		return errors.New("bad team ID")
 	}
-	g.ScoreChannel <- g.score
+	g.scoreChannel <- g.score
 	return nil
 
 }
