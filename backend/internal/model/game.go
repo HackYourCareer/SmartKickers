@@ -2,7 +2,6 @@ package model
 
 import (
 	"errors"
-	"log"
 	"sync"
 )
 
@@ -58,12 +57,8 @@ func (g *game) AddGoal(teamID int) error {
 }
 
 func (g *game) GetScore() GameScore {
-	log.Println("Before Lock")
-
 	g.m.RLock()
 	defer g.m.RUnlock()
-
-	log.Println("GetScore unlocked")
 	return g.score
 }
 
