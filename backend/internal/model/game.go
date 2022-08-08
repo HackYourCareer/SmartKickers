@@ -47,13 +47,13 @@ func (g *game) AddGoal(teamID int) error {
 	return nil
 }
 
-
 func (g *game) GetScore() gameScore {
 	return g.score
 }
 
 func (g *game) GetChannel() chan bool {
 	return g.ScoreChannel
+}
 
 func (g *game) SubGoal(teamID int) error {
 	switch teamID {

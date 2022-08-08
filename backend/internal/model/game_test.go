@@ -61,7 +61,7 @@ func TestAddGoal(t *testing.T) {
 }
 
 func TestGameSubGoal(t *testing.T) {
-	game := &game{gameScore{0, 2}}
+	game := &game{score: gameScore{0, 2}}
 
 	type args struct {
 		name               string
