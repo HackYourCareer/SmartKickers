@@ -38,6 +38,7 @@ func (g *game) ResetScore() {
 	defer g.m.Unlock()
 	g.score.BlueScore = 0
 	g.score.WhiteScore = 0
+	g.ScoreChannel <- g.score
 }
 
 func (g *game) AddGoal(teamID int) error {
@@ -78,6 +79,7 @@ func (g *game) SubGoal(teamID int) error {
 	default:
 		return errors.New("bad team ID")
 	}
+	g.ScoreChannel <- g.score
 	return nil
 
 }
