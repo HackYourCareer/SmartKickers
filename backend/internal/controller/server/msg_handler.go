@@ -77,6 +77,7 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
+		return
 	}
 
 	defer c.Close()
