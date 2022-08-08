@@ -39,8 +39,8 @@ func TestAddGoal(t *testing.T) {
 		expectedError      string
 	}
 	tests := []args{
-		{name: "should increment team white score by one", teamID: teamWhite, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: ""},
-		{name: "should increment team blue score by one", teamID: teamBlue, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: ""},
+		{name: "should increment team white score by one", teamID: TeamWhite, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: ""},
+		{name: "should increment team blue score by one", teamID: TeamBlue, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: ""},
 		{name: "should cause an error when invalid team ID", teamID: -1, expectedBlueScore: 0, expectedWhiteScore: 0, expectedError: "bad team ID"},
 	}
 
