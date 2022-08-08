@@ -1,6 +1,9 @@
 package model
 
-import "errors"
+import (
+	"errors"
+	"sync"
+)
 
 const (
 	teamWhite = 1
@@ -18,6 +21,7 @@ type Game interface {
 type game struct {
 	score        gameScore
 	ScoreChannel chan gameScore
+	m            sync.RWMutex
 }
 
 type gameScore struct {
@@ -30,11 +34,15 @@ func NewGame() Game {
 }
 
 func (g *game) ResetScore() {
+	g.m.Lock()
+	defer g.m.Unlock()
 	g.score.BlueScore = 0
 	g.score.WhiteScore = 0
 }
 
 func (g *game) AddGoal(teamID int) error {
+	g.m.Lock()
+	defer g.m.Unlock()
 	switch teamID {
 	case teamWhite:
 		g.score.WhiteScore++
@@ -56,6 +64,8 @@ func (g *game) GetChannel() chan gameScore {
 }
 
 func (g *game) SubGoal(teamID int) error {
+	g.m.Lock()
+	defer g.m.Unlock()
 	switch teamID {
 	case teamWhite:
 		if g.score.WhiteScore > 0 {
