@@ -7,7 +7,7 @@ import (
 )
 
 func TestResetScore(t *testing.T) {
-	game := &game{score: gameScore{3, 1}}
+	game := &game{score: GameScore{3, 1}}
 
 	type args struct {
 		name               string
@@ -29,7 +29,7 @@ func TestResetScore(t *testing.T) {
 }
 
 func TestAddGoal(t *testing.T) {
-	game := &game{score: gameScore{3, 1}}
+	game := &game{score: GameScore{3, 1}}
 
 	type args struct {
 		name               string
@@ -61,7 +61,7 @@ func TestAddGoal(t *testing.T) {
 }
 
 func TestGameSubGoal(t *testing.T) {
-	game := &game{score: gameScore{0, 2}}
+	game := &game{score: GameScore{0, 2}}
 
 	type args struct {
 		name               string

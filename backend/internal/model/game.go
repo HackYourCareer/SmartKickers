@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"log"
 	"sync"
 )
 
@@ -13,24 +14,25 @@ const (
 type Game interface {
 	AddGoal(int) error
 	ResetScore()
-	GetScore() gameScore
-	GetScoreChannel() chan gameScore
+	GetScore() GameScore
+	GetScoreChannel() chan GameScore
 	SubGoal(int) error
 }
 
 type game struct {
-	score        gameScore
-	scoreChannel chan gameScore
+	score        GameScore
+	scoreChannel chan GameScore
 	m            sync.RWMutex
+	mut          sync.Mutex
 }
 
-type gameScore struct {
+type GameScore struct {
 	BlueScore  int `json:"blueScore"`
 	WhiteScore int `json:"whiteScore"`
 }
 
 func NewGame() Game {
-	return &game{scoreChannel: make(chan gameScore)}
+	return &game{scoreChannel: make(chan GameScore)}
 }
 
 func (g *game) ResetScore() {
@@ -56,11 +58,17 @@ func (g *game) AddGoal(teamID int) error {
 	return nil
 }
 
-func (g *game) GetScore() gameScore {
+func (g *game) GetScore() GameScore {
+	log.Println("Before Lock")
+
+	g.m.RLock()
+	defer g.m.RUnlock()
+
+	log.Println("GetScore unlocked")
 	return g.score
 }
 
-func (g *game) GetScoreChannel() chan gameScore {
+func (g *game) GetScoreChannel() chan GameScore {
 	return g.scoreChannel
 }
 
