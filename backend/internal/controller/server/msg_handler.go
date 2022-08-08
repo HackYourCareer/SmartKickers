@@ -90,8 +90,8 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	for {
 		select {
-		case <-s.game.GetChannel():
-			if err := c.WriteJSON(s.game.GetScore()); err != nil {
+		case score := <-s.game.GetChannel():
+			if err := c.WriteJSON(score); err != nil {
 				log.Println(err)
 				break
 			}
