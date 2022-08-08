@@ -3,7 +3,7 @@ import config from '../config';
 
 export async function resetGame() {
   try {
-    let result = await axios.put(`${config.apiBaseUrl}/reset`);
+    let result = await axios.post(`${config.apiBaseUrl}/reset`);
 
     return {
       status: result.status,
