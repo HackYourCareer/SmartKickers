@@ -11,7 +11,8 @@ function App() {
   const [whiteScore, setWhiteScore] = useState(0);
 
   useEffect(() => {
-    const socket = new WebSocket(`${config.wsBaseUrl}/csc`);
+
+    const socket = new WebSocket(`${config.wsBaseUrl}/score`);
 
     socket.onopen = function () {
       // Send to server

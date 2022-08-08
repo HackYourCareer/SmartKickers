@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	messageText     = 1
+	messageTypeText = 1
 	attributeTeam   = "team"
 	attributeAction = "action"
 )
@@ -41,7 +41,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 		if response != nil {
-			err = c.WriteMessage(messageText, response)
+			err = c.WriteMessage(messageTypeText, response)
 			if err != nil {
 				log.Println(err)
 				continue
@@ -71,6 +71,52 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 	s.game.ResetScore()
 }
 
+
+func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
+
+	closeConnChan := make(chan error)
+
+	var upgrader websocket.Upgrader
+	// TODO: We should check the origin in the future. For now we enable every connection to the server.
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+	c, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	defer c.Close()
+
+	if err := c.WriteJSON(s.game.GetScore()); err != nil {
+		log.Println(err)
+	}
+
+	go waitForError(c, closeConnChan)
+
+	for {
+		select {
+		case score := <-s.game.GetScoreChannel():
+			if err := c.WriteJSON(score); err != nil {
+				log.Println(err)
+				break
+			}
+		case err := <-closeConnChan:
+			log.Println(err)
+			return
+
+		}
+	}
+}
+
+func waitForError(c *websocket.Conn, ch chan error) {
+	for {
+		_, _, err := c.ReadMessage()
+		if err != nil {
+			ch <- err
+			return
+		}
+	}
+  
 // ManipulateScoreHandler is a handler for manipulation of the score.
 // Incoming URL should be in the format: '/goal?action=[add/sub]&team=[1/2]'.
 // Team ID 1 stands for white and 2 for blue.
