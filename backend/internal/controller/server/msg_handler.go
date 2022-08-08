@@ -80,7 +80,7 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	teamID, err := strconv.Atoi(team)
 	if err != nil || !isValidTeamID(teamID) {
-		handleError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
 		return
 	}
 
@@ -90,14 +90,18 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 	case "sub":
 		// TODO: s.game.SubGoal(teamID)
 	default:
-		handleError(w, http.StatusBadRequest, "Wrong action")
+		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
+			log.Println(err)
+		}
+
 	}
 }
 
-func handleError(w http.ResponseWriter, header int, msg string) {
+func writeHTTPError(w http.ResponseWriter, header int, msg string) error {
 	log.Println("Error handling request: ", msg)
 	w.WriteHeader(header)
-	w.Write([]byte(msg))
+	_, err := w.Write([]byte(msg))
+	return err
 }
 
 func isValidTeamID(teamID int) bool {
