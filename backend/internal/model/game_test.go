@@ -71,9 +71,9 @@ func TestGameSubGoal(t *testing.T) {
 		expectedError      string
 	}
 	tests := []args{
-		{name: "should decrement team white score by one", teamID: teamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
-		{name: "should decrement team blue score by one", teamID: teamBlue, expectedBlueScore: 1, expectedWhiteScore: 1, expectedError: ""},
-		{name: "should not decrement team blue score by one", teamID: teamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
+		{name: "should decrement team white score by one", teamID: TeamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
+		{name: "should decrement team blue score by one", teamID: TeamBlue, expectedBlueScore: 1, expectedWhiteScore: 1, expectedError: ""},
+		{name: "should not decrement team blue score by one", teamID: TeamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
 		{name: "should cause an error when invalid team ID", teamID: -1, expectedBlueScore: 2, expectedWhiteScore: 1, expectedError: "bad team ID"},
 	}
 

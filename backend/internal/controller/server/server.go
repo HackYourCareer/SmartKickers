@@ -5,6 +5,7 @@ import (
 
 	"github.com/HackYourCareer/SmartKickers/internal/model"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -26,11 +27,12 @@ func New(addr string, game model.Game) Server {
 	serv.router.HandleFunc("/", serv.TableMessagesHandler)
 	serv.router.HandleFunc("/score", serv.SendScoreHandler)
 	serv.router.HandleFunc("/reset", serv.ResetScoreHandler).Methods("PUT")
-	serv.router.HandleFunc("/goal", serv.ManipulateScoreHandler).Methods("PUT")
+	serv.router.HandleFunc("/goal", serv.ManipulateScoreHandler).Methods("POST")
 
 	return serv
 }
 
 func (s server) Start() error {
-	return http.ListenAndServe(s.address, s.router)
+	corsObj := handlers.AllowedOrigins([]string{"*"})
+	return http.ListenAndServe(s.address, handlers.CORS(corsObj)(s.router))
 }
