@@ -14,7 +14,7 @@ type Game interface {
 	AddGoal(int) error
 	ResetScore()
 	GetScore() gameScore
-	GetChannel() chan gameScore
+	GetScoreChannel() chan gameScore
 	SubGoal(int) error
 }
 
@@ -60,7 +60,7 @@ func (g *game) GetScore() gameScore {
 	return g.score
 }
 
-func (g *game) GetChannel() chan gameScore {
+func (g *game) GetScoreChannel() chan gameScore {
 	return g.ScoreChannel
 }
 
