@@ -69,7 +69,7 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
-	closeConnChan := make(chan bool)
+	closeConnChan := make(chan error)
 
 	var upgrader websocket.Upgrader
 	// TODO: We should check the origin in the future. For now we enable every connection to the server.
@@ -95,21 +95,20 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 				log.Println(err)
 				break
 			}
-		case <-closeConnChan:
+		case err := <-closeConnChan:
+			log.Println(err)
 			return
 
 		}
 	}
 }
 
-func waitForError(c *websocket.Conn, ch chan bool) {
+func waitForError(c *websocket.Conn, ch chan error) {
 	for {
 		_, _, err := c.ReadMessage()
 		if err != nil {
-			log.Println(err)
-			ch <- true
+			ch <- err
 			return
 		}
-
 	}
 }
