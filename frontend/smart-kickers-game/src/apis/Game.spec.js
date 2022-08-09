@@ -15,7 +15,7 @@ describe('resetGame API caller', () => {
   });
 
   it('should send reset game request', async () => {
-    mock.onPut(`${config.apiBaseUrl}/reset`).reply(200);
+    mock.onPost(`${config.apiBaseUrl}/reset`).reply(200);
 
     const result = await resetGame();
 
@@ -24,7 +24,7 @@ describe('resetGame API caller', () => {
   });
 
   it('should return error with correct status code if received error from backend', async () => {
-    mock.onPut(`${config.apiBaseUrl}/reset`).reply(500);
+    mock.onPost(`${config.apiBaseUrl}/reset`).reply(500);
 
     const result = await resetGame();
 

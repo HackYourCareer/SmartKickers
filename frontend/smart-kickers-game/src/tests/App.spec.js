@@ -9,7 +9,7 @@ import config from '../config';
 let ws;
 describe('<App />', () => {
   beforeEach(() => {
-    ws = new WS(`${config.wsBaseUrl}/csc`);
+    ws = new WS(`${config.wsBaseUrl}/score`);
   });
 
   afterEach(() => {
