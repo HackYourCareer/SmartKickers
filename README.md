@@ -61,8 +61,8 @@ We are using macOS to build and run everything locally for now.
 1. Clone the repositories.
 
    ```bash
-   git clone git@github.com:HackYourCareer/SmartKickers.git
-   git clone git@github.com:HackYourCareer/SmartKickersAI.git
+   git clone https://github.com/HackYourCareer/SmartKickers.git
+   git clone https://github.com/HackYourCareer/SmartKickersAI.git
    ```
 
 2. Run the requirementsCheck.sh script to check if your system fulfils all requirements.
