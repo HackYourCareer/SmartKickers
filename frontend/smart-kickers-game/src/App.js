@@ -10,6 +10,8 @@ function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
 
+  const socket = new WebSocket("ws://localhost:3006/csc");
+
   useEffect(() => {
 
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
