@@ -70,11 +70,11 @@ func (g *game) SubGoal(teamID int) error {
 	g.m.Lock()
 	defer g.m.Unlock()
 	switch teamID {
-	case teamWhite:
+	case TeamWhite:
 		if g.score.WhiteScore > 0 {
 			g.score.WhiteScore--
 		}
-	case teamBlue:
+	case TeamBlue:
 		if g.score.BlueScore > 0 {
 			g.score.BlueScore--
 		}

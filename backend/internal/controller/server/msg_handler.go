@@ -71,7 +71,6 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 	s.game.ResetScore()
 }
 
-
 func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	closeConnChan := make(chan error)
@@ -116,7 +115,8 @@ func waitForError(c *websocket.Conn, ch chan error) {
 			return
 		}
 	}
-  
+}
+
 // ManipulateScoreHandler is a handler for manipulation of the score.
 // Incoming URL should be in the format: '/goal?action=[add/sub]&team=[1/2]'.
 // Team ID 1 stands for white and 2 for blue.
@@ -134,10 +134,7 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 	case "add":
 		s.game.AddGoal(teamID)
 	case "sub":
-		// TODO: s.game.SubGoal(teamID)
-		if err = writeHTTPError(w, http.StatusBadRequest, "Action not implemented yet"); err != nil {
-			log.Println(err)
-		}
+		s.game.SubGoal(teamID)
 	default:
 		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
 			log.Println(err)
