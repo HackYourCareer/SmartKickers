@@ -2,6 +2,7 @@ package adapter
 
 import (
 	"encoding/json"
+	"io"
 )
 
 type ShotMessage struct {
@@ -25,6 +26,21 @@ type tableShotMsg struct {
 	Params      []json.RawMessage `json:"messages,omitempty"`
 }
 
-func UnpackShotMsg() {
+func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
+	var shotMessage tableShotMsg
+	var params tableShotParams
 
+	err := json.NewDecoder(message).Decode(&shotMessage)
+	if err != nil {
+		return ShotMessage{}, err
+	}
+	err = json.Unmarshal(shotMessage.Params[0], &params)
+	if err != nil {
+		return ShotMessage{}, err
+	}
+
+	return ShotMessage{
+		Speed: params.Speed,
+		ID:    params.ID,
+	}, nil
 }
