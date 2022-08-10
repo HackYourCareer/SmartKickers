@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
 	"github.com/HackYourCareer/SmartKickers/internal/model"
 	"github.com/gorilla/websocket"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -23,7 +23,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println(err)
+		log.Error(err)
 	}
 
 	defer c.Close()
@@ -31,19 +31,19 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 			continue
 		}
 		response, err := s.createResponse(receivedMsg)
 
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 			continue
 		}
 		if response != nil {
 			err = c.WriteMessage(messageTypeText, response)
 			if err != nil {
-				log.Println(err)
+				log.Error(err)
 				continue
 			}
 		}
@@ -80,14 +80,14 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println(err)
+		log.Error(err)
 		return
 	}
 
 	defer c.Close()
 
 	if err := c.WriteJSON(s.game.GetScore()); err != nil {
-		log.Println(err)
+		log.Error(err)
 	}
 
 	go waitForError(c, closeConnChan)
@@ -96,11 +96,11 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		select {
 		case score := <-s.game.GetScoreChannel():
 			if err := c.WriteJSON(score); err != nil {
-				log.Println(err)
+				log.Error(err)
 				break
 			}
 		case err := <-closeConnChan:
-			log.Println(err)
+			log.Error(err)
 			return
 
 		}
@@ -137,14 +137,14 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 		s.game.SubGoal(teamID)
 	default:
 		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
-			log.Println(err)
+			log.Error(err)
 		}
 
 	}
 }
 
 func writeHTTPError(w http.ResponseWriter, header int, msg string) error {
-	log.Println("Error handling request: ", msg)
+	log.Error("Error handling request: ", msg)
 	w.WriteHeader(header)
 	_, err := w.Write([]byte(msg))
 	return err

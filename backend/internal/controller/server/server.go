@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/HackYourCareer/SmartKickers/internal/model"
-
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 )
 
 type Server interface {
@@ -33,6 +33,10 @@ func New(addr string, game model.Game) Server {
 }
 
 func (s server) Start() error {
+	log.WithFields(log.Fields{
+		"ip": s.address,
+	}).Info("Launching the server.")
+
 	corsObj := handlers.AllowedOrigins([]string{"*"})
 	return http.ListenAndServe(s.address, handlers.CORS(corsObj)(s.router))
 }
