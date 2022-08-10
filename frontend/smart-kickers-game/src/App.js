@@ -1,35 +1,42 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import { Button } from "./components/button";
+import { useEffect, useState } from 'react';
+import './App.css';
+import { resetGame } from './apis/Game';
+import { Button } from './components/Button';
+import GameResults from './components/GameResults.js';
+
+import config from './config';
 
 function App() {
-  let [blueScore, setBlueScore] = useState(0);
-  let [whiteScore, setWhiteScore] = useState(0);
-
-  const socket = new WebSocket("ws://localhost:3006/csc");
+  const [blueScore, setBlueScore] = useState(0);
+  const [whiteScore, setWhiteScore] = useState(0);
 
   useEffect(() => {
+
+    const socket = new WebSocket(`${config.wsBaseUrl}/score`);
+
     socket.onopen = function () {
+      // Send to server
+      socket.send('Hello from client');
       socket.onmessage = (msg) => {
         msg = JSON.parse(msg.data);
         setBlueScore(msg.blueScore);
         setWhiteScore(msg.whiteScore);
       };
     };
-  });
+  }, []);
+
+  function handleResetGame() {
+    resetGame().then((data) => {
+      if (data.error) alert(data.error);
+    });
+  }
 
   return (
     <>
       <h1>Smart Kickers</h1>
-      <div className="game-result-container" data-testid="blue-team-score">
-        Blue: {blueScore}
-        {"   "}
-        White: {whiteScore}
-      </div>
+      <GameResults blueScore={blueScore} whiteScore={whiteScore} />
       <center>
-        <Button onClick={() => socket.send(JSON.stringify(true))}>
-          Reset game
-        </Button>
+        <Button onClick={() => handleResetGame()}>Reset game</Button>
       </center>
     </>
   );
