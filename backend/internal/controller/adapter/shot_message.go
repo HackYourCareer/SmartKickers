@@ -17,3 +17,7 @@ type ShotMsg struct {
 	MessageType string            `json:"messageType,omitempty"`
 	Params      []json.RawMessage `json:"messages,omitempty"`
 }
+
+func UnpackShotMsg() {
+
+}

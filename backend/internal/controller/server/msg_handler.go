@@ -52,7 +52,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 
 func (s server) createResponse(reader io.Reader) ([]byte, error) {
 
-	message, err := adapter.Unpack(reader)
+	message, err := adapter.UnpackDispatcherMsg(reader)
 	if err != nil {
 		return nil, err
 	}
