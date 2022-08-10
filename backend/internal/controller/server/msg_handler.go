@@ -153,3 +153,28 @@ func writeHTTPError(w http.ResponseWriter, header int, msg string) error {
 func isValidTeamID(teamID int) bool {
 	return (teamID == model.TeamWhite || teamID == model.TeamBlue)
 }
+
+func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
+	var upgrader websocket.Upgrader
+	c, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+	}
+
+	defer c.Close()
+
+	for {
+		_, receivedMsg, err := c.NextReader()
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
+		message, err := adapter.UnpackDispatcherMsg(receivedMsg)
+		if err != nil {
+			log.Println(err)
+		}
+
+		log.Println(message)
+	}
+}
