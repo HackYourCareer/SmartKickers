@@ -42,3 +42,6 @@ h1 {
   font-size: 280%;
   text-align: center;
 }
+.game-ending-buttons > .btn--primary {
+  width: 140px;
+}
