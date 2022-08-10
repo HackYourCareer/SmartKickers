@@ -7,24 +7,13 @@ import (
 )
 
 func TestResetScore(t *testing.T) {
-	game := &game{score: GameScore{3, 1}}
+	game := &game{score: GameScore{3, 1}, scoreChannel: make(chan GameScore, 32)}
 
-	type args struct {
-		name               string
-		expectedBlueScore  int
-		expectedWhiteScore int
-	}
+	game.ResetScore()
+	resultScore := <-game.scoreChannel
 
-	tests := []args{
-		{name: "Check if values are set to 0", expectedBlueScore: 0, expectedWhiteScore: 0},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			game.ResetScore()
-		})
-		if tt.expectedWhiteScore != 0 || tt.expectedBlueScore != 0 {
-			t.Errorf("Score did not reset. Goals white: %v, Goals blue: %v", tt.expectedWhiteScore, tt.expectedBlueScore)
-		}
+	if resultScore.BlueScore != 0 || resultScore.WhiteScore != 0 {
+		t.Errorf("Score did not reset. Goals white: %v, Goals blue: %v", game.score.WhiteScore, game.score.BlueScore)
 	}
 }
 
