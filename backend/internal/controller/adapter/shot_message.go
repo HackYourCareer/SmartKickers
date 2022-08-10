@@ -1,13 +1,15 @@
 package adapter
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type ShotMessage struct {
 	Speed float64
 	ID    string
 }
 
-type ShotParams struct {
+type tableShotParams struct {
 	TimeStart int     `json:"TimeStart,omitempty"`
 	TimeEnd   int     `json:"TimeEnd,omitempty"`
 	Speed     float64 `json:"Speed,omitempty"`
@@ -17,7 +19,7 @@ type ShotParams struct {
 	ID        string  `json:"ID,omitempty"`
 }
 
-type ShotMsg struct {
+type tableShotMsg struct {
 	Mode        string            `json:"mode,omitempty"`
 	MessageType string            `json:"messageType,omitempty"`
 	Params      []json.RawMessage `json:"messages,omitempty"`
