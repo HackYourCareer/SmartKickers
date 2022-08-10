@@ -1,7 +1,22 @@
 table {
   width: 100%;
   font-size: 130%;
+  padding-top: 100px;
+}
+th {
+  padding-bottom: 5px;
 }
 td {
+  table-layout: fixed;
+  width: 33.3%;
   text-align: center;
+  padding: 5px 0 5px; 
+}
+.bluePerson, .whitePerson {
+padding-right: 10px;
+font-size: 120%;
+}
+h2 {
+  text-align: center;
+  padding-top: 20px;
 }

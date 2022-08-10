@@ -4,16 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function GameStatistics({ blueScore, whiteScore }) {
   return (
     <>
+      <h2>
+        <em>Statistics</em>
+      </h2>
       <table>
         <thead>
           <tr>
             <th>
-              <FontAwesomeIcon icon="fa-person" />
+              <FontAwesomeIcon className="bluePerson" icon="fa-person" />
               Blue
             </th>
             <th></th>
             <th>
-              <FontAwesomeIcon icon="fa-person" />
+              <FontAwesomeIcon className="whitePerson" icon="fa-person" />
               White
             </th>
           </tr>
