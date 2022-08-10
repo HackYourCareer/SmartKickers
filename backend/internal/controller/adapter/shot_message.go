@@ -2,6 +2,11 @@ package adapter
 
 import "encoding/json"
 
+type ShotMessage struct {
+	Speed float64
+	ID    string
+}
+
 type ShotParams struct {
 	TimeStart int     `json:"TimeStart,omitempty"`
 	TimeEnd   int     `json:"TimeEnd,omitempty"`
