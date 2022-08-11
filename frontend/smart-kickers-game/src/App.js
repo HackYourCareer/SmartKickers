@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { Button } from './components/Button';
 import GameResults from './components/GameResults.js';
-import { resetGame } from './apis/Game';
+import { resetGame } from './apis/resetGame';
 import GameStatistics from './components/GameStatistics.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPerson } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,13 @@ function App() {
   const [whiteScore, setWhiteScore] = useState(0);
   const [toggleGameScore, setToggleGameScore] = useState(false);
 
+  const [
+    finalScores = {
+      blue: 0,
+      white: 0,
+    },
+    setFinalScores,
+  ] = useState({ blue: 0, white: 0 });
   useEffect(() => {
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
 
@@ -51,13 +58,20 @@ function App() {
               <center className="game-ending-buttons">
                 <Button onClick={() => handleResetGame()}>Reset game</Button>
                 <br />
-                <Button onClick={() => handleEndGame()}>End game</Button>
+                <Button
+                  onClick={() => {
+                    setFinalScores({ blue: blueScore, white: whiteScore });
+                    handleEndGame();
+                  }}
+                >
+                  End game
+                </Button>
               </center>
             </>
           }{' '}
         </>
       ) : (
-        <GameStatistics blueScore={0} whiteScore={0} handleEndGame={handleEndGame} />
+        <GameStatistics finalScores={finalScores} handleEndGame={handleEndGame} />
       )}
     </>
   );
