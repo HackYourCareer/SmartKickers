@@ -2,6 +2,7 @@ package adapter
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 )
 
@@ -36,6 +37,10 @@ func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
 	err := json.NewDecoder(message).Decode(&shotMessage)
 	if err != nil {
 		return ShotMessage{}, err
+	}
+
+	if len(shotMessage.Params) == 0 {
+		return ShotMessage{}, fmt.Errorf("missing shot parameters")
 	}
 
 	err = json.Unmarshal(shotMessage.Params[0], &params)

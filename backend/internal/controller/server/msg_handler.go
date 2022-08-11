@@ -179,3 +179,27 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(shot)
 	}
 }
+
+func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
+	response, err := json.Marshal(s.game.GetFastestShot())
+	if err != nil {
+		log.Println(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
+		if err != nil {
+			log.Println(err)
+		}
+
+		return
+	}
+
+	_, err = w.Write(response)
+	if err != nil {
+		log.Println(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
+		if err != nil {
+			log.Println(err)
+		}
+
+		log.Print(err)
+	}
+}

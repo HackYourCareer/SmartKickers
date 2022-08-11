@@ -20,6 +20,7 @@ type Game interface {
 	SubGoal(int) error
 	IsFastestShot(float64) bool
 	SaveFastestShot(adapter.ShotMessage)
+	GetFastestShot() adapter.ShotMessage
 }
 
 type game struct {
@@ -107,4 +108,11 @@ func (g *game) SaveFastestShot(msg adapter.ShotMessage) {
 	defer g.m.Unlock()
 	g.fastestShot.Speed = msg.Speed
 	g.fastestShot.Team = msg.Team
+}
+
+func (g *game) GetFastestShot() adapter.ShotMessage {
+	g.m.RLock()
+	defer g.m.RUnlock()
+
+	return g.fastestShot
 }
