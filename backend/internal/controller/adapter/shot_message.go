@@ -6,8 +6,8 @@ import (
 )
 
 type ShotMessage struct {
-	Speed     float64
-	StartArea int
+	Speed float64
+	Team  int
 }
 
 type tableShotParams struct {
@@ -28,20 +28,27 @@ type tableShotMsg struct {
 }
 
 func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
-	var shotMessage tableShotMsg
-	var params tableShotParams
+	var (
+		shotMessage tableShotMsg
+		params      tableShotParams
+	)
 
 	err := json.NewDecoder(message).Decode(&shotMessage)
 	if err != nil {
 		return ShotMessage{}, err
 	}
+
 	err = json.Unmarshal(shotMessage.Params[0], &params)
 	if err != nil {
 		return ShotMessage{}, err
 	}
 
 	return ShotMessage{
-		Speed:     params.Speed,
-		StartArea: params.StartArea,
+		Speed: params.Speed,
+		Team:  decodeTeam(params.StartArea),
 	}, nil
+}
+
+func decodeTeam(a int) int {
+	return a%2 + 1
 }

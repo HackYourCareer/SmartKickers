@@ -3,6 +3,8 @@ package model
 import (
 	"errors"
 	"sync"
+
+	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
 )
 
 const (
@@ -16,12 +18,15 @@ type Game interface {
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
+	IsFastestShot(float64) bool
+	SaveFastestShot(adapter.ShotMessage)
 }
 
 type game struct {
 	score        GameScore
 	scoreChannel chan GameScore
 	m            sync.RWMutex
+	fastestShot  adapter.ShotMessage
 }
 
 type GameScore struct {
@@ -44,6 +49,7 @@ func (g *game) ResetScore() {
 func (g *game) AddGoal(teamID int) error {
 	g.m.Lock()
 	defer g.m.Unlock()
+
 	switch teamID {
 	case TeamWhite:
 		g.score.WhiteScore++
@@ -53,12 +59,14 @@ func (g *game) AddGoal(teamID int) error {
 		return errors.New("bad team ID")
 	}
 	g.scoreChannel <- g.score
+
 	return nil
 }
 
 func (g *game) GetScore() GameScore {
 	g.m.RLock()
 	defer g.m.RUnlock()
+
 	return g.score
 }
 
@@ -69,6 +77,7 @@ func (g *game) GetScoreChannel() chan GameScore {
 func (g *game) SubGoal(teamID int) error {
 	g.m.Lock()
 	defer g.m.Unlock()
+
 	switch teamID {
 	case TeamWhite:
 		if g.score.WhiteScore > 0 {
@@ -82,6 +91,20 @@ func (g *game) SubGoal(teamID int) error {
 		return errors.New("bad team ID")
 	}
 	g.scoreChannel <- g.score
-	return nil
 
+	return nil
+}
+
+func (g *game) IsFastestShot(speed float64) bool {
+	g.m.RLock()
+	defer g.m.RUnlock()
+
+	return g.fastestShot.Speed < speed
+}
+
+func (g *game) SaveFastestShot(msg adapter.ShotMessage) {
+	g.m.Lock()
+	defer g.m.Unlock()
+	g.fastestShot.Speed = msg.Speed
+	g.fastestShot.Team = msg.Team
 }

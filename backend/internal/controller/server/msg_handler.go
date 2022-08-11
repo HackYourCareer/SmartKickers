@@ -51,8 +51,6 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s server) createResponse(reader io.Reader) ([]byte, error) {
-
-	//unpac goal?
 	message, err := adapter.UnpackDispatcherMsg(reader)
 	if err != nil {
 		return nil, err
@@ -63,7 +61,6 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 	case adapter.MsgGoal:
 		err := s.game.AddGoal(message.Team)
 		return nil, err
-	//case to fastest shoat?
 	default:
 		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
 	}
@@ -172,11 +169,13 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		message, err := adapter.UnpackShotMsg(receivedMsg)
+		shot, err := adapter.UnpackShotMsg(receivedMsg)
 		if err != nil {
 			log.Println(err)
 		}
-
-		log.Println(message)
+		if s.game.IsFastestShot(shot.Speed) {
+			s.game.SaveFastestShot(shot)
+		}
+		log.Println(shot)
 	}
 }
