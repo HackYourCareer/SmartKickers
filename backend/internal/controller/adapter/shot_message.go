@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+
+	"github.com/HackYourCareer/SmartKickers/internal/model"
 )
 
 type ShotMessage struct {
@@ -48,12 +50,31 @@ func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
 		return ShotMessage{}, err
 	}
 
+	teamID, err := decodeTeam(params.StartArea)
+	if err != nil {
+		return ShotMessage{}, err
+	}
+
 	return ShotMessage{
 		Speed: params.Speed,
-		Team:  decodeTeam(params.StartArea),
+		Team:  teamID,
 	}, nil
 }
 
-func decodeTeam(a int) int {
-	return a%2 + 1
+func decodeTeam(areaID int) (int, error) {
+	white := [4]int{20, 21, 23, 25}
+	blue := [4]int{22, 24, 26, 27}
+	for _, w := range white {
+		if w == areaID {
+			return model.TeamWhite, nil
+		}
+	}
+
+	for _, b := range blue {
+		if b == areaID {
+			return model.TeamBlue, nil
+		}
+	}
+
+	return 0, fmt.Errorf("couldn't decode teamID")
 }
