@@ -15,7 +15,8 @@ type tableShotParams struct {
 	TimeEnd   int     `json:"TimeEnd,omitempty"`
 	Speed     float64 `json:"Speed,omitempty"`
 	StartArea int     `json:"StartArea,omitempty"`
-	GameID    int     `json:"GameID,omitempty"`
+	EndArea   int     `json:"EndArea,omitempty"`
+	GameID    string  `json:"GameID,omitempty"`
 	Sequence  int     `json:"Sequence,omitempty"`
 	ID        string  `json:"ID,omitempty"`
 }
