@@ -134,7 +134,7 @@ func TestUnpack(t *testing.T) {
 			jsn, _ := json.Marshal(tt.msgIn)
 			reader := bytes.NewReader(jsn)
 
-			msg, _ := Unpack(reader)
+			msg, _ := UnpackDispatcherMsg(reader)
 			assert.Equal(t, msg, tt.ExpectedMsgOut)
 		})
 	}
