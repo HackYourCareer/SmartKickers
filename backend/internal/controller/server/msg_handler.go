@@ -37,7 +37,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		response, err := s.createResponse(receivedMsg)
 
 		if err != nil {
-			log.Error(err)
+			log.Debug(err)
 			continue
 		}
 		if response != nil {
@@ -157,7 +157,7 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println(err)
+		log.Error(err)
 	}
 
 	defer c.Close()
@@ -165,28 +165,28 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 			continue
 		}
 
 		shot, err := adapter.UnpackShotMsg(receivedMsg)
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 		}
 		if s.game.IsFastestShot(shot.Speed) {
 			s.game.SaveFastestShot(shot)
 		}
-		log.Println(shot)
+		log.Debug(shot)
 	}
 }
 
 func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 	response, err := json.Marshal(s.game.GetFastestShot())
 	if err != nil {
-		log.Println(err)
+		log.Error(err)
 		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 		}
 
 		return
@@ -194,12 +194,12 @@ func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 
 	_, err = w.Write(response)
 	if err != nil {
-		log.Println(err)
+		log.Error(err)
 		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 		}
 
-		log.Print(err)
+		log.Error(err)
 	}
 }
