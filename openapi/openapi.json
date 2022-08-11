@@ -4,7 +4,8 @@
     "title": "Smart Kickers - OpenAPI 3.0",
     "description": "Documentation describing API for Smart Kickers server.",
     "contact": {
-      "url": "https://wiki.one.int.sap/wiki/display/saplabspoland/Beavers+Team"
+      "url": "https://wiki.one.int.sap/wiki/display/saplabspoland/Beavers+Team",
+      "email": "piotr.kolodziejski@sap.com"
     },
     "license": {
       "name": "Apache 2.0",
@@ -34,9 +35,7 @@
   "paths": {
     "/reset": {
       "post": {
-        "tags": [
-          "reset"
-        ],
+        "tags": ["reset"],
         "summary": "Resets score of current game",
         "description": "Set the score of current game to default state 0:0.",
         "operationId": "reset",
@@ -49,9 +48,7 @@
     },
     "/goal": {
       "post": {
-        "tags": [
-          "goal"
-        ],
+        "tags": ["goal"],
         "summary": "Manipulation of current game score",
         "description": "Edit the score manually by either adding or subtracting the goals for either team white (with team ID 1) or team blue (with team ID 2).",
         "responses": {
@@ -95,19 +92,13 @@
             "type": "string",
             "description": "Action type.",
             "example": "add",
-            "enum": [
-              "add",
-              "sub"
-            ]
+            "enum": ["add", "sub"]
           },
           "team": {
             "type": "integer",
             "description": "Team ID. Value 1 stands for team white and 2 stands for team blue.",
             "example": 1,
-            "enum": [
-              1,
-              2
-            ]
+            "enum": [1, 2]
           }
         }
       }
