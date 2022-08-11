@@ -71,7 +71,7 @@ function App() {
           }{' '}
         </>
       ) : (
-        <GameStatistics finalScores={finalScores} handleEndGame={handleEndGame} />
+        <GameStatistics finalScores={finalScores} handleEndGame={handleEndGame} handleResetGame={handleResetGame} />
       )}
     </>
   );

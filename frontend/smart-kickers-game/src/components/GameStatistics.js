@@ -3,7 +3,7 @@ import './GameStatistics.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../components/Button.js';
 
-function GameStatistics({ finalScores, handleEndGame }) {
+function GameStatistics({ finalScores, handleEndGame, handleResetGame }) {
   function handleNewGame() {
     handleEndGame();
     console.log('dupa');
@@ -37,7 +37,13 @@ function GameStatistics({ finalScores, handleEndGame }) {
           </tr>
         </tbody>
       </table>
-      <Button className="btn--primary new-game-btn" onClick={() => handleNewGame()}>
+      <Button
+        className="btn--primary new-game-btn"
+        onClick={() => {
+          handleNewGame();
+          handleResetGame();
+        }}
+      >
         New game
       </Button>
     </>
