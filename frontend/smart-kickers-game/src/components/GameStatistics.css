@@ -10,13 +10,27 @@ td {
   table-layout: fixed;
   width: 33.3%;
   text-align: center;
-  padding: 5px 0 5px; 
+  padding: 5px 0 5px;
 }
-.bluePerson, .whitePerson {
-padding-right: 10px;
-font-size: 120%;
+.blueTeamIcon,
+.whiteTeamIcon {
+  padding-right: 10px;
+  font-size: 120%;
 }
 h2 {
   text-align: center;
   padding-top: 20px;
+}
+.new-game-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+  z-index: 10;
+  border: none;
+  transition: 700ms;
+}
+.new-game-btn:hover {
+  background-color: var(--my-green);
+  color: var(--my-dark-background);
+  scale: calc(1.3);
 }

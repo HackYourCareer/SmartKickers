@@ -8,7 +8,7 @@
   --html-color: #555;
   --background-color: #414242;
   --font-color: #f2f2f2;
-  --blue-icon:#58c1d6;
+  --blue-icon: #58c1d6;
 }
 
 * {
@@ -26,11 +26,11 @@ html {
   color: var(--font-color);
 }
 
-.whitePerson {
+.whiteTeamIcon {
   color: var(--font-color);
 }
 
-.bluePerson {
+.blueTeamIcon {
   color: var(--blue-icon);
 }
 
@@ -49,4 +49,3 @@ h1 {
   font-size: 280%;
   text-align: center;
 }
-

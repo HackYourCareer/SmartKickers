@@ -38,7 +38,6 @@ function App() {
 
   function handleEndGame() {
     setToggleGameScore(!toggleGameScore);
-    console.log('dupsko');
   }
 
   return (
@@ -58,7 +57,7 @@ function App() {
           }{' '}
         </>
       ) : (
-        <GameStatistics blueScore={0} whiteScore={0} />
+        <GameStatistics blueScore={0} whiteScore={0} handleEndGame={handleEndGame} />
       )}
     </>
   );
