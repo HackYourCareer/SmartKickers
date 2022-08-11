@@ -6,7 +6,6 @@ import { Button } from '../components/Button.js';
 function GameStatistics({ finalScores, handleEndGame, handleResetGame }) {
   function handleNewGame() {
     handleEndGame();
-    console.log('dupa');
   }
   return (
     <>
