@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/HackYourCareer/SmartKickers/internal/model"
+	"github.com/HackYourCareer/SmartKickers/internal/config"
 )
 
 type ShotMessage struct {
@@ -66,13 +66,13 @@ func decodeTeam(areaID int) (int, error) {
 	blue := [4]int{22, 24, 26, 27}
 	for _, w := range white {
 		if w == areaID {
-			return model.TeamWhite, nil
+			return config.TeamWhite, nil
 		}
 	}
 
 	for _, b := range blue {
 		if b == areaID {
-			return model.TeamBlue, nil
+			return config.TeamBlue, nil
 		}
 	}
 

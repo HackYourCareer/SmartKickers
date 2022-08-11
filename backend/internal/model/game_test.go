@@ -3,6 +3,7 @@ package model
 import (
 	"testing"
 
+	"github.com/HackYourCareer/SmartKickers/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -39,8 +40,8 @@ func TestAddGoal(t *testing.T) {
 		expectedError      string
 	}
 	tests := []args{
-		{name: "should increment team white score by one", teamID: TeamWhite, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: ""},
-		{name: "should increment team blue score by one", teamID: TeamBlue, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: ""},
+		{name: "should increment team white score by one", teamID: config.TeamWhite, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: ""},
+		{name: "should increment team blue score by one", teamID: config.TeamBlue, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: ""},
 		{name: "should cause an error when invalid team ID", teamID: -1, expectedBlueScore: 0, expectedWhiteScore: 0, expectedError: "bad team ID"},
 	}
 
@@ -71,9 +72,9 @@ func TestGameSubGoal(t *testing.T) {
 		expectedError      string
 	}
 	tests := []args{
-		{name: "should decrement team white score by one", teamID: TeamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
-		{name: "should decrement team blue score by one", teamID: TeamBlue, expectedBlueScore: 1, expectedWhiteScore: 1, expectedError: ""},
-		{name: "should not decrement team blue score by one", teamID: TeamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
+		{name: "should decrement team white score by one", teamID: config.TeamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
+		{name: "should decrement team blue score by one", teamID: config.TeamBlue, expectedBlueScore: 1, expectedWhiteScore: 1, expectedError: ""},
+		{name: "should not decrement team blue score by one", teamID: config.TeamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
 		{name: "should cause an error when invalid team ID", teamID: -1, expectedBlueScore: 2, expectedWhiteScore: 1, expectedError: "bad team ID"},
 	}
 

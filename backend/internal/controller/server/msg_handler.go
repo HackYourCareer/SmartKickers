@@ -7,17 +7,13 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/HackYourCareer/SmartKickers/internal/config"
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
-	"github.com/HackYourCareer/SmartKickers/internal/model"
 	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 )
 
-const (
-	messageTypeText = 1
-	attributeTeam   = "team"
-	attributeAction = "action"
-)
+const messageTypeText = 1
 
 func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
@@ -121,7 +117,7 @@ func waitForError(c *websocket.Conn, ch chan error) {
 // Team ID 1 stands for white and 2 for blue.
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
-	team := r.URL.Query().Get(attributeTeam)
+	team := r.URL.Query().Get(config.AttributeTeam)
 
 	teamID, err := strconv.Atoi(team)
 	if err != nil || !isValidTeamID(teamID) {
@@ -129,7 +125,7 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	switch action := r.URL.Query().Get(attributeAction); action {
+	switch action := r.URL.Query().Get(config.AttributeAction); action {
 	case "add":
 		s.game.AddGoal(teamID)
 	case "sub":
@@ -150,7 +146,7 @@ func writeHTTPError(w http.ResponseWriter, header int, msg string) error {
 }
 
 func isValidTeamID(teamID int) bool {
-	return (teamID == model.TeamWhite || teamID == model.TeamBlue)
+	return (teamID == config.TeamWhite || teamID == config.TeamBlue)
 }
 
 func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
