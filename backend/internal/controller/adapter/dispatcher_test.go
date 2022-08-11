@@ -12,13 +12,13 @@ func TestGetMessageCategory(t *testing.T) {
 
 	type args struct {
 		name             string
-		message          dispatcherMsg
+		msg              dispatcherMsg
 		expectedCategory MsgCategory
 	}
 	tests := []args{
 		{
 			name: "initial message, should return MsgInitial",
-			message: dispatcherMsg{
+			msg: dispatcherMsg{
 				MsgType: "INITIAL",
 				Goal:    0,
 				X:       0,
@@ -27,7 +27,7 @@ func TestGetMessageCategory(t *testing.T) {
 			expectedCategory: MsgInitial},
 		{
 			name: "goal message, should return MsgGoal",
-			message: dispatcherMsg{
+			msg: dispatcherMsg{
 				MsgType: "",
 				Goal:    1,
 				X:       0,
@@ -36,7 +36,7 @@ func TestGetMessageCategory(t *testing.T) {
 			expectedCategory: MsgGoal},
 		{
 			name: "position message, should return MsgNone",
-			message: dispatcherMsg{
+			msg: dispatcherMsg{
 				MsgType: "",
 				Goal:    0,
 				X:       4,
@@ -45,7 +45,7 @@ func TestGetMessageCategory(t *testing.T) {
 			expectedCategory: MsgNone},
 		{
 			name: "unexpected message, should return MsgNone",
-			message: dispatcherMsg{
+			msg: dispatcherMsg{
 				MsgType: "SOMETHING",
 				Goal:    0,
 				X:       15,
@@ -55,7 +55,7 @@ func TestGetMessageCategory(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			category := tt.message.getMessageCategory()
+			category := tt.msg.getMessageCategory()
 			assert.Equal(t, category, tt.expectedCategory)
 		})
 	}
