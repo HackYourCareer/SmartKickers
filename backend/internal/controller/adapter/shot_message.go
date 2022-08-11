@@ -6,8 +6,8 @@ import (
 )
 
 type ShotMessage struct {
-	Speed float64
-	ID    string
+	Speed     float64
+	StartArea int
 }
 
 type tableShotParams struct {
@@ -41,7 +41,7 @@ func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
 	}
 
 	return ShotMessage{
-		Speed: params.Speed,
-		ID:    params.ID,
+		Speed:     params.Speed,
+		StartArea: params.StartArea,
 	}, nil
 }
