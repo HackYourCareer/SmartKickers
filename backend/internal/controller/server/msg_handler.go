@@ -24,6 +24,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Error(err)
+		return
 	}
 
 	defer c.Close()
@@ -32,7 +33,10 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
 			log.Error(err)
-			continue
+			if websocket.IsCloseError(err, websocket.CloseAbnormalClosure) {
+				log.Error("Closing TableMessagesHandler")
+				return
+			}
 		}
 		response, err := s.createResponse(receivedMsg)
 
