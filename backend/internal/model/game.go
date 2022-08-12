@@ -4,12 +4,8 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/HackYourCareer/SmartKickers/internal/config"
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
-)
-
-const (
-	TeamWhite = 1
-	TeamBlue  = 2
 )
 
 type Game interface {
@@ -52,9 +48,9 @@ func (g *game) AddGoal(teamID int) error {
 	defer g.m.Unlock()
 
 	switch teamID {
-	case TeamWhite:
+	case config.TeamWhite:
 		g.score.WhiteScore++
-	case TeamBlue:
+	case config.TeamBlue:
 		g.score.BlueScore++
 	default:
 		return errors.New("bad team ID")
@@ -80,11 +76,11 @@ func (g *game) SubGoal(teamID int) error {
 	defer g.m.Unlock()
 
 	switch teamID {
-	case TeamWhite:
+	case config.TeamWhite:
 		if g.score.WhiteScore > 0 {
 			g.score.WhiteScore--
 		}
-	case TeamBlue:
+	case config.TeamBlue:
 		if g.score.BlueScore > 0 {
 			g.score.BlueScore--
 		}
