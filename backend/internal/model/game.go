@@ -7,6 +7,8 @@ import (
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Game interface {
@@ -15,7 +17,6 @@ type Game interface {
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
-	IsFastestShot(float64) bool
 	UpdateRecordedShots(adapter.ShotMessage) error
 	GetRecordedShots() Shots
 }
@@ -43,6 +44,7 @@ func NewGame() Game {
 }
 
 func (g *game) ResetScore() {
+	log.Debug("mutex lock: ResetScore")
 	g.m.Lock()
 	defer g.m.Unlock()
 	g.score.BlueScore = 0
@@ -51,6 +53,7 @@ func (g *game) ResetScore() {
 }
 
 func (g *game) AddGoal(teamID int) error {
+	log.Debug("mutex lock: AddGoal")
 	g.m.Lock()
 	defer g.m.Unlock()
 
@@ -68,6 +71,7 @@ func (g *game) AddGoal(teamID int) error {
 }
 
 func (g *game) GetScore() GameScore {
+	log.Debug("mutex lock: GetScore")
 	g.m.RLock()
 	defer g.m.RUnlock()
 
@@ -79,6 +83,7 @@ func (g *game) GetScoreChannel() chan GameScore {
 }
 
 func (g *game) SubGoal(teamID int) error {
+	log.Debug("mutex lock: SubGoal")
 	g.m.Lock()
 	defer g.m.Unlock()
 
@@ -99,14 +104,8 @@ func (g *game) SubGoal(teamID int) error {
 	return nil
 }
 
-func (g *game) IsFastestShot(speed float64) bool {
-	g.m.RLock()
-	defer g.m.RUnlock()
-
-	return g.recordedShots.Fastest.Speed < speed
-}
-
 func (g *game) UpdateRecordedShots(shot adapter.ShotMessage) error {
+	log.Debug("mutex lock: UpdateRecordedShots")
 	g.m.Lock()
 	defer g.m.Unlock()
 
@@ -119,21 +118,24 @@ func (g *game) UpdateRecordedShots(shot adapter.ShotMessage) error {
 		return fmt.Errorf("incorrect team ID")
 	}
 
-	if g.IsFastestShot(shot.Speed) {
+	if g.isFastestShot(shot.Speed) {
 		g.saveFastestShot(shot)
 	}
 
 	return nil
 }
 
+func (g *game) isFastestShot(speed float64) bool {
+	return g.recordedShots.Fastest.Speed < speed
+}
+
 func (g *game) saveFastestShot(shot adapter.ShotMessage) {
-	g.m.Lock()
-	defer g.m.Unlock()
 	g.recordedShots.Fastest.Speed = shot.Speed
 	g.recordedShots.Fastest.Team = shot.Team
 }
 
 func (g *game) GetRecordedShots() Shots {
+	log.Debug("mutex lock: GetRecordedShots")
 	g.m.RLock()
 	defer g.m.RUnlock()
 
