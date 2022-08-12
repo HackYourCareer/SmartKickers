@@ -62,15 +62,13 @@ func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
 }
 
 func decodeTeam(areaID int) (int, error) {
-	white := [4]int{20, 21, 23, 25}
-	blue := [4]int{22, 24, 26, 27}
-	for _, w := range white {
+	for _, w := range config.WhiteTeamArea {
 		if w == areaID {
 			return config.TeamWhite, nil
 		}
 	}
 
-	for _, b := range blue {
+	for _, b := range config.BlueTeamArea {
 		if b == areaID {
 			return config.TeamBlue, nil
 		}

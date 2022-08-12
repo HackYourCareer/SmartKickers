@@ -9,3 +9,8 @@ const (
 	AttributeTeam   = "team"
 	AttributeAction = "action"
 )
+
+var (
+	WhiteTeamArea = [4]int{20, 21, 23, 25}
+	BlueTeamArea  = [4]int{22, 24, 26, 27}
+)
