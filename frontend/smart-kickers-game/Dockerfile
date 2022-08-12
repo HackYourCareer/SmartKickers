@@ -1,8 +1,8 @@
 FROM node:alpine as build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --silent
-RUN npm install react-scripts -g --silent
+RUN npm i
+#RUN npm install react-scripts -g --silent
 COPY . ./
 RUN npm run build
 
