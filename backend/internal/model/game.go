@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
@@ -15,20 +16,26 @@ type Game interface {
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
 	IsFastestShot(float64) bool
-	SaveFastestShot(adapter.ShotMessage)
-	GetFastestShot() adapter.ShotMessage
+	UpdateRecordedShots(adapter.ShotMessage) error
+	GetRecordedShots() Shots
 }
 
 type game struct {
-	score        GameScore
-	scoreChannel chan GameScore
-	m            sync.RWMutex
-	fastestShot  adapter.ShotMessage
+	score         GameScore
+	recordedShots Shots
+	scoreChannel  chan GameScore
+	m             sync.RWMutex
 }
 
 type GameScore struct {
 	BlueScore  int `json:"blueScore"`
 	WhiteScore int `json:"whiteScore"`
+}
+
+type Shots struct {
+	White   int
+	Blue    int
+	Fastest adapter.ShotMessage
 }
 
 func NewGame() Game {
@@ -96,19 +103,39 @@ func (g *game) IsFastestShot(speed float64) bool {
 	g.m.RLock()
 	defer g.m.RUnlock()
 
-	return g.fastestShot.Speed < speed
+	return g.recordedShots.Fastest.Speed < speed
 }
 
-func (g *game) SaveFastestShot(msg adapter.ShotMessage) {
+func (g *game) UpdateRecordedShots(shot adapter.ShotMessage) error {
 	g.m.Lock()
 	defer g.m.Unlock()
-	g.fastestShot.Speed = msg.Speed
-	g.fastestShot.Team = msg.Team
+
+	switch shot.Team {
+	case config.TeamWhite:
+		g.recordedShots.White++
+	case config.TeamBlue:
+		g.recordedShots.Blue++
+	default:
+		return fmt.Errorf("incorrect team ID")
+	}
+
+	if g.IsFastestShot(shot.Speed) {
+		g.saveFastestShot(shot)
+	}
+
+	return nil
 }
 
-func (g *game) GetFastestShot() adapter.ShotMessage {
+func (g *game) saveFastestShot(shot adapter.ShotMessage) {
+	g.m.Lock()
+	defer g.m.Unlock()
+	g.recordedShots.Fastest.Speed = shot.Speed
+	g.recordedShots.Fastest.Team = shot.Team
+}
+
+func (g *game) GetRecordedShots() Shots {
 	g.m.RLock()
 	defer g.m.RUnlock()
 
-	return g.fastestShot
+	return g.recordedShots
 }
