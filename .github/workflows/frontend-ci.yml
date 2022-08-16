@@ -1,0 +1,27 @@
+name: React.JS Continous Integration Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend-ci.yml"
+      - "!**/*.md"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend/smart-kickers-game
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: "Install dependencies"
+        run: npm ci
+      - run: npm test
+      - name: "Build docker image"
+        run: docker build -t frontend/dev:latest .
