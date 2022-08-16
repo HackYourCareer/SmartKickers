@@ -1,7 +1,7 @@
 import React from 'react';
 import './GameStatistics.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '../components/Button.js';
+import { Button } from '../Button/Button.js';
 
 function GameStatistics({ finalScores, handleEndGame, handleResetGame }) {
   function handleNewGame() {

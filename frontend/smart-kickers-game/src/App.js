@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Button } from './components/Button';
-import GameResults from './components/GameResults.js';
+import { Button } from './components/Button/Button';
+import GameResults from './components/Game/GameResults.js';
 import { resetGame } from './apis/resetGame';
-import GameStatistics from './components/GameStatistics.js';
+import GameStatistics from './components/Game/GameStatistics.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPerson } from '@fortawesome/free-solid-svg-icons';
 
