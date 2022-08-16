@@ -132,11 +132,19 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch action := r.URL.Query().Get(attributeAction); action {
 	case "add":
-		s.game.UpdateManualGoals(teamID, true)
-		s.game.AddGoal(teamID)
+		if err := s.game.UpdateManualGoals(teamID, "add"); err != nil {
+			log.Error(err)
+		}
+		if err = s.game.AddGoal(teamID); err != nil {
+			log.Error(err)
+		}
 	case "sub":
-		s.game.UpdateManualGoals(teamID, false)
-		s.game.SubGoal(teamID)
+		if err := s.game.UpdateManualGoals(teamID, "sub"); err != nil {
+			log.Error(err)
+		}
+		if err = s.game.SubGoal(teamID); err != nil {
+			log.Error(err)
+		}
 	default:
 		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
 			log.Error(err)

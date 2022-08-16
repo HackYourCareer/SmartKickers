@@ -16,7 +16,7 @@ type Game interface {
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
-	UpdateManualGoals(int, bool) error
+	UpdateManualGoals(int, string) error
 }
 
 type game struct {
@@ -95,28 +95,33 @@ func (g *game) SubGoal(teamID int) error {
 
 }
 
-func (g *game) UpdateManualGoals(teamID int, addGoal bool) error {
+func (g *game) UpdateManualGoals(teamID int, action string) error {
 	g.m.Lock()
 	defer g.m.Unlock()
-	if addGoal {
+
+	switch action {
+	case "add":
 		switch teamID {
 		case TeamWhite:
 			g.manualGoals.AddedWhite++
 		case TeamBlue:
 			g.manualGoals.AddedBlue++
 		default:
-			return errors.New("bad team ID")
+			return errors.New("Bad team ID")
 		}
 		return nil
-	}
-	switch teamID {
-	case TeamWhite:
-		g.manualGoals.SubtractedWhite++
-	case TeamBlue:
-		g.manualGoals.SubtractedBlue++
+	case "sub":
+		switch teamID {
+		case TeamWhite:
+			g.manualGoals.SubtractedWhite++
+		case TeamBlue:
+			g.manualGoals.SubtractedBlue++
+		default:
+			return errors.New("Bad team ID")
+		}
+		return nil
 	default:
-		return errors.New("bad team ID")
-	}
+		return errors.New("Bad action type. Action should be either 'add' or 'sub'.")
 
-	return nil
+	}
 }
