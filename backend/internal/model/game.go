@@ -44,7 +44,7 @@ func NewGame() Game {
 }
 
 func (g *game) ResetScore() {
-	log.Debug("mutex lock: ResetScore")
+	log.Trace("mutex lock: ResetScore")
 	g.m.Lock()
 	defer g.m.Unlock()
 	g.score.BlueScore = 0
@@ -53,7 +53,7 @@ func (g *game) ResetScore() {
 }
 
 func (g *game) AddGoal(teamID int) error {
-	log.Debug("mutex lock: AddGoal")
+	log.Trace("mutex lock: AddGoal")
 	g.m.Lock()
 	defer g.m.Unlock()
 
@@ -71,7 +71,7 @@ func (g *game) AddGoal(teamID int) error {
 }
 
 func (g *game) GetScore() GameScore {
-	log.Debug("mutex lock: GetScore")
+	log.Trace("mutex lock: GetScore")
 	g.m.RLock()
 	defer g.m.RUnlock()
 
@@ -83,7 +83,7 @@ func (g *game) GetScoreChannel() chan GameScore {
 }
 
 func (g *game) SubGoal(teamID int) error {
-	log.Debug("mutex lock: SubGoal")
+	log.Trace("mutex lock: SubGoal")
 	g.m.Lock()
 	defer g.m.Unlock()
 
@@ -105,7 +105,7 @@ func (g *game) SubGoal(teamID int) error {
 }
 
 func (g *game) UpdateShotsData(shot adapter.ShotMessage) error {
-	log.Debug("mutex lock: UpdateRecordedShots")
+	log.Trace("mutex lock: UpdateRecordedShots")
 	g.m.Lock()
 	defer g.m.Unlock()
 
@@ -135,7 +135,7 @@ func (g *game) saveFastestShot(shot adapter.ShotMessage) {
 }
 
 func (g *game) GetShotsData() ShotsData {
-	log.Debug("mutex lock: GetRecordedShots")
+	log.Trace("mutex lock: GetRecordedShots")
 	g.m.RLock()
 	defer g.m.RUnlock()
 

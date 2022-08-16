@@ -168,6 +168,7 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 		shot, err := adapter.UnpackShotMsg(receivedMsg)
 		if err != nil {
 			log.Error(err)
+			continue
 		}
 
 		err = s.game.UpdateShotsData(shot)
