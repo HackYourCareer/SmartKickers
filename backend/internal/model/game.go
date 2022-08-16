@@ -16,17 +16,26 @@ type Game interface {
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
+	UpdateManualGoals(int, bool) error
 }
 
 type game struct {
 	score        GameScore
 	scoreChannel chan GameScore
+	manualGoals  ManualGoals
 	m            sync.RWMutex
 }
 
 type GameScore struct {
 	BlueScore  int `json:"blueScore"`
 	WhiteScore int `json:"whiteScore"`
+}
+
+type ManualGoals struct {
+	AddedBlue       int
+	SubtractedBlue  int
+	AddedWhite      int
+	SubtractedWhite int
 }
 
 func NewGame() Game {
@@ -84,4 +93,30 @@ func (g *game) SubGoal(teamID int) error {
 	g.scoreChannel <- g.score
 	return nil
 
+}
+
+func (g *game) UpdateManualGoals(teamID int, addGoal bool) error {
+	g.m.Lock()
+	defer g.m.Unlock()
+	if addGoal {
+		switch teamID {
+		case TeamWhite:
+			g.manualGoals.AddedWhite++
+		case TeamBlue:
+			g.manualGoals.AddedBlue++
+		default:
+			return errors.New("bad team ID")
+		}
+		return nil
+	}
+	switch teamID {
+	case TeamWhite:
+		g.manualGoals.SubtractedWhite++
+	case TeamBlue:
+		g.manualGoals.SubtractedBlue++
+	default:
+		return errors.New("bad team ID")
+	}
+
+	return nil
 }
