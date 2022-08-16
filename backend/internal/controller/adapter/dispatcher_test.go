@@ -61,7 +61,7 @@ func TestGetMessageCategory(t *testing.T) {
 	}
 }
 
-func TestUnpack(t *testing.T) {
+func TestUnpackDispatcherMsg(t *testing.T) {
 	type args struct {
 		name           string
 		msgIn          dispatcherMsg
