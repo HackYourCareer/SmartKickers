@@ -17,15 +17,15 @@ type Game interface {
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
-	UpdateRecordedShots(adapter.ShotMessage) error
-	GetRecordedShots() Shots
+	UpdateShotsData(adapter.ShotMessage) error
+	GetShotsData() ShotsData
 }
 
 type game struct {
-	score         GameScore
-	recordedShots Shots
-	scoreChannel  chan GameScore
-	m             sync.RWMutex
+	score        GameScore
+	shotsData    ShotsData
+	scoreChannel chan GameScore
+	m            sync.RWMutex
 }
 
 type GameScore struct {
@@ -33,10 +33,10 @@ type GameScore struct {
 	WhiteScore int `json:"whiteScore"`
 }
 
-type Shots struct {
-	White   int
-	Blue    int
-	Fastest adapter.ShotMessage
+type ShotsData struct {
+	WhiteCount int
+	BlueCount  int
+	Fastest    adapter.ShotMessage
 }
 
 func NewGame() Game {
@@ -104,16 +104,16 @@ func (g *game) SubGoal(teamID int) error {
 	return nil
 }
 
-func (g *game) UpdateRecordedShots(shot adapter.ShotMessage) error {
+func (g *game) UpdateShotsData(shot adapter.ShotMessage) error {
 	log.Debug("mutex lock: UpdateRecordedShots")
 	g.m.Lock()
 	defer g.m.Unlock()
 
 	switch shot.Team {
 	case config.TeamWhite:
-		g.recordedShots.White++
+		g.shotsData.WhiteCount++
 	case config.TeamBlue:
-		g.recordedShots.Blue++
+		g.shotsData.BlueCount++
 	default:
 		return fmt.Errorf("incorrect team ID")
 	}
@@ -126,18 +126,18 @@ func (g *game) UpdateRecordedShots(shot adapter.ShotMessage) error {
 }
 
 func (g *game) isFastestShot(speed float64) bool {
-	return g.recordedShots.Fastest.Speed < speed
+	return g.shotsData.Fastest.Speed < speed
 }
 
 func (g *game) saveFastestShot(shot adapter.ShotMessage) {
-	g.recordedShots.Fastest.Speed = shot.Speed
-	g.recordedShots.Fastest.Team = shot.Team
+	g.shotsData.Fastest.Speed = shot.Speed
+	g.shotsData.Fastest.Team = shot.Team
 }
 
-func (g *game) GetRecordedShots() Shots {
+func (g *game) GetShotsData() ShotsData {
 	log.Debug("mutex lock: GetRecordedShots")
 	g.m.RLock()
 	defer g.m.RUnlock()
 
-	return g.recordedShots
+	return g.shotsData
 }

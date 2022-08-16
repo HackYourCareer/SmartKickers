@@ -170,7 +170,7 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 			log.Error(err)
 		}
 
-		err = s.game.UpdateRecordedShots(shot)
+		err = s.game.UpdateShotsData(shot)
 		if err != nil {
 			log.Error(err)
 		}
@@ -180,7 +180,7 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := json.Marshal(s.game.GetRecordedShots().Fastest)
+	response, err := json.Marshal(s.game.GetShotsData().Fastest)
 	if err != nil {
 		log.Error(err)
 		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
