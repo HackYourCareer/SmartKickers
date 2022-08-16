@@ -107,7 +107,7 @@ func (g *game) UpdateManualGoals(teamID int, action string) error {
 		case TeamBlue:
 			g.manualGoals.AddedBlue++
 		default:
-			return errors.New("Bad team ID")
+			return errors.New("bad team ID")
 		}
 		return nil
 	case "sub":
@@ -117,11 +117,11 @@ func (g *game) UpdateManualGoals(teamID int, action string) error {
 		case TeamBlue:
 			g.manualGoals.SubtractedBlue++
 		default:
-			return errors.New("Bad team ID")
+			return errors.New("bad team ID")
 		}
 		return nil
 	default:
-		return errors.New("Bad action type. Action should be either 'add' or 'sub'.")
+		return errors.New("bad action type")
 
 	}
 }
