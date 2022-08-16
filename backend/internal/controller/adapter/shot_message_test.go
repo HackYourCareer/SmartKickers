@@ -79,7 +79,49 @@ func TestUnpackShotMsg(t *testing.T) {
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
-			assert.Equal(t, msg, tt.expectedMsgOut)
+			assert.Equal(t, tt.expectedMsgOut, msg)
+		})
+	}
+}
+
+func TestDecodeTeam(t *testing.T) {
+	type args struct {
+		name          string
+		areas         []int
+		expectedTeam  int
+		expectedError string
+	}
+	tests := []args{
+		{
+			name:          "should return team white",
+			areas:         config.WhiteTeamArea[:],
+			expectedTeam:  config.TeamWhite,
+			expectedError: "",
+		},
+		{
+			name:          "should return team blue",
+			areas:         config.BlueTeamArea[:],
+			expectedTeam:  config.TeamBlue,
+			expectedError: "",
+		},
+		{
+			name:          "should return error",
+			areas:         []int{0, 1, 5, -15, 55, 700},
+			expectedTeam:  0,
+			expectedError: "couldn't decode teamID",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			for _, area := range tt.areas {
+				team, err := decodeTeam(area)
+				if tt.expectedError == "" {
+					assert.Nil(t, err)
+				} else {
+					assert.EqualError(t, err, tt.expectedError)
+				}
+				assert.Equal(t, tt.expectedTeam, team)
+			}
 		})
 	}
 }
