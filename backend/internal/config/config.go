@@ -7,7 +7,7 @@ const (
 	TeamWhite = 1
 	TeamBlue  = 2
 
-	//	Constants for querying variables from URL's from react
+	// Constants for query attributes from API URLs
 	AttributeTeam   = "team"
 	AttributeAction = "action"
 )
