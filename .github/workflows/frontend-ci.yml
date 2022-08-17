@@ -2,11 +2,7 @@ name: React.JS Continous Integration Workflow
 
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - ready_for_review
+    types: [opened, reopened, synchronize, ready_for_review]
     branches:
       - main
       - develop
