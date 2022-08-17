@@ -4,12 +4,8 @@ import { Button } from './components/Button/Button';
 import GameResults from './components/Game/GameResults.js';
 import { resetGame } from './apis/resetGame';
 import GameStatistics from './components/Game/GameStatistics.js';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPerson } from '@fortawesome/free-solid-svg-icons';
-
+import { initLibs } from './appConfig';
 import config from './config';
-
-library.add(faPerson);
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
@@ -17,6 +13,7 @@ function App() {
   const [toggleGameScore, setToggleGameScore] = useState(false);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
   useEffect(() => {
+    initLibs();
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
 
     socket.onopen = function () {
