@@ -9,7 +9,7 @@ import CurrentGameplay from './components/Game/CurrentGameplay';
 function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
-  const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(true);
+  const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
   useEffect(() => {
     initLibs();
@@ -40,9 +40,9 @@ function App() {
     <>
       <h1>Smart Kickers</h1>
       {isStatisticsDisplayed ? (
-        <CurrentGameplay blueScore={blueScore} whiteScore={whiteScore} handleResetGame={handleResetGame} handleEndGame={handleEndGame} />
+        <GameStatistics finalScores={finalScores} setIsStatisticsDisplayed={setIsStatisticsDisplayed} />
       ) : (
-        <GameStatistics finalScores={finalScores} handleEndGame={handleEndGame} handleResetGame={handleResetGame} />
+        <CurrentGameplay blueScore={blueScore} whiteScore={whiteScore} handleResetGame={handleResetGame} handleEndGame={handleEndGame} />
       )}
     </>
   );
