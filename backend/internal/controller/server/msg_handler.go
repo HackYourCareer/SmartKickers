@@ -24,6 +24,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Error(err)
+		return
 	}
 
 	defer c.Close()
@@ -32,6 +33,10 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
 			log.Error(err)
+			if websocket.IsCloseError(err, websocket.CloseAbnormalClosure) {
+				log.Error("Closing TableMessagesHandler")
+				return
+			}
 			continue
 		}
 		response, err := s.createResponse(receivedMsg)
@@ -97,7 +102,6 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		case score := <-s.game.GetScoreChannel():
 			if err := c.WriteJSON(score); err != nil {
 				log.Error(err)
-				break
 			}
 		case err := <-closeConnChan:
 			log.Error(err)
