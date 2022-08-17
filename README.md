@@ -72,7 +72,12 @@ We are using macOS to build and run everything locally.
    ./requirementsCheck.sh
    ```
 
-   > **NOTE:** Be sure to give permission for the script to execute.
+   > **NOTE:** Be sure to give permission for the script to execute.<br/>
+   > If the script does not execute, try:
+
+   ```bash
+   sudo ./requirementsCheck.sh
+   ```
 
 3. Install missing dependencies.
 
@@ -87,7 +92,7 @@ We are using macOS to build and run everything locally.
 
 > **NOTE:** Configuration files for the camera view are provided by the developers in [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
 
-1. Switch to `SmartKickers/backend` and launch the go server.
+1. Switch to [`SmartKickers/backend`](SmartKickers/backend) and launch the go server.
 
    ```bash
    cd SmartKickers/backend
@@ -100,7 +105,7 @@ We are using macOS to build and run everything locally.
        <img src="assets/goLaunch.png">
    </h1>
 
-2. In new termnial switch to `SmartKickersAI/LocalServer/server` and launch the node server.
+2. In new terminal switch to [`SmartKickersAI/LocalServer/server`](SmartKickersAI/LocalServer/server) and launch the node server.
 
    ```bash
    cd SmartKickersAI/LocalServer/server
@@ -121,20 +126,19 @@ We are using macOS to build and run everything locally.
        <img src="assets/goWithNode.png">
    </h1>
 
-3. In new termnial switch to `SmartKickers/frontend/smart-kickers-game` and launch the react client.
+3. In new termnial switch to [`SmartKickers/frontend/smart-kickers-game`](SmartKickers/frontend/smart-kickers-game) and launch the react client.
 
    ```bash
    npm start
    ```
 
-   Your react app should look like this.
+   Properly working React application looks like this.
 
-   > **NOTE**: The Team 1 score in the go server corresponds to Team Blue score in the react app and Team 2 corresponds to Team White.
+   > **NOTE**: Team 1's score on the Go server represents the Blue Team's score in React, and Team 2's score represents the White Team's score.
 
-   <h1 align="center">
-       <img src="assets/reactApp.png">
-   </h1>
+      <h1 align="center">
+          <img src="assets/reactApp.png">
+      </h1>
 
-## Development
-
-More details for developers will be provided soon in separate Readme files for the frontend, backend and SmartKickersAI.
+   <!-- ## Development
+   More details for developers may be provided soon in separate Readme files for the frontend, backend and SmartKickersAI. -->
