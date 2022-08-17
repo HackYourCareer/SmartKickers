@@ -12,17 +12,15 @@ The following repository contains:
 ## Features
 
 - Keeping track of the score.
+- Manually adjust the score.
 
 ## Prerequisites
 
 - [python](https://www.python.org/downloads/macos/) in version 3.10.5 or higher
 - [node](https://nodejs.org/en/download/) in version 16.16.0 or higher
-- [go](https://go.dev/dl/) in version 1.18.3 or higher
 - npm in version 8.11.0 or higher
+- [go](https://go.dev/dl/) in version 1.18.3 or higher
 - [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
-
-## Requirements
-
 - [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package) (macOS)
 - opencv-python
 
@@ -56,7 +54,7 @@ The following repository contains:
 
 ## Installation
 
-We are using macOS to build and run everything locally for now.
+We are using macOS to build and run everything locally.
 
 1. Clone the repositories.
 
@@ -65,7 +63,7 @@ We are using macOS to build and run everything locally for now.
    git clone https://github.com/HackYourCareer/SmartKickersAI.git
    ```
 
-2. Run the requirementsCheck.sh script to check if your system fulfils all requirements.
+2. Run the [`requirementsCheck.sh`](requirementsCheck.sh) script to check if your system fulfils all requirements.
 
    The script will look for open-cv, numpy, imutils, ximer driver only after successfully installing python! So if you don't have python it won't print missing python dependent packages except python itself.
 
@@ -78,7 +76,7 @@ We are using macOS to build and run everything locally for now.
 
 3. Install missing dependencies.
 
-4. Switch to **frontend/smart-kickers-game** and run npm install.
+4. Switch to [`frontend/smart-kickers-game`](frontend/smart-kickers-game) and run npm install.
 
    ```bash
    cd frontend/smart-kickers-game
@@ -87,9 +85,9 @@ We are using macOS to build and run everything locally for now.
 
 ## Launching
 
-> **NOTE:** The configuration for the table is provided by the developers in SmartKickersAI. In the future, there will be a manual to help to customize the configuration for any table to achieve the best ball detection accuracy.
+> **NOTE:** Configuration files for the camera view are provided by the developers in [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
 
-1. Switch to **SmartKickers/backend** and launch the go server.
+1. Switch to `SmartKickers/backend` and launch the go server.
 
    ```bash
    cd SmartKickers/backend
@@ -102,7 +100,7 @@ We are using macOS to build and run everything locally for now.
        <img src="assets/goLaunch.png">
    </h1>
 
-2. In new termnial switch to **SmartKickersAI/LocalServer/server** and launch the node server.
+2. In new termnial switch to `SmartKickersAI/LocalServer/server` and launch the node server.
 
    ```bash
    cd SmartKickersAI/LocalServer/server
@@ -123,7 +121,7 @@ We are using macOS to build and run everything locally for now.
        <img src="assets/goWithNode.png">
    </h1>
 
-3. In new termnial switch to **SmartKickers/frontend/smart-kickers-game** and launch the react client.
+3. In new termnial switch to `SmartKickers/frontend/smart-kickers-game` and launch the react client.
 
    ```bash
    npm start
@@ -131,7 +129,7 @@ We are using macOS to build and run everything locally for now.
 
    Your react app should look like this.
 
-   > **NOTE**: The Team 1 score in the go server corresponds Blue score in the react app and Team 2 corresponds Blue.
+   > **NOTE**: The Team 1 score in the go server corresponds to Team Blue score in the react app and Team 2 corresponds to Team White.
 
    <h1 align="center">
        <img src="assets/reactApp.png">
