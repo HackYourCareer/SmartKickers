@@ -33,7 +33,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		response, err := s.createResponse(receivedMsg)
 
 		if err != nil {
-			log.Debug(err)
+			log.Error(err)
 			continue
 		}
 		if response != nil {
