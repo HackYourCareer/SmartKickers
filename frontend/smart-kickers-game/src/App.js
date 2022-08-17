@@ -15,14 +15,7 @@ function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
   const [toggleGameScore, setToggleGameScore] = useState(false);
-
-  const [
-    finalScores = {
-      blue: 0,
-      white: 0,
-    },
-    setFinalScores,
-  ] = useState({ blue: 0, white: 0 });
+  const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
   useEffect(() => {
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
 
