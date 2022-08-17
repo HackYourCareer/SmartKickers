@@ -99,7 +99,7 @@ We are using macOS to build and run everything locally.
    go run main.go
    ```
 
-   After launching you should see no response. The server is waiting for data from the node server. We plan to add an indicator of a successful launch in the future using logrus logs.
+   After launching you won't see any response. The server is waiting for data from the node server.
 
    <h1 align="center">
        <img src="assets/goLaunch.png">
@@ -112,13 +112,13 @@ We are using macOS to build and run everything locally.
    node server.js
    ```
 
-   You should see the following output indicating that we have successfully connected to the go server.
+   You will see the following output indicating that we have successfully connected to the go server.
 
    <h1 align="center">
        <img src="assets/nodeLaunch.png">
    </h1>
 
-   After launching the node server you should see the following output from your go server.
+   After launching the node server you will see the following output from your go server.
 
    As you can see, the last message is the score that has been sent to the react app.
 
