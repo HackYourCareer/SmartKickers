@@ -14,20 +14,20 @@ type ShotMessage struct {
 }
 
 type tableShotParams struct {
-	TimeStart int     `json:"TimeStart,omitempty"`
-	TimeEnd   int     `json:"TimeEnd,omitempty"`
-	Speed     float64 `json:"Speed,omitempty"`
-	StartArea int     `json:"StartArea,omitempty"`
-	EndArea   int     `json:"EndArea,omitempty"`
-	GameID    string  `json:"GameID,omitempty"`
-	Sequence  int     `json:"Sequence,omitempty"`
-	ID        string  `json:"ID,omitempty"`
+	TimeStart int     `json:"TimeStart"`
+	TimeEnd   int     `json:"TimeEnd"`
+	Speed     float64 `json:"Speed"`
+	StartArea int     `json:"StartArea"`
+	EndArea   int     `json:"EndArea"`
+	GameID    string  `json:"GameID"`
+	Sequence  int     `json:"Sequence"`
+	ID        string  `json:"ID"`
 }
 
 type tableShotMsg struct {
-	Mode        string            `json:"mode,omitempty"`
-	MessageType string            `json:"messageType,omitempty"`
-	Params      []json.RawMessage `json:"messages,omitempty"`
+	Mode        string            `json:"mode"`
+	MessageType string            `json:"messageType"`
+	Params      []json.RawMessage `json:"messages"`
 }
 
 func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
