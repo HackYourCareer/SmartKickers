@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { Button } from './components/Button/Button';
-import GameResults from './components/Game/GameResults.js';
 import { resetGame } from './apis/resetGame';
 import GameStatistics from './components/Game/GameStatistics.js';
 import { initLibs } from './appConfig';
 import config from './config';
+import CurrentGameplay from './components/Game/CurrentGameplay';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
-  const [toggleGameScore, setToggleGameScore] = useState(false);
+  const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(true);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
   useEffect(() => {
     initLibs();
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
 
-    socket.onopen = function () {
+    socket.onopen = () => {
       // Send to server
       socket.send('Hello from client');
       socket.onmessage = (msg) => {
@@ -27,39 +26,21 @@ function App() {
     };
   }, []);
 
-  function handleResetGame() {
+  const handleResetGame = () => {
     resetGame().then((data) => {
       if (data.error) alert(data.error);
     });
-  }
-
-  function handleEndGame() {
-    setToggleGameScore(!toggleGameScore);
-  }
-
+  };
+  const handleEndGame = () => {
+    setFinalScores({ blue: blueScore, white: whiteScore });
+    setIsStatisticsDisplayed(!isStatisticsDisplayed);
+    handleResetGame();
+  };
   return (
     <>
       <h1>Smart Kickers</h1>
-      {toggleGameScore === false ? (
-        <>
-          {<GameResults blueScore={blueScore} whiteScore={whiteScore} />}{' '}
-          {
-            <>
-              <center className="game-ending-buttons">
-                <Button onClick={() => handleResetGame()}>Reset game</Button>
-                <br />
-                <Button
-                  onClick={() => {
-                    setFinalScores({ blue: blueScore, white: whiteScore });
-                    handleEndGame();
-                  }}
-                >
-                  End game
-                </Button>
-              </center>
-            </>
-          }{' '}
-        </>
+      {isStatisticsDisplayed ? (
+        <CurrentGameplay blueScore={blueScore} whiteScore={whiteScore} handleResetGame={handleResetGame} handleEndGame={handleEndGame} />
       ) : (
         <GameStatistics finalScores={finalScores} handleEndGame={handleEndGame} handleResetGame={handleResetGame} />
       )}
