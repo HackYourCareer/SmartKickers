@@ -1,0 +1,45 @@
+:root {
+  --custom-black: rgba(0, 0, 0, 0.8);
+}
+.blue-team-icon,
+.white-team-icon {
+  padding-right: 10px;
+  font-size: 120%;
+}
+h2 {
+  text-align: center;
+  padding-top: 20px;
+}
+.new-game-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+  z-index: 10;
+  border: none;
+  transition: 700ms;
+  font-size: 120%;
+}
+.new-game-btn:hover {
+  background-color: var(--my-green);
+  color: var(--my-dark-background);
+  scale: calc(1.3);
+}
+.table-with-stats {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: var(--my-dark-background);
+  padding: 10px;
+  margin-top: 40px;
+}
+.table-item {
+  background-color: var(--main-purple);
+  border: 0.5px solid var(--custom-black);
+  padding: 16px;
+  font-size: 30px;
+  text-align: center;
+}
+@media only screen and (min-width: 1400px) {
+  .new-game-btn {
+    font-size: 150%;
+  }
+}

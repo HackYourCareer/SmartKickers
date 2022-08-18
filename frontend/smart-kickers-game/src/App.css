@@ -6,6 +6,9 @@
   --my-white: #fff;
   --my-dark-background: #000000d0;
   --html-color: #555;
+  --background-color: #414242;
+  --font-color: #f2f2f2;
+  --blue-icon: #58c1d6;
 }
 
 * {
@@ -15,16 +18,20 @@
 }
 
 html {
-  color: var(--html-color);
   font-family: 'lato', 'Arial', sans-serif;
   font-weight: 300;
   font-size: 20px;
   text-rendering: optimizeLegibility;
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
-body {
-  color: var(--html-color);
-  background-color: var(--my-white);
+.whiteTeamIcon {
+  color: var(--font-color);
+}
+
+.blueTeamIcon {
+  color: var(--blue-icon);
 }
 
 h1,
