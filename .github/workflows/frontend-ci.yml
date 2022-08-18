@@ -12,18 +12,28 @@ on:
       - "!**/*.md"
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./frontend/smart-kickers-game
     steps:
-      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - uses: actions/checkout@v3
       - name: "Install dependencies"
         run: npm ci
       - run: npm test
-      - name: "Build docker image"
-        run: docker build -t frontend/dev:latest .
+
+  prettier:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend/smart-kickers-game
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: actions/checkout@v3
+      - run: npx prettier --check .
