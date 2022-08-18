@@ -130,17 +130,27 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	teamID, err := strconv.Atoi(team)
 	if err != nil || !isValidTeamID(teamID) {
-		writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		err := writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		if err != nil {
+			log.Error(err)
+		}
 		return
 	}
 
 	switch action := r.URL.Query().Get(attributeAction); action {
 	case "add":
-		s.game.AddGoal(teamID)
+		err := s.game.AddGoal(teamID)
+		if err != nil {
+			log.Error(err)
+		}
 	case "sub":
-		s.game.SubGoal(teamID)
+		err := s.game.SubGoal(teamID)
+		if err != nil {
+			log.Error(err)
+		}
 	default:
-		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
+		err := writeHTTPError(w, http.StatusBadRequest, "Wrong action")
+		if err != nil {
 			log.Error(err)
 		}
 
