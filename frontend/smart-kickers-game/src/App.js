@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { resetGame } from './apis/resetGame';
 import GameStatistics from './components/Game/GameStatistics/GameStatistics.js';
+import Heatmap from './components/Heatmap/Heatmap';
 import config from './config';
 import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
+import { getHeatmapData } from './apis/heatmap';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
+  const [clicked, setClicked] = useState(0);
+  const [heatmap, setHeatmap] = useState([]);
   const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
   useEffect(() => {
@@ -34,6 +38,13 @@ function App() {
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
     handleResetGame();
   };
+  let heatMapTable = [];
+  async function getHeatmap() {
+    heatMapTable = await getHeatmapData();
+    setClicked(true);
+    console.log(heatMapTable);
+  }
+
   return (
     <>
       <h1>Smart Kickers</h1>
