@@ -73,10 +73,8 @@ We are using macOS to build and run everything locally.
    ```
 
    > **NOTE:** Be sure to give permission for the script to execute.<br/>
-   > If the script does not execute, try:
-
    ```bash
-   sudo ./requirementsCheck.sh
+   sudo chmod +x requirementsCheck.sh
    ```
 
 3. Install missing dependencies.
