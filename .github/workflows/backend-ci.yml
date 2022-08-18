@@ -5,6 +5,7 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
     branches:
       - main
+      - develop
     paths:
       - "backend/**"
       - ".github/workflows/backend-ci.yml"
