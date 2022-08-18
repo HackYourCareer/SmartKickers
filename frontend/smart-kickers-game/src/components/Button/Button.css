@@ -6,7 +6,13 @@
   cursor: pointer;
   margin: 20px;
 }
-
+.btn[disabled] {
+  opacity: 0.5;
+}
+.btn[disabled]:hover {
+  opacity: 0.5;
+  cursor: initial;
+}
 .btn--primary {
   background-color: var(--main-purple);
   color: #fff;

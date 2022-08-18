@@ -11,8 +11,8 @@ function App() {
   const [whiteScore, setWhiteScore] = useState(0);
   const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
+  initLibs();
   useEffect(() => {
-    initLibs();
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
 
     socket.onopen = () => {

@@ -25,6 +25,7 @@ function GameResults({ blueScore, whiteScore }) {
             onClick={() => {
               pointsManipulation(TeamID.Team_blue, ScoreChange.Sub_goal);
             }}
+            disabled={blueScore === 0}
           >
             -
           </Button>
@@ -46,6 +47,7 @@ function GameResults({ blueScore, whiteScore }) {
             onClick={() => {
               pointsManipulation(TeamID.Team_white, ScoreChange.Sub_goal);
             }}
+            disabled={whiteScore === 0}
           >
             -
           </Button>
