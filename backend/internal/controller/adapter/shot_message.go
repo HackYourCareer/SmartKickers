@@ -6,12 +6,8 @@ import (
 	"io"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
+	"github.com/HackYourCareer/SmartKickers/internal/model"
 )
-
-type ShotMessage struct {
-	Speed float64
-	Team  int
-}
 
 type tableShotParams struct {
 	TimeStart int     `json:"TimeStart"`
@@ -30,7 +26,7 @@ type tableShotMsg struct {
 	Params      []json.RawMessage `json:"messages"`
 }
 
-func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
+func UnpackShotMsg(message io.Reader) (model.Shot, error) {
 	var (
 		shotMessage tableShotMsg
 		params      tableShotParams
@@ -38,24 +34,24 @@ func UnpackShotMsg(message io.Reader) (ShotMessage, error) {
 
 	err := json.NewDecoder(message).Decode(&shotMessage)
 	if err != nil {
-		return ShotMessage{}, err
+		return model.Shot{}, err
 	}
 
 	if len(shotMessage.Params) == 0 {
-		return ShotMessage{}, fmt.Errorf("missing shot parameters")
+		return model.Shot{}, fmt.Errorf("missing shot parameters")
 	}
 
 	err = json.Unmarshal(shotMessage.Params[0], &params)
 	if err != nil {
-		return ShotMessage{}, err
+		return model.Shot{}, err
 	}
 
 	teamID, err := decodeTeam(params.StartArea)
 	if err != nil {
-		return ShotMessage{}, err
+		return model.Shot{}, err
 	}
 
-	return ShotMessage{
+	return model.Shot{
 		Speed: params.Speed,
 		Team:  teamID,
 	}, nil

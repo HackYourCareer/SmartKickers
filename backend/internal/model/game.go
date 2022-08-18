@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
-	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -17,7 +16,7 @@ type Game interface {
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
-	UpdateShotsData(adapter.ShotMessage) error
+	UpdateShotsData(Shot) error
 	GetShotsData() ShotsData
 }
 
@@ -36,7 +35,12 @@ type GameScore struct {
 type ShotsData struct {
 	WhiteCount int
 	BlueCount  int
-	Fastest    adapter.ShotMessage
+	Fastest    Shot
+}
+
+type Shot struct {
+	Speed float64
+	Team  int
 }
 
 func NewGame() Game {
@@ -104,7 +108,7 @@ func (g *game) SubGoal(teamID int) error {
 	return nil
 }
 
-func (g *game) UpdateShotsData(shot adapter.ShotMessage) error {
+func (g *game) UpdateShotsData(shot Shot) error {
 	log.Trace("mutex lock: UpdateRecordedShots")
 	g.m.Lock()
 	defer g.m.Unlock()
@@ -129,7 +133,7 @@ func (g *game) isFastestShot(speed float64) bool {
 	return g.shotsData.Fastest.Speed < speed
 }
 
-func (g *game) saveFastestShot(shot adapter.ShotMessage) {
+func (g *game) saveFastestShot(shot Shot) {
 	g.shotsData.Fastest.Speed = shot.Speed
 	g.shotsData.Fastest.Team = shot.Team
 }

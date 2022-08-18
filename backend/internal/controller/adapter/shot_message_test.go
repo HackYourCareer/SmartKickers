@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
+	"github.com/HackYourCareer/SmartKickers/internal/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,17 +14,17 @@ func TestUnpackShotMsg(t *testing.T) {
 	type args struct {
 		name           string
 		msgIn          tableShotParams
-		expectedMsgOut ShotMessage
+		expectedMsgOut model.Shot
 		expectedError  string
 	}
 	tests := []args{
 		{
-			name: "wrong area message, should return empty ShotMessage and error",
+			name: "wrong area message, should return empty model.Shot and error",
 			msgIn: tableShotParams{
 				Speed:     25.5,
 				StartArea: 1,
 			},
-			expectedMsgOut: ShotMessage{},
+			expectedMsgOut: model.Shot{},
 			expectedError:  "couldn't decode teamID",
 		},
 		{
@@ -32,7 +33,7 @@ func TestUnpackShotMsg(t *testing.T) {
 				Speed:     25.5,
 				StartArea: 20,
 			},
-			expectedMsgOut: ShotMessage{
+			expectedMsgOut: model.Shot{
 				Speed: 25.5,
 				Team:  config.TeamWhite,
 			},
@@ -44,7 +45,7 @@ func TestUnpackShotMsg(t *testing.T) {
 				Speed:     17.226,
 				StartArea: 24,
 			},
-			expectedMsgOut: ShotMessage{
+			expectedMsgOut: model.Shot{
 				Speed: 17.226,
 				Team:  config.TeamBlue,
 			},
@@ -53,7 +54,7 @@ func TestUnpackShotMsg(t *testing.T) {
 		{
 			name:           "no message, should return empty shot message and error",
 			msgIn:          tableShotParams{},
-			expectedMsgOut: ShotMessage{},
+			expectedMsgOut: model.Shot{},
 			expectedError:  "missing shot parameters",
 		},
 	}

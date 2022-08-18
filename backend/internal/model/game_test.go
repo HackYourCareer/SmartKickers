@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
-	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -135,7 +134,7 @@ func TestUpdateShotsData(t *testing.T) {
 
 	type args struct {
 		name               string
-		shot               adapter.ShotMessage
+		shot               Shot
 		expectedCountWhite int
 		expectedCountBlue  int
 		expectedError      string
@@ -143,7 +142,7 @@ func TestUpdateShotsData(t *testing.T) {
 	tests := []args{
 		{
 			name: "should increment team white shot count by one",
-			shot: adapter.ShotMessage{
+			shot: Shot{
 				Speed: 15,
 				Team:  1,
 			},
@@ -153,7 +152,7 @@ func TestUpdateShotsData(t *testing.T) {
 		},
 		{
 			name: "should increment team blue shot count by one",
-			shot: adapter.ShotMessage{
+			shot: Shot{
 				Speed: 15,
 				Team:  2,
 			},
@@ -163,7 +162,7 @@ func TestUpdateShotsData(t *testing.T) {
 		},
 		{
 			name: "should cause an error when invalid team ID",
-			shot: adapter.ShotMessage{
+			shot: Shot{
 				Speed: 15,
 				Team:  3,
 			},
@@ -196,7 +195,7 @@ func TestSaveFastestGoal(t *testing.T) {
 
 	game := &game{
 		shotsData: ShotsData{
-			Fastest: adapter.ShotMessage{
+			Fastest: Shot{
 				Speed: 18.98,
 				Team:  1,
 			},
@@ -205,29 +204,29 @@ func TestSaveFastestGoal(t *testing.T) {
 
 	type args struct {
 		name            string
-		shotMsgIn       adapter.ShotMessage
-		expectedFastest adapter.ShotMessage
+		shotMsgIn       Shot
+		expectedFastest Shot
 	}
 
 	tests := []args{
 		{
 			name: "Should save new fastest of team 1",
-			shotMsgIn: adapter.ShotMessage{
+			shotMsgIn: Shot{
 				Speed: 21.45,
 				Team:  1,
 			},
-			expectedFastest: adapter.ShotMessage{
+			expectedFastest: Shot{
 				Speed: 21.45,
 				Team:  1,
 			},
 		},
 		{
 			name: "Should save new fastest of team 2",
-			shotMsgIn: adapter.ShotMessage{
+			shotMsgIn: Shot{
 				Speed: 55.5555,
 				Team:  2,
 			},
-			expectedFastest: adapter.ShotMessage{
+			expectedFastest: Shot{
 				Speed: 55.5555,
 				Team:  2,
 			},
