@@ -1,8 +1,8 @@
 :root {
   --custom-black: rgba(0, 0, 0, 0.8);
 }
-.blueTeamIcon,
-.whiteTeamIcon {
+.blue-team-icon,
+.white-team-icon {
   padding-right: 10px;
   font-size: 120%;
 }

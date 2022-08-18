@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '../Button/Button';
-import GameResults from './GameResults.js';
+import { Button } from '../../Button/Button';
+import GameResults from '../GameResults/GameResults.js';
 
 function CurrentGameplay({ blueScore, whiteScore, handleResetGame, handleEndGame }) {
   return (

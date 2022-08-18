@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { resetGame } from './apis/resetGame';
-import GameStatistics from './components/Game/GameStatistics.js';
+import GameStatistics from './components/Game/GameStatistics/GameStatistics.js';
 import config from './config';
-import CurrentGameplay from './components/Game/CurrentGameplay';
+import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
