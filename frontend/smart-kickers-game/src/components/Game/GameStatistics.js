@@ -9,19 +9,19 @@ function GameStatistics({ finalScores, setIsStatisticsDisplayed }) {
       <h2>
         <em>Statistics</em>
       </h2>
-      <div class="table-with-stats">
-        <div class="table-item">
+      <div className="table-with-stats">
+        <div className="table-item">
           <FontAwesomeIcon className="blueTeamIcon" icon="fa-person" />
           Blue
         </div>
-        <div class="table-item"></div>
-        <div class="table-item">
+        <div className="table-item"></div>
+        <div className="table-item">
           <FontAwesomeIcon className="whiteTeamIcon" icon="fa-person" />
           White
         </div>
-        <div class="table-item">{finalScores.blue}</div>
-        <div class="table-item">score</div>
-        <div class="table-item">{finalScores.white}</div>
+        <div className="table-item">{finalScores.blue}</div>
+        <div className="table-item">score</div>
+        <div className="table-item">{finalScores.white}</div>
       </div>
       <Button
         className="btn--primary new-game-btn"
