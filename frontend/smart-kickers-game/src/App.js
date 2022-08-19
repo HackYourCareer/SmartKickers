@@ -42,7 +42,8 @@ function App() {
   async function getHeatmap() {
     heatMapTable = await getHeatmapData();
     setClicked(true);
-    console.log(heatMapTable);
+    setHeatmap(heatMapTable);
+    console.log(heatmap);
   }
 
   return (

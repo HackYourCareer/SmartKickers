@@ -4,7 +4,7 @@ import HeatMap from "react-heatmap-grid";
 
 
 function Heatmap ({heatMapTable}) {
-  const xLabels = new Array(Math.sqrt(heatMapTable.length)).fill(0).map((_, i) => ``);
+  const xLabels = new Array(Object.keys(heatMapTable.data).length).fill(0).map((_, i) => ``);
 
   // Display only even labels
   const xLabelsVisibility = new Array(24)
@@ -12,7 +12,7 @@ function Heatmap ({heatMapTable}) {
     .map((_, i) => (i % 2 === 0 ? true : false));
   
     let i = 0
-  const yLabels = new Array(Math.sqrt(heatMapTable.length)).fill(0).map((_, i) => ``);
+  const yLabels = new Array(Object.keys(heatMapTable.data).length).fill(0).map((_, i) => ``);
   const data = new Array(yLabels.length)
     .fill(0)
     .map(() =>
@@ -28,16 +28,16 @@ function Heatmap ({heatMapTable}) {
         xLabelsLocation={"bottom"}
         xLabelsVisibility={xLabelsVisibility}
         xLabelWidth={60}
-        data={heatMapTable}
+        data={heatMapTable.data}
         squares
         height={45}
         onClick={(x, y) => alert(`Clicked ${x}, ${y}`)}
         cellStyle={(background, value, min, max, data, x, y) => ({
           background: `rgb(0, 151, 230, ${1 - (max - value) / (max - min)})`,
-          fontSize: "10px",
+          fontSize: "0px",
           color: "#444",
-          width: "12px",
-          height: "122px"
+          width: "10px",
+          height: "5px"
         })}
         cellRender={value => value && <div>{value}</div>}
       />
