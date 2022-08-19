@@ -17,8 +17,8 @@ h2 {
   font-size: 120%;
 }
 .new-game-btn:hover {
-  background-color: var(--SAP-green);
-  color: var(--SAP-black);
+  background-color: var(--SAP-orange);
+  color: var(--SAP-white);
   scale: calc(1.3);
 }
 .table-with-stats {
