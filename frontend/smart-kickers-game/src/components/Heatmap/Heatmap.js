@@ -20,6 +20,16 @@ function Heatmap ({heatMapTable}) {
     );
     console.log(heatMapTable)
 
+    
+    let numbersCopy = JSON.parse(JSON.stringify(heatMapTable.data));
+    
+
+    let n=100
+    for (let i = 0; i < n; i++)
+    for (let j = 0; j <= i; j++) 
+    numbersCopy[i][j] = numbersCopy[i][j] + numbersCopy[j][i]
+               - (numbersCopy[j][i] = numbersCopy[i][j]);
+               
   return (
     <div style={{ fontSize: "13px" }}>
       <HeatMap
@@ -28,7 +38,7 @@ function Heatmap ({heatMapTable}) {
         xLabelsLocation={"bottom"}
         xLabelsVisibility={xLabelsVisibility}
         xLabelWidth={60}
-        data={heatMapTable.data}
+        data={numbersCopy}
         squares
         height={45}
         onClick={(x, y) => alert(`Clicked ${x}, ${y}`)}
