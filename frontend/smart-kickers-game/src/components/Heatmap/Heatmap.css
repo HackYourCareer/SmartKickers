@@ -1,0 +1,11 @@
+.heatmap-container {
+  background-image: url('pitch.png');
+  background-size: 100% 100%;
+  width: 700px;
+  height: auto;
+}
+.heatmap-parent {
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+}
