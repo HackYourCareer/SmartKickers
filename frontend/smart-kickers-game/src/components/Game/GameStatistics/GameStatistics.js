@@ -2,8 +2,9 @@ import React from 'react';
 import './GameStatistics.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
+import Heatmap from '../../Heatmap/Heatmap';
 
-function GameStatistics({ finalScores, setIsStatisticsDisplayed }) {
+function GameStatistics({ finalScores, setIsStatisticsDisplayed, heatMap }) {
   return (
     <>
       <h2>
@@ -23,6 +24,7 @@ function GameStatistics({ finalScores, setIsStatisticsDisplayed }) {
         <div className="table-item">score</div>
         <div className="table-item">{finalScores.white}</div>
       </div>
+      <Heatmap heatMapTable={heatMap} />
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {

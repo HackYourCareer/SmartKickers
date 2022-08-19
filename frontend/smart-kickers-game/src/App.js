@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { resetGame } from './apis/resetGame';
 import GameStatistics from './components/Game/GameStatistics/GameStatistics.js';
-import Heatmap from './components/Heatmap/Heatmap';
 import config from './config';
 import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
 import { getHeatmapData } from './apis/heatmap';
@@ -10,7 +9,6 @@ import { getHeatmapData } from './apis/heatmap';
 function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
-  const [clicked, setClicked] = useState(0);
   const [heatmap, setHeatmap] = useState([]);
   const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
@@ -37,11 +35,10 @@ function App() {
     setFinalScores({ blue: blueScore, white: whiteScore });
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
     handleResetGame();
+    getHeatmap();
   };
-  let heatMapTable = [];
   async function getHeatmap() {
-    heatMapTable = await getHeatmapData();
-    setClicked(true);
+    let heatMapTable = await getHeatmapData();
     setHeatmap(heatMapTable);
     console.log(heatmap);
   }
@@ -50,7 +47,7 @@ function App() {
     <>
       <h1>Smart Kickers</h1>
       {isStatisticsDisplayed ? (
-        <GameStatistics finalScores={finalScores} setIsStatisticsDisplayed={setIsStatisticsDisplayed} />
+        <GameStatistics finalScores={finalScores} setIsStatisticsDisplayed={setIsStatisticsDisplayed} heatmap={heatmap} />
       ) : (
         <CurrentGameplay blueScore={blueScore} whiteScore={whiteScore} handleResetGame={handleResetGame} handleEndGame={handleEndGame} />
       )}
