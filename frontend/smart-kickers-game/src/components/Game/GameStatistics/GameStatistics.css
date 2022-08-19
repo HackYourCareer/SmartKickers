@@ -24,8 +24,8 @@ h2 {
 .table-with-stats {
   display: grid;
   grid-template-columns: auto auto auto;
-  background-color: var(--SAP-white);
-  padding: 10px;
+  background-color: var(--SAP-black);
+  padding: 4px;
   margin-top: 40px;
 }
 .table-item {
