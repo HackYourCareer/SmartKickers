@@ -6,19 +6,25 @@
   cursor: pointer;
   margin: 20px;
 }
-
+.btn[disabled] {
+  opacity: 0.5;
+}
+.btn[disabled]:hover {
+  opacity: 0.5;
+  cursor: initial;
+}
 .btn--primary {
-  background-color: var(--main-purple);
+  background-color: var(--SAP-gold);
   color: #fff;
-  border: 1px solid var(--main-purple);
+  border: 1px solid var(--SAP-gold);
   transition: 0.3s;
 }
 
 .btn--outline {
   background-color: transparent;
-  color: var(--main-purple);
+  color: var(--SAP-gold);
   padding: 8px 20px;
-  border: 1px solid var(--main-purple);
+  border: 1px solid var(--SAP-gold);
   transition: all 0.3s ease-out;
   border-radius: 50px;
 }

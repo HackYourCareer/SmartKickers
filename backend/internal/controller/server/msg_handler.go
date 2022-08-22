@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
 	"github.com/HackYourCareer/SmartKickers/internal/model"
 	"github.com/gorilla/websocket"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -23,7 +23,8 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println(err)
+		log.Error(err)
+		return
 	}
 
 	defer c.Close()
@@ -31,19 +32,23 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
+			if websocket.IsCloseError(err, websocket.CloseAbnormalClosure) {
+				log.Error("Closing TableMessagesHandler")
+				return
+			}
 			continue
 		}
 		response, err := s.createResponse(receivedMsg)
 
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 			continue
 		}
 		if response != nil {
 			err = c.WriteMessage(messageTypeText, response)
 			if err != nil {
-				log.Println(err)
+				log.Error(err)
 				continue
 			}
 		}
@@ -80,14 +85,14 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println(err)
+		log.Error(err)
 		return
 	}
 
 	defer c.Close()
 
 	if err := c.WriteJSON(s.game.GetScore()); err != nil {
-		log.Println(err)
+		log.Error(err)
 	}
 
 	go waitForError(c, closeConnChan)
@@ -96,11 +101,10 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		select {
 		case score := <-s.game.GetScoreChannel():
 			if err := c.WriteJSON(score); err != nil {
-				log.Println(err)
-				break
+				log.Error(err)
 			}
 		case err := <-closeConnChan:
-			log.Println(err)
+			log.Error(err)
 			return
 
 		}
@@ -126,25 +130,35 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	teamID, err := strconv.Atoi(team)
 	if err != nil || !isValidTeamID(teamID) {
-		writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		err := writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		if err != nil {
+			log.Error(err)
+		}
 		return
 	}
 
 	switch action := r.URL.Query().Get(attributeAction); action {
 	case "add":
-		s.game.AddGoal(teamID)
+		err := s.game.AddGoal(teamID)
+		if err != nil {
+			log.Error(err)
+		}
 	case "sub":
-		s.game.SubGoal(teamID)
+		err := s.game.SubGoal(teamID)
+		if err != nil {
+			log.Error(err)
+		}
 	default:
-		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
-			log.Println(err)
+		err := writeHTTPError(w, http.StatusBadRequest, "Wrong action")
+		if err != nil {
+			log.Error(err)
 		}
 
 	}
 }
 
 func writeHTTPError(w http.ResponseWriter, header int, msg string) error {
-	log.Println("Error handling request: ", msg)
+	log.Error("Error handling request: ", msg)
 	w.WriteHeader(header)
 	_, err := w.Write([]byte(msg))
 	return err

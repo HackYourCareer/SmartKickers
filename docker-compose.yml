@@ -1,0 +1,17 @@
+version: "3.4"
+
+services:
+  smartkickers-frontend:
+    image: smartkickers-frontend
+    build:
+      context: ./frontend/smart-kickers-game
+      dockerfile: Dockerfile
+    ports:
+      - 3007:80
+  smartkickers-backend:
+    image: smartkickers-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
