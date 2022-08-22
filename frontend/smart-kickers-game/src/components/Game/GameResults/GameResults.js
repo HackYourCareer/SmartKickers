@@ -12,7 +12,7 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              pointsManipulation('looool', ScoreChange.Add_goal);
+              pointsManipulation(TeamID.Team_blue, ScoreChange.Add_goal);
             }}
           >
             +
