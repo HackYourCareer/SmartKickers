@@ -32,13 +32,12 @@ function App() {
   const handleEndGame = () => {
     setFinalScores({ blue: blueScore, white: whiteScore });
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
-    handleResetGame();
   };
   return (
     <>
       <h1>Smart Kickers</h1>
       {isStatisticsDisplayed ? (
-        <GameStatistics finalScores={finalScores} setIsStatisticsDisplayed={setIsStatisticsDisplayed} />
+        <GameStatistics finalScores={finalScores} setIsStatisticsDisplayed={setIsStatisticsDisplayed} handleResetGame={handleResetGame} />
       ) : (
         <CurrentGameplay blueScore={blueScore} whiteScore={whiteScore} handleResetGame={handleResetGame} handleEndGame={handleEndGame} />
       )}
