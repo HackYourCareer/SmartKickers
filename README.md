@@ -22,6 +22,7 @@ The following repository contains:
 - [go](https://go.dev/dl/) in version 1.18.3 or higher
 - [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
 - [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package) (macOS)
+- Docker API [for example Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) (macOS)
 - opencv-python
 
   ```bash
@@ -73,31 +74,30 @@ We are using macOS to build and run everything locally.
    ```
 
    > **NOTE:** Be sure to give permission for the script to execute.<br/>
+
    ```bash
    sudo chmod +x requirementsCheck.sh
    ```
 
 3. Install missing dependencies.
 
-4. Switch to [`frontend/smart-kickers-game`](frontend/smart-kickers-game) and run npm install.
+4. In folder [`SmartKickers`](SmartKickers) run docker-compose build.
 
    ```bash
-   cd frontend/smart-kickers-game
-   npm install
+   docker-compose build
    ```
 
 ## Launching
 
 > **NOTE:** Configuration files for the camera view are provided by the developers in [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
 
-1. Switch to [`SmartKickers/backend`](SmartKickers/backend) and launch the go server.
+1. In the folder [`SmartKickers`](SmartKickers) launch the docker-compose.
 
    ```bash
-   cd SmartKickers/backend
-   go run main.go
+   docker-compose up
    ```
 
-   After launching you won't see any response. The server is waiting for data from the node server.
+   After launching you will see that the backend and the frontend of the application has started successfully.
 
    <h1 align="center">
        <img src="assets/goLaunch.png">
@@ -116,19 +116,7 @@ We are using macOS to build and run everything locally.
        <img src="assets/nodeLaunch.png">
    </h1>
 
-   After launching the node server you will see the following output from your go server.
-
-   As you can see, the last message is the score that has been sent to the react app.
-
-   <h1 align="center">
-       <img src="assets/goWithNode.png">
-   </h1>
-
-3. In new termnial switch to [`SmartKickers/frontend/smart-kickers-game`](SmartKickers/frontend/smart-kickers-game) and launch the react client.
-
-   ```bash
-   npm start
-   ```
+3. In the browser, go to [`localhost:3007`](http://localhost:3007/) to see the react application.
 
    Properly working React application looks like this.
 
