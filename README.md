@@ -100,7 +100,7 @@ We are using macOS to build and run everything locally.
    After launching you will see that the backend and the frontend of the application has started successfully.
 
    <h1 align="center">
-       <img src="assets/goLaunch.png">
+       <img src="assets/appLaunch.png">
    </h1>
 
 2. In new terminal switch to [`SmartKickersAI/LocalServer/server`](SmartKickersAI/LocalServer/server) and launch the node server.
