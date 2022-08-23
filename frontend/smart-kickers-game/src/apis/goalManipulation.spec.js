@@ -21,7 +21,7 @@ describe('pointsManipulation API caller', () => {
     [TeamID.Team_white, ScoreChange.Add_goal, 200],
     [TeamID.Team_white, ScoreChange.Sub_goal, 200],
   ])(`should return proper result when passed arguments are: %i, %i`, async (teamID, action, expectedResult) => {
-    mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Add_goal}&team=${TeamID.Team_blue}`).reply(200);
+    mock.onPost(`${config.apiBaseUrl}/goal?action=${action}&team=${teamID}`).reply(expectedResult);
     mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Add_goal}&team=${TeamID.Team_white}`).reply(200);
     mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Sub_goal}&team=${TeamID.Team_blue}`).reply(200);
     mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Sub_goal}&team=${TeamID.Team_white}`).reply(200);
