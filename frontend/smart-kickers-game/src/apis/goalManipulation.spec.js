@@ -22,9 +22,6 @@ describe('pointsManipulation API caller', () => {
     [TeamID.Team_white, ScoreChange.Sub_goal, 200],
   ])(`should return proper result when passed arguments are: %i, %i`, async (teamID, action, expectedResult) => {
     mock.onPost(`${config.apiBaseUrl}/goal?action=${action}&team=${teamID}`).reply(expectedResult);
-    mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Add_goal}&team=${TeamID.Team_white}`).reply(200);
-    mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Sub_goal}&team=${TeamID.Team_blue}`).reply(200);
-    mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Sub_goal}&team=${TeamID.Team_white}`).reply(200);
 
     const result = await pointsManipulation(teamID, action);
     expect(result.status).toBe(expectedResult);
@@ -32,18 +29,18 @@ describe('pointsManipulation API caller', () => {
   });
 
   it.each([
-    [TeamID.Team_blue, ScoreChange.Add_goal],
-    [TeamID.Team_blue, ScoreChange.Sub_goal],
-    [TeamID.Team_white, ScoreChange.Add_goal],
-    [TeamID.Team_white, ScoreChange.Sub_goal],
-  ])(`should return error with correct status code if received error from backend when passed arguments are: %i, %i`, async (teamID, action) => {
-    mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Add_goal}&team=${TeamID.Team_blue}`).reply(500);
-    mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Add_goal}&team=${TeamID.Team_white}`).reply(500);
-    mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Sub_goal}&team=${TeamID.Team_blue}`).reply(500);
-    mock.onPost(`${config.apiBaseUrl}/goal?action=${ScoreChange.Sub_goal}&team=${TeamID.Team_white}`).reply(500);
+    [TeamID.Team_blue, ScoreChange.Add_goal, 500],
+    [TeamID.Team_blue, ScoreChange.Sub_goal, 500],
+    [TeamID.Team_white, ScoreChange.Add_goal, 500],
+    [TeamID.Team_white, ScoreChange.Sub_goal, 500],
+  ])(
+    `should return error with correct status code if received error from backend when passed arguments are: %i, %i`,
+    async (teamID, action, expectedResult) => {
+      mock.onPost(`${config.apiBaseUrl}/goal?action=${action}&team=${teamID}`).reply(expectedResult);
 
-    const result = await pointsManipulation(teamID, action);
-    expect(result.status).toBe(500);
-    expect(result.error).toBeDefined();
-  });
+      const result = await pointsManipulation(teamID, action);
+      expect(result.status).toBe(500);
+      expect(result.error).toBeDefined();
+    }
+  );
 });
