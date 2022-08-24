@@ -26,7 +26,7 @@ The following repository contains:
 - opencv-python
 
   ```bash
-  pip3 install open-cv
+  pip3 install opencv-python
   ```
 
   For **brew** users:
