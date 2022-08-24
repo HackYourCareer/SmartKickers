@@ -34,8 +34,8 @@ function App() {
   const handleEndGame = () => {
     setFinalScores({ blue: blueScore, white: whiteScore });
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
-    handleResetGame();
     getHeatmap();
+
   };
   async function getHeatmap() {
     let heatMapTable = await getHeatmapData();
@@ -47,7 +47,7 @@ function App() {
     <>
       <h1>Smart Kickers</h1>
       {isStatisticsDisplayed ? (
-        <GameStatistics finalScores={finalScores} setIsStatisticsDisplayed={setIsStatisticsDisplayed} heatmap={heatmap} />
+        <GameStatistics finalScores={finalScores} setIsStatisticsDisplayed={setIsStatisticsDisplayed} handleResetGame={handleResetGame} heatmap={heatmap} />
       ) : (
         <CurrentGameplay blueScore={blueScore} whiteScore={whiteScore} handleResetGame={handleResetGame} handleEndGame={handleEndGame} />
       )}
