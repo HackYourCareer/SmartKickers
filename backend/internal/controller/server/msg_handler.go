@@ -22,7 +22,12 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		log.Error(err)
 	}
 
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
 
 	for {
 		_, receivedMsg, err := c.NextReader()
@@ -79,7 +84,12 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
 
 	if err := c.WriteJSON(s.game.GetScore()); err != nil {
 		log.Error(err)
