@@ -103,12 +103,24 @@ func TestGameSubGoal(t *testing.T) {
 			expectedWhiteScore: 1,
 			expectedError:      "bad team ID",
 		},
+		{
+			name:               "shoud not decrement the score",
+			teamID:             config.TeamBlue,
+			expectedBlueScore:  0,
+			expectedWhiteScore: 0,
+			expectedError:      "",
+		},
 	}
 
-	for _, tt := range tests {
+	for id, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			game.score.WhiteScore = 1
 			game.score.BlueScore = 1
+
+			if id == 3 {
+				game.score.WhiteScore = 0
+				game.score.BlueScore = 0
+			}
 
 			err := game.SubGoal(tt.teamID)
 			if err == nil {
