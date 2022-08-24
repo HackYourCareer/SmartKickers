@@ -156,7 +156,7 @@ func writeHTTPError(w http.ResponseWriter, header int, msg string) error {
 }
 
 func isValidTeamID(teamID int) bool {
-	return (teamID == config.TeamWhite || teamID == config.TeamBlue)
+	return teamID == config.TeamWhite || teamID == config.TeamBlue
 }
 
 func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
@@ -166,7 +166,12 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 		log.Error(err)
 	}
 
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
 
 	for {
 		_, receivedMsg, err := c.NextReader()
