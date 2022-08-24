@@ -72,7 +72,7 @@ func TestAddGoal(t *testing.T) {
 }
 
 func TestGameSubGoal(t *testing.T) {
-	game := &game{score: GameScore{0, 2}, scoreChannel: make(chan GameScore, 32)}
+	game := &game{score: GameScore{1, 1}, scoreChannel: make(chan GameScore, 32)}
 
 	type args struct {
 		name               string
@@ -83,35 +83,33 @@ func TestGameSubGoal(t *testing.T) {
 	}
 	tests := []args{
 		{
-			name:               "should increment team white score by one",
+			name:               "should decrement team white score by one",
 			teamID:             config.TeamWhite,
-			expectedBlueScore:  0,
-			expectedWhiteScore: 1,
-			expectedError:      "",
-		},
-		{
-			name:               "should increment team blue score by one",
-			teamID:             config.TeamBlue,
 			expectedBlueScore:  1,
 			expectedWhiteScore: 0,
 			expectedError:      "",
 		},
 		{
+			name:               "should decrement team blue score by one",
+			teamID:             config.TeamBlue,
+			expectedBlueScore:  0,
+			expectedWhiteScore: 1,
+			expectedError:      "",
+		},
+		{
 			name:               "should cause an error when invalid team ID",
 			teamID:             -1,
-			expectedBlueScore:  0,
-			expectedWhiteScore: 0,
+			expectedBlueScore:  1,
+			expectedWhiteScore: 1,
 			expectedError:      "bad team ID",
 		},
 	}
 
-	for id, tt := range tests {
+	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			game.score.WhiteScore = 1
-			game.score.BlueScore = 2
-			if id == 2 {
-				game.score.WhiteScore = 0
-			}
+			game.score.BlueScore = 1
+
 			err := game.SubGoal(tt.teamID)
 			if err == nil {
 				resultScore := <-game.scoreChannel
