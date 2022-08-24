@@ -2,7 +2,7 @@ import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import WS from 'jest-websocket-mock';
 import { getElementWhichContain } from './helpers';
-import * as GameAPI from '../apis/Game';
+import * as GameAPI from '../apis/resetGame';
 import App from '../App';
 import config from '../config';
 
