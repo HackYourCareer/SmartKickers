@@ -1,6 +1,7 @@
 import React from 'react';
 import HeatMap from 'react-heatmap-grid';
 import './Heatmap.css';
+import { Colors } from './Colors';
 
 function Heatmap({ heatMapTable }) {
   const heatmapDim = Object.keys(heatMapTable.data).length;
@@ -13,6 +14,22 @@ function Heatmap({ heatMapTable }) {
       numbersCopy[j][i] = numbersCopy[i][j];
     }
 
+  function chooseColor(value) {
+    let chosenColor = Colors.none;
+    if (value > 2 && value <= 5) {
+      chosenColor = Colors.blue;
+    } else if (value > 5 && value <= 10) {
+      chosenColor = Colors.purple;
+    } else if (value > 10 && value <= 15) {
+      chosenColor = Colors.green;
+    } else if (value > 15 && value <= 25) {
+      chosenColor = Colors.yellow;
+    } else if (value > 25) {
+      chosenColor = Colors.red;
+    }
+    return `rgb(${chosenColor.red}, ${chosenColor.green},${chosenColor.blue},  ${chosenColor.opacity} )`;
+  }
+
   return (
     <div className="heatmap-parent">
       <div className="heatmap-container">
@@ -21,7 +38,7 @@ function Heatmap({ heatMapTable }) {
           yLabels={array}
           data={numbersCopy}
           cellStyle={(background, value, min, max) => ({
-            background: `rgb(0, 151, 230, ${1 - (max - value) / (max - min)})`,
+            background: `${chooseColor(value)} `,
             fontSize: '0px',
             color: '#444',
             width: '4px',

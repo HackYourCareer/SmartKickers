@@ -4,6 +4,11 @@
   width: 700px;
   height: auto;
 }
+.heatmap-container > div > div > div > div {
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
 .heatmap-parent {
   width: 100vw;
   display: flex;
