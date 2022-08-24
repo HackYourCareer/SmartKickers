@@ -58,11 +58,14 @@ func TestUnpackShotMsg(t *testing.T) {
 			expectedError:  "missing shot parameters",
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var rawSlice []json.RawMessage
-			jsn, _ := json.Marshal(tt.msgIn)
+			jsn, err := json.Marshal(tt.msgIn)
+			if err != nil {
+				assert.FailNow(t, err.Error())
+			}
 			rawMsg := json.RawMessage(jsn)
 			if tt.msgIn != (tableShotParams{}) {
 				rawSlice = append(rawSlice, rawMsg)
@@ -72,6 +75,9 @@ func TestUnpackShotMsg(t *testing.T) {
 				Params: rawSlice,
 			}
 			shotJSON, _ := json.Marshal(tableShot)
+			if err != nil {
+				assert.FailNow(t, err.Error())
+			}
 			reader := bytes.NewReader(shotJSON)
 
 			msg, err := UnpackShotMsg(reader)
@@ -113,7 +119,7 @@ func TestDecodeTeam(t *testing.T) {
 			expectedError: "couldn't decode teamID",
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			for _, area := range tt.areas {
