@@ -103,7 +103,9 @@ We are using macOS to build and run everything locally.
        <img src="assets/appLaunch.png">
    </h1>
 
-2. In new terminal switch to [`SmartKickersAI/LocalServer/server`](SmartKickersAI/LocalServer/server) and launch the node server.
+2. Plug-in the camera wire to the computer.
+
+3. In new terminal switch to [`SmartKickersAI/LocalServer/server`](SmartKickersAI/LocalServer/server) and launch the node server.
 
    ```bash
    cd SmartKickersAI/LocalServer/server
