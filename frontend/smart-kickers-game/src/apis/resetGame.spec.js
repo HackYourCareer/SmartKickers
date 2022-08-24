@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import config from '../config';
-import { resetGame } from './Game';
+import { resetGame } from './resetGame';
 
 describe('resetGame API caller', () => {
   let mock;

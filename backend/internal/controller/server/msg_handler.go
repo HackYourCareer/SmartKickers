@@ -20,6 +20,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Error(err)
+		return
 	}
 
 	defer func(c *websocket.Conn) {
@@ -33,6 +34,10 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
 			log.Error(err)
+			if websocket.IsCloseError(err, websocket.CloseAbnormalClosure) {
+				log.Error("Closing TableMessagesHandler")
+				return
+			}
 			continue
 		}
 		response, err := s.createResponse(receivedMsg)
@@ -102,7 +107,6 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		case score := <-s.game.GetScoreChannel():
 			if err := c.WriteJSON(score); err != nil {
 				log.Error(err)
-				break
 			}
 		case err := <-closeConnChan:
 			log.Error(err)
@@ -131,17 +135,27 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	teamID, err := strconv.Atoi(team)
 	if err != nil || !isValidTeamID(teamID) {
-		writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		err := writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		if err != nil {
+			log.Error(err)
+		}
 		return
 	}
 
 	switch action := r.URL.Query().Get(config.AttributeAction); action {
 	case "add":
-		s.game.AddGoal(teamID)
+		err := s.game.AddGoal(teamID)
+		if err != nil {
+			log.Error(err)
+		}
 	case "sub":
-		s.game.SubGoal(teamID)
+		err := s.game.SubGoal(teamID)
+		if err != nil {
+			log.Error(err)
+		}
 	default:
-		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
+		err := writeHTTPError(w, http.StatusBadRequest, "Wrong action")
+		if err != nil {
 			log.Error(err)
 		}
 

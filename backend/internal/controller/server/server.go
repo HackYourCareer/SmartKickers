@@ -1,6 +1,7 @@
 package server
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/HackYourCareer/SmartKickers/internal/model"
@@ -11,6 +12,7 @@ import (
 
 type Server interface {
 	Start() error
+	createResponse(io.Reader) ([]byte, error)
 }
 type server struct {
 	router  *mux.Router
