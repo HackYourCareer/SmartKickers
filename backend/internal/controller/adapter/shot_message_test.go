@@ -74,7 +74,7 @@ func TestUnpackShotMsg(t *testing.T) {
 			tableShot := tableShotMsg{
 				Params: rawSlice,
 			}
-			shotJSON, _ := json.Marshal(tableShot)
+			shotJSON, err := json.Marshal(tableShot)
 			if err != nil {
 				assert.FailNow(t, err.Error())
 			}
