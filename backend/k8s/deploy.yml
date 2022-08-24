@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gosmartkickers-deploy
+spec:
+  selector:
+    matchLabels:
+      app: gosmartkickers
+  template:
+    metadata:
+      labels:
+        app: gosmartkickers
+    spec:
+      containers:
+        - name: gosmartkickers
+          image: smartkickers/backend:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: IfNotPresent
