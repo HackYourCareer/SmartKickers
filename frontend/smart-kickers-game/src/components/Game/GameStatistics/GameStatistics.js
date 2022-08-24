@@ -4,8 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
 import Heatmap from '../../Heatmap/Heatmap';
 
-
-function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame, heatMap }) {
+function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame, heatmap }) {
   return (
     <>
       <h2>
@@ -25,7 +24,7 @@ function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame
         <div className="table-item">score</div>
         <div className="table-item">{finalScores.white}</div>
       </div>
-      <Heatmap heatMapTable={heatMap} />
+      {heatmap == null ? 'null' : <Heatmap heatmap={heatmap} />}
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {
