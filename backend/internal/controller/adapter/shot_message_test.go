@@ -113,6 +113,7 @@ func TestDecodeTeam(t *testing.T) {
 			expectedError: "couldn't decode teamID",
 		},
 	}
+	
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			for _, area := range tt.areas {
