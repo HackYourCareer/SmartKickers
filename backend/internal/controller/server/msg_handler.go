@@ -148,14 +148,14 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 		if err := s.game.UpdateManualGoals(teamID, "add"); err != nil {
 			log.Error(err)
 		}
-		if err = s.game.AddGoal(teamID); err != nil {
+		if err := s.game.AddGoal(teamID); err != nil {
 			log.Error(err)
 		}
 	case "sub":
 		if err := s.game.UpdateManualGoals(teamID, "sub"); err != nil {
 			log.Error(err)
 		}
-		if err = s.game.SubGoal(teamID); err != nil {
+		if err := s.game.SubGoal(teamID); err != nil {
 
 			log.Error(err)
 		}
