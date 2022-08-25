@@ -62,7 +62,10 @@ func (dispMsg dispatcherMsg) getMessageCategory() MsgCategory {
 	if dispMsg.Goal != 0 {
 		return MsgGoal
 	}
-	return MsgPosition
+	if dispMsg.MsgType == "" {
+		return MsgPosition
+	}
+	return MsgNone
 }
 
 func NewDispatcherResponse(tableID string) *initialResponse {
