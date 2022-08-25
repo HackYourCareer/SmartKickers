@@ -1,6 +1,6 @@
 import React from 'react';
 import HeatMap from 'react-heatmap-grid';
-import './Heatmap.css';
+import './Heatmap.scss';
 import { Colors } from './Colors';
 
 function Heatmap({ heatmap }) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import './GameStatistics.css';
+import './GameStatistics.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
 import Heatmap from '../../Heatmap/Heatmap';

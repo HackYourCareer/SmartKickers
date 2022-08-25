@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../../Button/Button';
 import { pointsManipulation } from '../../../apis/goalManipulation.js';
-import './GameResults.css';
+import './GameResults.scss';
 import { TeamID, ScoreChange } from '../../../constants/score.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

@@ -1,3 +1,5 @@
+@import '../../../constants/variables.scss';
+
 .blue-team-icon,
 .white-team-icon {
   padding-right: 10px;
@@ -17,20 +19,20 @@ h2 {
   font-size: 120%;
 }
 .new-game-btn:hover {
-  background-color: var(--SAP-orange);
-  color: var(--SAP-white);
+  background-color: $SAP-orange;
+  color: $SAP-white;
   scale: calc(1.3);
 }
 .table-with-stats {
   display: grid;
   grid-template-columns: auto auto auto;
-  background-color: var(--SAP-black);
+  background-color: $SAP-black;
   padding: 4px;
   margin-top: 40px;
 }
 .table-item {
-  background-color: var(--SAP-gold);
-  border: 0.5px solid var(--SAP-black);
+  background-color: $SAP-gold;
+  border: 0.5px solid $SAP-black;
   padding: 16px;
   font-size: 30px;
   text-align: center;

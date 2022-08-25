@@ -6,16 +6,15 @@
   flex-direction: row;
   justify-content: space-evenly;
 }
-
 .game-result-item {
   padding: 0 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-.game-result-item :nth-child(n + 1) {
-  width: 50px;
+  :nth-child(n + 1) {
+    width: 50px;
+  }
 }
 .icon-result {
   width: 100%;

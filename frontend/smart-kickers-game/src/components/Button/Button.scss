@@ -1,3 +1,5 @@
+@import '../../constants/variables.scss';
+
 .btn {
   padding: 8px 20px;
   border-radius: 2px;
@@ -5,26 +7,28 @@
   border: none;
   cursor: pointer;
   margin: 20px;
+
+  [disabled] {
+    opacity: 0.5;
+    :hover {
+      opacity: 0.5;
+      cursor: initial;
+    }
+  }
 }
-.btn[disabled] {
-  opacity: 0.5;
-}
-.btn[disabled]:hover {
-  opacity: 0.5;
-  cursor: initial;
-}
+
 .btn--primary {
-  background-color: var(--SAP-gold);
+  background-color: $SAP-gold;
   color: #fff;
-  border: 1px solid var(--SAP-gold);
+  border: 1px solid $SAP-gold;
   transition: 0.3s;
 }
 
 .btn--outline {
   background-color: transparent;
-  color: var(--SAP-gold);
+  color: $SAP-gold;
   padding: 8px 20px;
-  border: 1px solid var(--SAP-gold);
+  border: 1px solid $SAP-gold;
   transition: all 0.3s ease-out;
   border-radius: 50px;
 }

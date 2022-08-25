@@ -1,15 +1,4 @@
-:root {
-  --SAP-gold: #f0ab00;
-  --SAP-black: #000000;
-  --SAP-white: #ffffff;
-  --SAP-dark-gray: #666666;
-  --SAP-medium-gray: #999999;
-  --SAP-light-gray: #cccccc;
-  --SAP-blue: #008fd3;
-  --SAP-purple: #970a82;
-  --SAP-green: #4fb81c;
-  --SAP-orange: #e35500;
-}
+@import './constants/variables.scss';
 
 * {
   margin: 0;
@@ -22,16 +11,16 @@ html {
   font-weight: 300;
   font-size: 20px;
   text-rendering: optimizeLegibility;
-  background-color: var(--SAP-white);
-  color: var(--SAP-black);
+  background-color: $SAP-white;
+  color: $SAP-black;
 }
 
 .whiteTeamIcon {
-  color: var(--SAP-light-gray);
+  color: $SAP-light-gray;
 }
 
 .blueTeamIcon {
-  color: var(--SAP-blue);
+  color: $SAP-blue;
 }
 
 h1,

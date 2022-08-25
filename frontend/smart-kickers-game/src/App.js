@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './App.scss';
 import { resetGame } from './apis/resetGame';
 import GameStatistics from './components/Game/GameStatistics/GameStatistics.js';
 import config from './config';

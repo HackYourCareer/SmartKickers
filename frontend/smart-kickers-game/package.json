@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.21.1",
-    "jest-websocket-mock": "^2.3.0"
+    "jest-websocket-mock": "^2.3.0",
+    "sass": "^1.54.5"
   }
 }

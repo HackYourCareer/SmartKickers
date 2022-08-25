@@ -1,0 +1,27 @@
+.heatmap-parent {
+  padding-top: 30px;
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+}
+.heatmap-container {
+  background-image: url('../../assets/images/pitch.png');
+  background-size: 100% 100%;
+  width: 700px;
+  height: auto;
+
+  div {
+    div {
+      div {
+        div {
+          border-radius: 50%;
+          -moz-border-radius: 50%;
+          -webkit-border-radius: 50%;
+        }
+        div:first-child {
+          flex: 0 0 0 !important;
+        }
+      }
+    }
+  }
+}
