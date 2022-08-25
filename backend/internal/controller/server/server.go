@@ -28,8 +28,10 @@ func New(addr string, game model.Game) Server {
 	}
 	serv.router.HandleFunc("/", serv.TableMessagesHandler)
 	serv.router.HandleFunc("/score", serv.SendScoreHandler)
+	serv.router.HandleFunc("/shot", serv.ShotParametersHandler)
 	serv.router.HandleFunc("/reset", serv.ResetScoreHandler).Methods("POST")
 	serv.router.HandleFunc("/goal", serv.ManipulateScoreHandler).Methods("POST")
+	serv.router.HandleFunc("/stats", serv.ShowStatsHandler).Methods("GET")
 
 	return serv
 }
