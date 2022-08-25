@@ -7,17 +7,13 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/HackYourCareer/SmartKickers/internal/config"
 	"github.com/HackYourCareer/SmartKickers/internal/controller/adapter"
-	"github.com/HackYourCareer/SmartKickers/internal/model"
 	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 )
 
-const (
-	messageTypeText = 1
-	attributeTeam   = "team"
-	attributeAction = "action"
-)
+const messageTypeText = 1
 
 func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
@@ -27,7 +23,12 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
 
 	for {
 		_, receivedMsg, err := c.NextReader()
@@ -56,8 +57,7 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s server) createResponse(reader io.Reader) ([]byte, error) {
-
-	message, err := adapter.Unpack(reader)
+	message, err := adapter.UnpackDispatcherMsg(reader)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,12 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
 
 	if err := c.WriteJSON(s.game.GetScore()); err != nil {
 		log.Error(err)
@@ -126,7 +131,7 @@ func waitForError(c *websocket.Conn, ch chan error) {
 // Team ID 1 stands for white and 2 for blue.
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
-	team := r.URL.Query().Get(attributeTeam)
+	team := r.URL.Query().Get(config.AttributeTeam)
 
 	teamID, err := strconv.Atoi(team)
 	if err != nil || !isValidTeamID(teamID) {
@@ -137,7 +142,7 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	switch action := r.URL.Query().Get(attributeAction); action {
+	switch action := r.URL.Query().Get(config.AttributeAction); action {
 	case "add":
 
 		if err := s.game.UpdateManualGoals(teamID, "add"); err != nil {
@@ -171,5 +176,65 @@ func writeHTTPError(w http.ResponseWriter, header int, msg string) error {
 }
 
 func isValidTeamID(teamID int) bool {
-	return (teamID == model.TeamWhite || teamID == model.TeamBlue)
+	return teamID == config.TeamWhite || teamID == config.TeamBlue
+}
+
+func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
+	var upgrader websocket.Upgrader
+	c, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Error(err)
+	}
+
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
+
+	for {
+		_, receivedMsg, err := c.NextReader()
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+
+		shot, err := adapter.UnpackShotMsg(receivedMsg)
+		if err != nil {
+			log.Error(err)
+			continue
+		}
+
+		err = s.game.UpdateShotsData(shot)
+		if err != nil {
+			log.Error(err)
+		}
+
+		log.Debug(shot)
+	}
+}
+
+func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
+	response, err := json.Marshal(s.game.GetShotsData().Fastest)
+	if err != nil {
+		log.Error(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
+		if err != nil {
+			log.Error(err)
+		}
+
+		return
+	}
+
+	_, err = w.Write(response)
+	if err != nil {
+		log.Error(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
+		if err != nil {
+			log.Error(err)
+		}
+
+		log.Error(err)
+	}
 }
