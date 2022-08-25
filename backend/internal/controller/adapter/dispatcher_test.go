@@ -135,9 +135,8 @@ func TestUnpackDispatcherMsg(t *testing.T) {
 			reader := bytes.NewReader(jsn)
 
 			msg, err := UnpackDispatcherMsg(reader)
-			if err != nil {
-				assert.FailNow(t, err.Error())
-			}
+
+			assert.Nil(t, err)
 			assert.Equal(t, msg, tt.ExpectedMsgOut)
 		})
 	}

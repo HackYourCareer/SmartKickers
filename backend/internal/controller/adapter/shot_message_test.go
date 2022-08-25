@@ -63,9 +63,8 @@ func TestUnpackShotMsg(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			var rawSlice []json.RawMessage
 			jsn, err := json.Marshal(tt.msgIn)
-			if err != nil {
-				assert.FailNow(t, err.Error())
-			}
+
+			assert.Nil(t, err)
 			rawMsg := json.RawMessage(jsn)
 			if tt.msgIn != (tableShotParams{}) {
 				rawSlice = append(rawSlice, rawMsg)
@@ -75,9 +74,8 @@ func TestUnpackShotMsg(t *testing.T) {
 				Params: rawSlice,
 			}
 			shotJSON, err := json.Marshal(tableShot)
-			if err != nil {
-				assert.FailNow(t, err.Error())
-			}
+
+			assert.Nil(t, err)
 			reader := bytes.NewReader(shotJSON)
 
 			msg, err := UnpackShotMsg(reader)
