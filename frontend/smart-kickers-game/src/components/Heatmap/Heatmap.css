@@ -14,3 +14,6 @@
   display: flex;
   justify-content: space-evenly;
 }
+.heatmap-container > div > div > div > div:first-child {
+  flex: 0 0 0 !important;
+}
