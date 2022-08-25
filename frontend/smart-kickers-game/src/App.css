@@ -1,11 +1,14 @@
 :root {
-  --main-purple: #7d2ae8;
-  --my-red: #e82a36;
-  --my-green: #95e82a;
-  --my-blue: #2ae8dc;
-  --my-white: #fff;
-  --my-dark-background: #000000d0;
-  --html-color: #555;
+  --SAP-gold: #f0ab00;
+  --SAP-black: #000000;
+  --SAP-white: #ffffff;
+  --SAP-dark-gray: #666666;
+  --SAP-medium-gray: #999999;
+  --SAP-light-gray: #cccccc;
+  --SAP-blue: #008fd3;
+  --SAP-purple: #970a82;
+  --SAP-green: #4fb81c;
+  --SAP-orange: #e35500;
 }
 
 * {
@@ -15,16 +18,20 @@
 }
 
 html {
-  color: var(--html-color);
   font-family: 'lato', 'Arial', sans-serif;
   font-weight: 300;
   font-size: 20px;
   text-rendering: optimizeLegibility;
+  background-color: var(--SAP-white);
+  color: var(--SAP-black);
 }
 
-body {
-  color: var(--html-color);
-  background-color: var(--my-white);
+.whiteTeamIcon {
+  color: var(--SAP-light-gray);
+}
+
+.blueTeamIcon {
+  color: var(--SAP-blue);
 }
 
 h1,

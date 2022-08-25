@@ -8,29 +8,18 @@ import (
 )
 
 func TestResetScore(t *testing.T) {
-	game := &game{score: GameScore{3, 1}}
+	game := &game{score: GameScore{3, 1}, scoreChannel: make(chan GameScore, 32)}
 
-	type args struct {
-		name               string
-		expectedBlueScore  int
-		expectedWhiteScore int
-	}
+	game.ResetScore()
+	resultScore := <-game.scoreChannel
 
-	tests := []args{
-		{name: "Check if values are set to 0", expectedBlueScore: 0, expectedWhiteScore: 0},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			game.ResetScore()
-		})
-		if tt.expectedWhiteScore != 0 || tt.expectedBlueScore != 0 {
-			t.Errorf("Score did not reset. Goals white: %v, Goals blue: %v", tt.expectedWhiteScore, tt.expectedBlueScore)
-		}
+	if resultScore.BlueScore != 0 || resultScore.WhiteScore != 0 {
+		t.Errorf("Score did not reset. Goals white: %v, Goals blue: %v", game.score.WhiteScore, game.score.BlueScore)
 	}
 }
 
 func TestAddGoal(t *testing.T) {
-	game := &game{score: GameScore{3, 1}}
+	game := &game{score: GameScore{3, 1}, scoreChannel: make(chan GameScore, 32)}
 
 	type args struct {
 		name               string
@@ -47,22 +36,28 @@ func TestAddGoal(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+
 			game.score.WhiteScore = 0
 			game.score.BlueScore = 0
 			err := game.AddGoal(tt.teamID)
+			if err == nil {
+				resultScore := <-game.scoreChannel
+
+				assert.Equal(t, resultScore.BlueScore, tt.expectedBlueScore, "blue team score changes incorrectly")
+				assert.Equal(t, resultScore.WhiteScore, tt.expectedWhiteScore, "white team score changes incorrectly")
+			}
+
 			if tt.expectedError == "" {
 				assert.Nil(t, err)
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
-			assert.Equal(t, game.score.BlueScore, tt.expectedBlueScore, "blue team score changes incorrectly")
-			assert.Equal(t, game.score.WhiteScore, tt.expectedWhiteScore, "white team score changes incorrectly")
 		})
 	}
 }
 
 func TestGameSubGoal(t *testing.T) {
-	game := &game{score: GameScore{0, 2}}
+	game := &game{score: GameScore{0, 2}, scoreChannel: make(chan GameScore, 32)}
 
 	type args struct {
 		name               string
@@ -86,13 +81,17 @@ func TestGameSubGoal(t *testing.T) {
 				game.score.WhiteScore = 0
 			}
 			err := game.SubGoal(tt.teamID)
+			if err == nil {
+				resultScore := <-game.scoreChannel
+
+				assert.Equal(t, resultScore.BlueScore, tt.expectedBlueScore, "blue team score changes incorrectly")
+				assert.Equal(t, resultScore.WhiteScore, tt.expectedWhiteScore, "white team score changes incorrectly")
+			}
 			if tt.expectedError == "" {
 				assert.Nil(t, err)
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
-			assert.Equal(t, game.score.BlueScore, tt.expectedBlueScore, "blue team score changes incorrectly")
-			assert.Equal(t, game.score.WhiteScore, tt.expectedWhiteScore, "white team score changes incorrectly")
 		})
 	}
 }
