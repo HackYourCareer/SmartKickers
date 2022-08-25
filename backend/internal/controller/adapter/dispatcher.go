@@ -36,7 +36,7 @@ type initialResponse struct {
 	GameEnded int    `json:"end,omitempty"`
 }
 
-func Unpack(message io.Reader) (Message, error) {
+func UnpackDispatcherMsg(message io.Reader) (Message, error) {
 	var tableMessage dispatcherMsg
 
 	err := json.NewDecoder(message).Decode(&tableMessage)
