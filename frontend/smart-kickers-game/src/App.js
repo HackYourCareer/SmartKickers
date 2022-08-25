@@ -7,6 +7,8 @@ import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
 import { getHeatmapData } from './apis/heatmap';
 
 function App() {
+  //hardcoded heatmap, will be removed when backend is ready
+  let heatMapTable = new Array(200).fill(Math.floor(Math.random() * 50)).map(() => new Array(107).fill(Math.floor(Math.random() * 50)));
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
   const [heatmap, setHeatmap] = useState([]);
@@ -37,9 +39,9 @@ function App() {
     getHeatmap();
   };
   async function getHeatmap() {
-    let heatMapTable = await getHeatmapData();
+    //Todo uncomment this line when backend is working
+    // let heatMapTable = await getHeatmapData();
     setHeatmap(heatMapTable);
-    console.log(heatmap);
   }
 
   return (

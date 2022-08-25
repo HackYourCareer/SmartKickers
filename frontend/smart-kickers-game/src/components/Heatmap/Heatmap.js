@@ -3,10 +3,12 @@ import HeatMap from 'react-heatmap-grid';
 import './Heatmap.css';
 import { Colors } from './Colors';
 
-function Heatmap({ heatMapTable }) {
-  const heatmapDim = Object.keys(heatMapTable.data).length;
+function Heatmap({ heatmap }) {
+  console.log({ heatmap });
+  console.log(heatmap.length);
+  const heatmapDim = heatmap.length;
   const array = new Array(heatmapDim).fill(0).map(() => '');
-  let numbersCopy = JSON.parse(JSON.stringify(heatMapTable.data));
+  let numbersCopy = JSON.parse(JSON.stringify(heatmap));
 
   for (let i = 0; i < heatmapDim; i++)
     for (let j = 0; j <= i; j++) {

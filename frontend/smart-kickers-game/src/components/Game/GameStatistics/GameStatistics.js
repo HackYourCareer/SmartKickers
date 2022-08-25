@@ -24,7 +24,7 @@ function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame
         <div className="table-item">score</div>
         <div className="table-item">{finalScores.white}</div>
       </div>
-      {heatmap == null ? 'null' : <Heatmap heatmap={heatmap} />}
+      {heatmap ? <Heatmap heatmap={heatmap} /> : null}
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {
