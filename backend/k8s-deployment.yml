@@ -16,7 +16,7 @@ spec:
           image: smartkickers/backend:latest
           ports:
             - containerPort: 3000
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: IfNotPresent # TODO: Change to "ALWAYS" before deploying on cloud
           resources:
             requests:
               cpu: 50m
@@ -30,7 +30,7 @@ kind: Service
 metadata:
   name: gosmartkickers
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: gosmartkickers
   ports:
