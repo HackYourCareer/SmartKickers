@@ -1,7 +1,6 @@
 package model
 
 import (
-	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -99,12 +98,6 @@ func TestGameSubGoal(t *testing.T) {
 func Test_game_UpdateManualGoals(t *testing.T) {
 	game := &game{score: GameScore{0, 0}, manualGoals: ManualGoals{0, 0, 0, 0}}
 
-	type fields struct {
-		score        GameScore
-		scoreChannel chan GameScore
-		manualGoals  ManualGoals
-		m            sync.RWMutex
-	}
 	type args struct {
 		name                string
 		teamID              int
