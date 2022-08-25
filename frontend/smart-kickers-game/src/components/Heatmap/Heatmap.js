@@ -4,8 +4,6 @@ import './Heatmap.css';
 import { Colors } from './Colors';
 
 function Heatmap({ heatmap }) {
-  console.log({ heatmap });
-  console.log(heatmap.length);
   const heatmapDim = heatmap.length;
   const array = new Array(heatmapDim).fill(0).map(() => '');
   let numbersCopy = JSON.parse(JSON.stringify(heatmap));
