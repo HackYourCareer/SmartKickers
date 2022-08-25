@@ -18,6 +18,8 @@ type Message struct {
 	Category MsgCategory
 	TableID  string
 	Team     int
+	X        float64
+	Y        float64
 }
 
 type dispatcherMsg struct {
@@ -48,6 +50,8 @@ func UnpackDispatcherMsg(message io.Reader) (Message, error) {
 		Category: tableMessage.getMessageCategory(),
 		TableID:  tableMessage.TableID,
 		Team:     tableMessage.Goal,
+		X:        tableMessage.X,
+		Y:        tableMessage.Y,
 	}, nil
 }
 
@@ -58,7 +62,7 @@ func (dispMsg dispatcherMsg) getMessageCategory() MsgCategory {
 	if dispMsg.Goal != 0 {
 		return MsgGoal
 	}
-	return MsgNone
+	return MsgPosition
 }
 
 func NewDispatcherResponse(tableID string) *initialResponse {
