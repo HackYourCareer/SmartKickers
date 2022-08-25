@@ -10,6 +10,9 @@ const (
 	// Constants for query attributes from API URLs
 	AttributeTeam   = "team"
 	AttributeAction = "action"
+
+	// Constant for heatmap accuracy, the larger the more accurate but more resource demanding
+	HeatmapAccuracy = 100
 )
 
 // Numbers corresponding to areas on the table, as received from node application

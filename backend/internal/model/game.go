@@ -3,6 +3,7 @@ package model
 import (
 	"errors"
 	"fmt"
+	"math"
 	"sync"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
@@ -18,6 +19,7 @@ type Game interface {
 	SubGoal(int) error
 	UpdateShotsData(Shot) error
 	GetShotsData() ShotsData
+	WriteToHeatmap(float64, float64) error
 }
 
 type game struct {
@@ -25,6 +27,7 @@ type game struct {
 	shotsData    ShotsData
 	scoreChannel chan GameScore
 	m            sync.RWMutex
+	heatmap      [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 }
 
 type GameScore struct {
@@ -144,4 +147,22 @@ func (g *game) GetShotsData() ShotsData {
 	defer g.m.RUnlock()
 
 	return g.shotsData
+}
+
+func (g *game) WriteToHeatmap(xCord float64, yCord float64) error {
+	log.Trace("mutex lock: WriteToHeatmap")
+	g.m.Lock()
+	defer g.m.Unlock()
+
+	x := int(math.Round(config.HeatmapAccuracy * xCord))
+	y := int(math.Round(config.HeatmapAccuracy * yCord))
+	heatmapIndex := config.HeatmapAccuracy - 1
+	if x > heatmapIndex || x < 0 {
+		return errors.New("x ball position out of index")
+	}
+	if y > heatmapIndex || y < 0 {
+		return errors.New("y ball position out of index")
+	}
+	g.heatmap[x][y]++
+	return nil
 }
