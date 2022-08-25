@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 
-export async function pointsManipulation(teamID, action) {
+export async function updateScores(teamID, action) {
   try {
     const result = await axios.post(`${config.apiBaseUrl}/goal?action=${action}&team=${teamID}`);
 

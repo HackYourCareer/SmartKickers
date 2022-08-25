@@ -1,10 +1,10 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import config from '../config';
-import { pointsManipulation } from './goalManipulation.js';
+import { updateScores } from './updateScores.js';
 import { TeamID, ScoreChange } from '../constants/score.js';
 
-describe('pointsManipulation API caller', () => {
+describe('updateScores API caller', () => {
   let mock;
 
   beforeAll(() => {
@@ -23,7 +23,7 @@ describe('pointsManipulation API caller', () => {
   ])(`should return proper result when passed arguments are: %i, %i`, async (teamID, action, expectedResult) => {
     mock.onPost(`${config.apiBaseUrl}/goal?action=${action}&team=${teamID}`).reply(expectedResult);
 
-    const result = await pointsManipulation(teamID, action);
+    const result = await updateScores(teamID, action);
     expect(result.status).toBe(expectedResult);
     expect(result.error).not.toBeDefined();
   });
@@ -38,7 +38,7 @@ describe('pointsManipulation API caller', () => {
     async (teamID, action, expectedResult) => {
       mock.onPost(`${config.apiBaseUrl}/goal?action=${action}&team=${teamID}`).reply(expectedResult);
 
-      const result = await pointsManipulation(teamID, action);
+      const result = await updateScores(teamID, action);
       expect(result.status).toBe(500);
       expect(result.error).toBeDefined();
     }

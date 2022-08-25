@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../Button/Button';
-import { pointsManipulation } from '../../../apis/goalManipulation.js';
+import { updateScores } from '../../../apis/updateScores.js';
 import './GameResults.css';
 import { TeamID, ScoreChange } from '../../../constants/score.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +12,7 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              pointsManipulation(TeamID.Team_blue, ScoreChange.Add_goal);
+              updateScores(TeamID.Team_blue, ScoreChange.Add_goal);
             }}
           >
             +
@@ -23,7 +23,7 @@ function GameResults({ blueScore, whiteScore }) {
           </div>
           <Button
             onClick={() => {
-              pointsManipulation(TeamID.Team_blue, ScoreChange.Sub_goal);
+              updateScores(TeamID.Team_blue, ScoreChange.Sub_goal);
             }}
             disabled={blueScore === 0}
           >
@@ -34,7 +34,7 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              pointsManipulation(TeamID.Team_white, ScoreChange.Add_goal);
+              updateScores(TeamID.Team_white, ScoreChange.Add_goal);
             }}
           >
             +
@@ -45,7 +45,7 @@ function GameResults({ blueScore, whiteScore }) {
           </div>
           <Button
             onClick={() => {
-              pointsManipulation(TeamID.Team_white, ScoreChange.Sub_goal);
+              updateScores(TeamID.Team_white, ScoreChange.Sub_goal);
             }}
             disabled={whiteScore === 0}
           >
