@@ -34,7 +34,6 @@ type GameScore struct {
 	WhiteScore int `json:"whiteScore"`
 }
 
-
 type ManualGoals struct {
 	AddedBlue       int
 	SubtractedBlue  int
@@ -163,9 +162,9 @@ func (g *game) UpdateManualGoals(teamID int, action string) error {
 	switch action {
 	case "add":
 		switch teamID {
-		case TeamWhite:
+		case config.TeamWhite:
 			g.manualGoals.AddedWhite++
-		case TeamBlue:
+		case config.TeamBlue:
 			g.manualGoals.AddedBlue++
 		default:
 			return errors.New("bad team ID")
@@ -173,9 +172,9 @@ func (g *game) UpdateManualGoals(teamID int, action string) error {
 		return nil
 	case "sub":
 		switch teamID {
-		case TeamWhite:
+		case config.TeamWhite:
 			g.manualGoals.SubtractedWhite++
-		case TeamBlue:
+		case config.TeamBlue:
 			g.manualGoals.SubtractedBlue++
 		default:
 			return errors.New("bad team ID")
