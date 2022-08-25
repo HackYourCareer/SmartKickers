@@ -44,6 +44,7 @@ func (g *game) ResetScore() {
 func (g *game) AddGoal(teamID int) error {
 	g.m.Lock()
 	defer g.m.Unlock()
+
 	switch teamID {
 	case TeamWhite:
 		g.score.WhiteScore++
@@ -53,12 +54,14 @@ func (g *game) AddGoal(teamID int) error {
 		return errors.New("bad team ID")
 	}
 	g.scoreChannel <- g.score
+
 	return nil
 }
 
 func (g *game) GetScore() GameScore {
 	g.m.RLock()
 	defer g.m.RUnlock()
+
 	return g.score
 }
 
@@ -69,6 +72,7 @@ func (g *game) GetScoreChannel() chan GameScore {
 func (g *game) SubGoal(teamID int) error {
 	g.m.Lock()
 	defer g.m.Unlock()
+
 	switch teamID {
 	case TeamWhite:
 		if g.score.WhiteScore > 0 {
@@ -82,6 +86,6 @@ func (g *game) SubGoal(teamID int) error {
 		return errors.New("bad team ID")
 	}
 	g.scoreChannel <- g.score
-	return nil
 
+	return nil
 }

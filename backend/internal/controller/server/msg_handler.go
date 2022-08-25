@@ -21,6 +21,7 @@ const (
 
 func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
+
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Error(err)
@@ -33,18 +34,22 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
 			log.Error(err)
+
 			if websocket.IsCloseError(err, websocket.CloseAbnormalClosure) {
 				log.Error("Closing TableMessagesHandler")
 				return
 			}
+
 			continue
 		}
+
 		response, err := s.createResponse(receivedMsg)
 
 		if err != nil {
 			log.Error(err)
 			continue
 		}
+
 		if response != nil {
 			err = c.WriteMessage(messageTypeText, response)
 			if err != nil {
@@ -56,11 +61,11 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s server) createResponse(reader io.Reader) ([]byte, error) {
-
 	message, err := adapter.Unpack(reader)
 	if err != nil {
 		return nil, err
 	}
+
 	switch message.Category {
 	case adapter.MsgInitial:
 		return json.Marshal(adapter.NewDispatcherResponse(message.TableID))
@@ -77,12 +82,12 @@ func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
-
 	closeConnChan := make(chan error)
 
 	var upgrader websocket.Upgrader
 	// TODO: We should check the origin in the future. For now we enable every connection to the server.
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Error(err)
@@ -106,7 +111,6 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		case err := <-closeConnChan:
 			log.Error(err)
 			return
-
 		}
 	}
 }
@@ -125,7 +129,6 @@ func waitForError(c *websocket.Conn, ch chan error) {
 // Incoming URL should be in the format: '/goal?action=[add/sub]&team=[1/2]'.
 // Team ID 1 stands for white and 2 for blue.
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
-
 	team := r.URL.Query().Get(attributeTeam)
 
 	teamID, err := strconv.Atoi(team)
@@ -134,6 +137,7 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Error(err)
 		}
+
 		return
 	}
 
@@ -153,7 +157,6 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Error(err)
 		}
-
 	}
 }
 
@@ -161,6 +164,7 @@ func writeHTTPError(w http.ResponseWriter, header int, msg string) error {
 	log.Error("Error handling request: ", msg)
 	w.WriteHeader(header)
 	_, err := w.Write([]byte(msg))
+
 	return err
 }
 

@@ -27,6 +27,7 @@ func TestAddGoal(t *testing.T) {
 		expectedWhiteScore int
 		expectedError      string
 	}
+
 	tests := []args{
 		{name: "should increment team white score by one", teamID: TeamWhite, expectedBlueScore: 0, expectedWhiteScore: 1, expectedError: ""},
 		{name: "should increment team blue score by one", teamID: TeamBlue, expectedBlueScore: 1, expectedWhiteScore: 0, expectedError: ""},
@@ -35,7 +36,6 @@ func TestAddGoal(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
 			game.score.WhiteScore = 0
 			game.score.BlueScore = 0
 			err := game.AddGoal(tt.teamID)
@@ -65,6 +65,7 @@ func TestGameSubGoal(t *testing.T) {
 		expectedWhiteScore int
 		expectedError      string
 	}
+
 	tests := []args{
 		{name: "should decrement team white score by one", teamID: TeamWhite, expectedBlueScore: 2, expectedWhiteScore: 0, expectedError: ""},
 		{name: "should decrement team blue score by one", teamID: TeamBlue, expectedBlueScore: 1, expectedWhiteScore: 1, expectedError: ""},
