@@ -159,29 +159,36 @@ func (g *game) UpdateManualGoals(teamID int, action string) error {
 	g.m.Lock()
 	defer g.m.Unlock()
 
+	var err error
 	switch action {
 	case config.ActionAdd:
-		switch teamID {
-		case config.TeamWhite:
-			g.manualGoals.AddedWhite++
-		case config.TeamBlue:
-			g.manualGoals.AddedBlue++
-		default:
-			return errors.New("bad team ID")
-		}
-		return nil
+		err = addManualGoal(teamID, &g.manualGoals)
 	case config.ActionSubtract:
-		switch teamID {
-		case config.TeamWhite:
-			g.manualGoals.SubtractedWhite++
-		case config.TeamBlue:
-			g.manualGoals.SubtractedBlue++
-		default:
-			return errors.New("bad team ID")
-		}
-		return nil
+		err = subManualGoal(teamID, &g.manualGoals)
 	default:
-		return errors.New("bad action type")
-
+		err = errors.New("bad action type")
 	}
+	return err
+}
+
+func addManualGoal(teamID int, manualGoals *ManualGoals) error {
+	if teamID == config.TeamWhite {
+		manualGoals.AddedWhite++
+		return nil
+	} else if teamID == config.TeamBlue {
+		manualGoals.AddedBlue++
+		return nil
+	}
+	return errors.New("bad team ID")
+}
+
+func subManualGoal(teamID int, manualGoals *ManualGoals) error {
+	if teamID == config.TeamWhite {
+		manualGoals.SubtractedWhite++
+		return nil
+	} else if teamID == config.TeamBlue {
+		manualGoals.SubtractedBlue++
+		return nil
+	}
+	return errors.New("bad team ID")
 }
