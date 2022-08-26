@@ -13,10 +13,10 @@ spec:
     spec:
       containers:
         - name: gosmartkickers
-          image: smartkickers/backend:latest
+          image: marekkawalski/smartkickers:latest
           ports:
             - containerPort: 3000
-          imagePullPolicy: IfNotPresent # TODO: Change to "ALWAYS" before deploying on cloud
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: 50m
