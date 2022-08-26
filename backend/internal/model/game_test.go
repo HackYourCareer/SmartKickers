@@ -149,6 +149,7 @@ func TestUpdateShotsData(t *testing.T) {
 		expectedCountBlue  int
 		expectedError      string
 	}
+
 	tests := []args{
 		{
 			name: "should increment team white shot count by one",
@@ -202,7 +203,6 @@ func TestUpdateShotsData(t *testing.T) {
 }
 
 func TestSaveFastestGoal(t *testing.T) {
-
 	game := &game{
 		shotsData: ShotsData{
 			Fastest: Shot{
@@ -249,5 +249,4 @@ func TestSaveFastestGoal(t *testing.T) {
 			assert.Equal(t, tt.expectedFastest, game.shotsData.Fastest)
 		})
 	}
-
 }

@@ -135,8 +135,7 @@ func waitForError(c *websocket.Conn, ch chan error) {
 // Incoming URL should be in the format: '/goal?action=[add/sub]&team=[1/2]'.
 // Team ID 1 stands for white and 2 for blue.
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
-	team := r.URL.Query().Get(attributeTeam)
-
+	team := r.URL.Query().Get(config.AttributeTeam)
 
 	teamID, err := strconv.Atoi(team)
 	if err != nil || !isValidTeamID(teamID) {
@@ -181,6 +180,7 @@ func isValidTeamID(teamID int) bool {
 
 func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
+
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Error(err)
@@ -219,6 +219,7 @@ func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 	response, err := json.Marshal(s.game.GetShotsData().Fastest)
 	if err != nil {
 		log.Error(err)
+
 		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
 		if err != nil {
 			log.Error(err)
@@ -230,6 +231,7 @@ func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 	_, err = w.Write(response)
 	if err != nil {
 		log.Error(err)
+
 		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
 		if err != nil {
 			log.Error(err)

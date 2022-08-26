@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
-
 	log "github.com/sirupsen/logrus"
 )
 
