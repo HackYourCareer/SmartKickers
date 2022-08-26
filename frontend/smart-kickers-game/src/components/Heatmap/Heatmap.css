@@ -13,6 +13,7 @@
   width: 100vw;
   display: flex;
   justify-content: space-evenly;
+  padding-top: 30px;
 }
 .heatmap-container > div > div > div > div:first-child {
   flex: 0 0 0 !important;
