@@ -8,7 +8,7 @@ import { getHeatmapData } from './apis/heatmap';
 
 function App() {
   //hardcoded heatmap, will be removed when backend is ready
-  let heatMapTable = new Array(100).fill(Math.floor(Math.random() * 50)).map(() => new Array(100).fill(Math.floor(Math.random() * 50)));
+  //let heatMapTable = new Array(100).fill(Math.floor(Math.random() * 50)).map(() => new Array(100).fill(Math.floor(Math.random() * 50)));
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
   const [heatmap, setHeatmap] = useState([]);
@@ -40,8 +40,8 @@ function App() {
   };
   async function getHeatmap() {
     //Todo uncomment this line when backend is working
-    // let heatMapTable = await getHeatmapData();
-    setHeatmap(heatMapTable);
+    let heatMapTable = await getHeatmapData();
+    setHeatmap(heatMapTable.data.Heatmap);
   }
 
   return (

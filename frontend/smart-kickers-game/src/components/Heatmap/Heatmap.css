@@ -3,6 +3,7 @@
   background-size: 100% 100%;
   width: 700px;
   height: auto;
+  transform: scaleX(-1);
 }
 .heatmap-container > div > div > div > div {
   border-radius: 50%;
