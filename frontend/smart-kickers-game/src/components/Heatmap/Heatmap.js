@@ -41,8 +41,8 @@ function Heatmap({ heatmap }) {
             background: `${chooseColor(value)} `,
             fontSize: '0px',
             color: '#444',
-            width: '4px',
-            height: '3px',
+            width: '3.28px',
+            height: '2px',
           })}
           cellRender={(value) => value && <div>{value}</div>}
         />
