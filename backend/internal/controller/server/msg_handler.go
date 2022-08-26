@@ -68,7 +68,7 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 		err := s.game.AddGoal(message.Team)
 		return nil, err
 	case adapter.MsgPosition:
-		log.Trace("X: ", message.X, " Y: ", message.Y)
+		log.Trace("X coord of the ball: ", message.X, " Y coord of the ball: ", message.Y)
 		return nil, nil
 	default:
 		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
