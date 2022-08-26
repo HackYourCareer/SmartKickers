@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gosmartkickers-deploy
+spec:
+  selector:
+    matchLabels:
+      app: gosmartkickers
+  template:
+    metadata:
+      labels:
+        app: gosmartkickers
+    spec:
+      containers:
+        - name: gosmartkickers
+          image: marekkawalski/smartkickers:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 20Mi
+            limits:
+              cpu: 500m
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gosmartkickers
+spec:
+  type: ClusterIP
+  selector:
+    app: gosmartkickers
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: smartkickers
+  labels:
+    name: smartkickers
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: gosmartkickers
+                port:
+                  number: 3000
