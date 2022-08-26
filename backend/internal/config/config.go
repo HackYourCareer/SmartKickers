@@ -11,7 +11,7 @@ const (
 	AttributeTeam   = "team"
 	AttributeAction = "action"
 
-	// Constants for action names
+	// Constants for action names assocciated with the score
 	ActionAdd      = "add"
 	ActionSubtract = "sub"
 )
