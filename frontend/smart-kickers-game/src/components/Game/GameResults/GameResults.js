@@ -12,7 +12,9 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              updateScores(TeamID.Team_blue, ScoreChange.Add_goal);
+              updateScores(TeamID.Team_blue, ScoreChange.Add_goal).then((data) => {
+                if (data.error) alert(data.error);
+              });
             }}
           >
             +
@@ -23,7 +25,9 @@ function GameResults({ blueScore, whiteScore }) {
           </div>
           <Button
             onClick={() => {
-              updateScores(TeamID.Team_blue, ScoreChange.Sub_goal);
+              updateScores(TeamID.Team_blue, ScoreChange.Sub_goal).then((data) => {
+                if (data.error) alert(data.error);
+              });
             }}
             disabled={blueScore === 0}
           >
@@ -34,7 +38,9 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              updateScores(TeamID.Team_white, ScoreChange.Add_goal);
+              updateScores(TeamID.Team_white, ScoreChange.Add_goal).then((data) => {
+                if (data.error) alert(data.error);
+              });
             }}
           >
             +
@@ -45,7 +51,9 @@ function GameResults({ blueScore, whiteScore }) {
           </div>
           <Button
             onClick={() => {
-              updateScores(TeamID.Team_white, ScoreChange.Sub_goal);
+              updateScores(TeamID.Team_white, ScoreChange.Sub_goal).then((data) => {
+                if (data.error) alert(data.error);
+              });
             }}
             disabled={whiteScore === 0}
           >
