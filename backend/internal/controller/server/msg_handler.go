@@ -143,16 +143,16 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch action := r.URL.Query().Get(config.AttributeAction); action {
-	case "add":
+	case config.ActionAdd:
 
-		if err := s.game.UpdateManualGoals(teamID, "add"); err != nil {
+		if err := s.game.UpdateManualGoals(teamID, config.ActionAdd); err != nil {
 			log.Error(err)
 		}
 		if err := s.game.AddGoal(teamID); err != nil {
 			log.Error(err)
 		}
-	case "sub":
-		if err := s.game.UpdateManualGoals(teamID, "sub"); err != nil {
+	case config.ActionSubtract:
+		if err := s.game.UpdateManualGoals(teamID, config.ActionSubtract); err != nil {
 			log.Error(err)
 		}
 		if err := s.game.SubGoal(teamID); err != nil {

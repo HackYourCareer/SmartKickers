@@ -160,7 +160,7 @@ func (g *game) UpdateManualGoals(teamID int, action string) error {
 	defer g.m.Unlock()
 
 	switch action {
-	case "add":
+	case config.ActionAdd:
 		switch teamID {
 		case config.TeamWhite:
 			g.manualGoals.AddedWhite++
@@ -170,7 +170,7 @@ func (g *game) UpdateManualGoals(teamID int, action string) error {
 			return errors.New("bad team ID")
 		}
 		return nil
-	case "sub":
+	case config.ActionSubtract:
 		switch teamID {
 		case config.TeamWhite:
 			g.manualGoals.SubtractedWhite++

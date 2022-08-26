@@ -150,14 +150,14 @@ func Test_game_UpdateManualGoals(t *testing.T) {
 	}
 	tests := []args{
 		// No error cases
-		{name: "should increment blue manual goals by 1", teamID: config.TeamBlue, action: "add", expectedManualGoals: ManualGoals{1, 0, 0, 0}, expectedError: ""},
-		{name: "should decrement blue manual goals by 1", teamID: config.TeamBlue, action: "sub", expectedManualGoals: ManualGoals{0, 1, 0, 0}, expectedError: ""},
-		{name: "should increment white manual goals by 1", teamID: config.TeamWhite, action: "add", expectedManualGoals: ManualGoals{0, 0, 1, 0}, expectedError: ""},
-		{name: "should decrement white manual goals by 1", teamID: config.TeamWhite, action: "sub", expectedManualGoals: ManualGoals{0, 0, 0, 1}, expectedError: ""},
+		{name: "should increment blue manual goals by 1", teamID: config.TeamBlue, action: config.ActionAdd, expectedManualGoals: ManualGoals{1, 0, 0, 0}, expectedError: ""},
+		{name: "should decrement blue manual goals by 1", teamID: config.TeamBlue, action: config.ActionSubtract, expectedManualGoals: ManualGoals{0, 1, 0, 0}, expectedError: ""},
+		{name: "should increment white manual goals by 1", teamID: config.TeamWhite, action: config.ActionAdd, expectedManualGoals: ManualGoals{0, 0, 1, 0}, expectedError: ""},
+		{name: "should decrement white manual goals by 1", teamID: config.TeamWhite, action: config.ActionSubtract, expectedManualGoals: ManualGoals{0, 0, 0, 1}, expectedError: ""},
 
 		// Error cases
-		{name: "should return bad team ID error", teamID: 0, action: "add", expectedManualGoals: ManualGoals{0, 0, 0, 0}, expectedError: "bad team ID"},
-		{name: "should return bad team ID error", teamID: 0, action: "sub", expectedManualGoals: ManualGoals{0, 0, 0, 0}, expectedError: "bad team ID"},
+		{name: "should return bad team ID error", teamID: 0, action: config.ActionAdd, expectedManualGoals: ManualGoals{0, 0, 0, 0}, expectedError: "bad team ID"},
+		{name: "should return bad team ID error", teamID: 0, action: config.ActionSubtract, expectedManualGoals: ManualGoals{0, 0, 0, 0}, expectedError: "bad team ID"},
 		{name: "should return bad action error", teamID: config.TeamBlue, action: "addd", expectedManualGoals: ManualGoals{0, 0, 0, 0}, expectedError: "bad action type"},
 		{name: "should return bad action error", teamID: config.TeamWhite, action: "addd", expectedManualGoals: ManualGoals{0, 0, 0, 0}, expectedError: "bad action type"},
 		{name: "should return bad action error", teamID: -10, action: "addd", expectedManualGoals: ManualGoals{0, 0, 0, 0}, expectedError: "bad action type"},

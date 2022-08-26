@@ -10,6 +10,10 @@ const (
 	// Constants for query attributes from API URLs
 	AttributeTeam   = "team"
 	AttributeAction = "action"
+
+	// Constants for action names
+	ActionAdd      = "add"
+	ActionSubtract = "sub"
 )
 
 // Numbers corresponding to areas on the table, as received from node application
