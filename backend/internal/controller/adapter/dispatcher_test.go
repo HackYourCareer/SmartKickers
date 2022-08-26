@@ -61,7 +61,7 @@ func TestGetMessageCategory(t *testing.T) {
 	}
 }
 
-func TestUnpack(t *testing.T) {
+func TestUnpackDispatcherMsg(t *testing.T) {
 	type args struct {
 		name           string
 		msgIn          dispatcherMsg
@@ -136,7 +136,7 @@ func TestUnpack(t *testing.T) {
 			jsn, _ := json.Marshal(tt.msgIn)
 			reader := bytes.NewReader(jsn)
 
-			msg, _ := Unpack(reader)
+			msg, _ := UnpackDispatcherMsg(reader)
 			assert.Equal(t, msg, tt.ExpectedMsgOut)
 		})
 	}
