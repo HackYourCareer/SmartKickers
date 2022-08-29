@@ -15,10 +15,3 @@ export async function updateScores(teamID, action) {
     };
   }
 }
-
-export async function updateScoresHandler(teamId, action) {
-  const result = await updateScores(teamId, action);
-  if (result.error) {
-    alert(result.error);
-  }
-}
