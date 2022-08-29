@@ -18,19 +18,18 @@ function GameHistory({ goalsArray }) {
           <FontAwesomeIcon className="white-team-icon" icon="fa-person" />
           White
         </div>
-        {goalsArray.forEach((item) => {
-          console.log(item);
-          //   item.TeamID === TeamID.Team_blue ? (
-          //     <>
-          //       <div className="table-item">{item.timestamp}</div> <div className="table-item">{''}</div>
-          //     </>
-          //   ) : (
-          //     <>
-          //       <div className="table-item">{''}</div> <div className="table-item">{item.timestamp}</div>
-          //     </>
-          //   );
-          <div>jjiioj</div>;
-        })}
+        {goalsArray.map((item) =>
+          item.teamID === TeamID.Team_blue ? (
+            <>
+              <div className="table-item">{item.timestamp}</div>
+              <div className="table-item"></div>
+            </>
+          ) : (
+            <>
+              <div className="table-item"></div> <div className="table-item">{item.timestamp}</div>
+            </>
+          )
+        )}
       </div>
     </div>
   );
