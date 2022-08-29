@@ -34,13 +34,6 @@ type GameScore struct {
 	WhiteScore int `json:"whiteScore"`
 }
 
-type ManualGoals struct {
-	AddedBlue       int
-	SubtractedBlue  int
-	AddedWhite      int
-	SubtractedWhite int
-}
-
 type ShotsData struct {
 	WhiteCount int
 	BlueCount  int
