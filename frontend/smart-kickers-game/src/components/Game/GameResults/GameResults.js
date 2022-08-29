@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../Button/Button';
-import { updateScores } from '../../../apis/updateScores.js';
+import { updateScoresHandler } from '../../../apis/updateScores.js';
 import './GameResults.css';
 import { TeamID, ScoreChange } from '../../../constants/score.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,9 +12,7 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              updateScores(TeamID.Team_blue, ScoreChange.Add_goal).then((data) => {
-                if (data.error) alert(data.error);
-              });
+              updateScoresHandler(TeamID.Team_blue, ScoreChange.Add_goal);
             }}
           >
             +
@@ -25,9 +23,7 @@ function GameResults({ blueScore, whiteScore }) {
           </div>
           <Button
             onClick={() => {
-              updateScores(TeamID.Team_blue, ScoreChange.Sub_goal).then((data) => {
-                if (data.error) alert(data.error);
-              });
+              updateScoresHandler(TeamID.Team_blue, ScoreChange.Sub_goal);
             }}
             disabled={blueScore === 0}
           >
@@ -38,9 +34,7 @@ function GameResults({ blueScore, whiteScore }) {
         <div className="game-result-item">
           <Button
             onClick={() => {
-              updateScores(TeamID.Team_white, ScoreChange.Add_goal).then((data) => {
-                if (data.error) alert(data.error);
-              });
+              updateScoresHandler(TeamID.Team_white, ScoreChange.Add_goal);
             }}
           >
             +
@@ -51,9 +45,7 @@ function GameResults({ blueScore, whiteScore }) {
           </div>
           <Button
             onClick={() => {
-              updateScores(TeamID.Team_white, ScoreChange.Sub_goal).then((data) => {
-                if (data.error) alert(data.error);
-              });
+              updateScoresHandler(TeamID.Team_white, ScoreChange.Sub_goal);
             }}
             disabled={whiteScore === 0}
           >
