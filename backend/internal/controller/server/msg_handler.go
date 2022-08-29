@@ -132,11 +132,10 @@ func waitForError(c *websocket.Conn, ch chan error) {
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	team := r.URL.Query().Get(config.AttributeTeam)
-
 	teamID, err := strconv.Atoi(team)
+
 	if err != nil || !isValidTeamID(teamID) {
-		err := writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
-		if err != nil {
+		if err = writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2"); err != nil {
 			log.Error(err)
 		}
 		return
@@ -144,23 +143,21 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch action := r.URL.Query().Get(config.AttributeAction); action {
 	case config.ActionAdd:
-		if err := s.game.UpdateManualGoals(teamID, config.ActionAdd); err != nil {
-			log.Error(err)
+		if err = s.game.UpdateManualGoals(teamID, config.ActionAdd); err != nil {
+			break
 		}
-		if err := s.game.AddGoal(teamID); err != nil {
-			log.Error(err)
-		}
+		err = s.game.AddGoal(teamID)
 	case config.ActionSubtract:
-		if err := s.game.UpdateManualGoals(teamID, config.ActionSubtract); err != nil {
-			log.Error(err)
+		if err = s.game.UpdateManualGoals(teamID, config.ActionSubtract); err != nil {
+			break
 		}
-		if err := s.game.SubGoal(teamID); err != nil {
-			log.Error(err)
-		}
+		err = s.game.SubGoal(teamID)
 	default:
-		if err := writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
-			log.Error(err)
-		}
+		err = writeHTTPError(w, http.StatusBadRequest, "Wrong action")
+	}
+
+	if err != nil {
+		log.Error(err)
 	}
 }
 
