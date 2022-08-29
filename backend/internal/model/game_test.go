@@ -145,53 +145,67 @@ func Test_game_UpdateManualGoals(t *testing.T) {
 		name                string
 		teamID              int
 		action              string
+		initialManualGoals  ManualGoals
 		expectedManualGoals ManualGoals
 		expectedError       string
 	}
 	tests := []args{
 		// No error cases
 		{
-			name:                "should increment blue manual goals by 1",
+			name:                "should increment blue manually added goals by 1",
 			teamID:              config.TeamBlue,
 			action:              config.ActionAdd,
+			initialManualGoals:  ManualGoals{0, 0, 0, 0},
 			expectedManualGoals: ManualGoals{1, 0, 0, 0},
 			expectedError:       "",
 		},
 		{
-			name:   "should decrement blue manual goals by 1",
-			teamID: config.TeamBlue, action: config.ActionSubtract,
-			expectedManualGoals: ManualGoals{0, 1, 0, 0},
+			name:                "should increment blue manually subtracted goals by 1",
+			teamID:              config.TeamBlue,
+			action:              config.ActionSubtract,
+			initialManualGoals:  ManualGoals{1, 2, 7, 9},
+			expectedManualGoals: ManualGoals{1, 3, 7, 9},
 			expectedError:       "",
 		},
 		{
-			name:   "should increment white manual goals by 1",
-			teamID: config.TeamWhite, action: config.ActionAdd,
-			expectedManualGoals: ManualGoals{0, 0, 1, 0},
+			name:                "should increment white manually added goals by 1",
+			teamID:              config.TeamWhite,
+			action:              config.ActionAdd,
+			initialManualGoals:  ManualGoals{1, 2, 5, 3},
+			expectedManualGoals: ManualGoals{1, 2, 6, 3},
 			expectedError:       "",
 		},
 		{
-			name:   "should decrement white manual goals by 1",
-			teamID: config.TeamWhite, action: config.ActionSubtract,
-			expectedManualGoals: ManualGoals{0, 0, 0, 1},
+			name:                "should decrement white manual goals by 1",
+			teamID:              config.TeamWhite,
+			action:              config.ActionSubtract,
+			initialManualGoals:  ManualGoals{3, 5, 0, 9},
+			expectedManualGoals: ManualGoals{3, 5, 0, 10},
 			expectedError:       "",
 		},
 
 		// Error cases
 		{
-			name:   "should return bad team ID error",
-			teamID: 0, action: config.ActionAdd,
+			name:                "should return bad team ID error",
+			teamID:              0,
+			action:              config.ActionAdd,
+			initialManualGoals:  ManualGoals{0, 0, 0, 0},
 			expectedManualGoals: ManualGoals{0, 0, 0, 0},
 			expectedError:       "bad team ID",
 		},
 		{
-			name:   "should return bad team ID error",
-			teamID: 0, action: config.ActionSubtract,
+			name:                "should return bad team ID error",
+			teamID:              0,
+			action:              config.ActionSubtract,
+			initialManualGoals:  ManualGoals{0, 0, 0, 0},
 			expectedManualGoals: ManualGoals{0, 0, 0, 0},
 			expectedError:       "bad team ID",
 		},
 		{
-			name:   "should return bad action error",
-			teamID: config.TeamBlue, action: "addd",
+			name:                "should return bad action error",
+			teamID:              config.TeamBlue,
+			action:              "addd",
+			initialManualGoals:  ManualGoals{0, 0, 0, 0},
 			expectedManualGoals: ManualGoals{0, 0, 0, 0},
 			expectedError:       "bad action type",
 		},
@@ -199,6 +213,7 @@ func Test_game_UpdateManualGoals(t *testing.T) {
 			name:                "should return bad action error",
 			teamID:              config.TeamWhite,
 			action:              "addd",
+			initialManualGoals:  ManualGoals{0, 0, 0, 0},
 			expectedManualGoals: ManualGoals{0, 0, 0, 0},
 			expectedError:       "bad action type",
 		},
@@ -206,13 +221,14 @@ func Test_game_UpdateManualGoals(t *testing.T) {
 			name:                "should return bad action error",
 			teamID:              -10,
 			action:              "addd",
+			initialManualGoals:  ManualGoals{0, 0, 0, 0},
 			expectedManualGoals: ManualGoals{0, 0, 0, 0},
 			expectedError:       "bad action type",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			game.manualGoals = ManualGoals{0, 0, 0, 0}
+			game.manualGoals = tt.initialManualGoals
 			err := game.UpdateManualGoals(tt.teamID, tt.action)
 
 			if tt.expectedError == "" {
