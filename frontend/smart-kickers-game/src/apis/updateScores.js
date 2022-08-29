@@ -17,7 +17,8 @@ export async function updateScores(teamID, action) {
 }
 
 export async function updateScoresHandler(teamId, action) {
-  await updateScores(teamId, action).then((data) => {
-    if (data.error) alert(data.error);
-  });
+  const result = await updateScores(teamId, action);
+  if (result.error) {
+    alert(result.error);
+  }
 }
