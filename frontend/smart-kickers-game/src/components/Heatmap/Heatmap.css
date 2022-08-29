@@ -5,10 +5,11 @@
   height: auto;
   transform: scaleX(-1);
 }
-.heatmap-cell {
-  border-radius: 50% !important;
-  -moz-border-radius: 50% !important;
-  -webkit-border-radius: 50% !important;
+
+.heatmap-container > div > div > div > div {
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
 }
 .heatmap-parent {
   width: 100vw;
@@ -16,6 +17,6 @@
   justify-content: space-evenly;
   padding-top: 30px;
 }
-.heatmap-left-cells {
+.heatmap-container > div > div > div > div:first-child {
   flex: 0 0 0 !important;
 }

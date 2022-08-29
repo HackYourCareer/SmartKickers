@@ -2,24 +2,11 @@ import React from 'react';
 import HeatMap from 'react-heatmap-grid';
 import './Heatmap.css';
 import { Colors } from './Colors';
-import { useRef, useEffect } from 'react';
 
 function Heatmap({ heatmap }) {
-  const ref = useRef(null);
   const heatmapDim = heatmap.length;
   const array = new Array(heatmapDim).fill(0).map(() => '');
   let numbersCopy = JSON.parse(JSON.stringify(heatmap));
-
-  useEffect(() => {
-    const cells = document.querySelectorAll('.heatmap-container > div > div > div > div');
-    cells.forEach((element) => {
-      element.classList.add('heatmap-cell');
-    });
-    const leftCells = document.querySelectorAll('.heatmap-container > div > div > div > div:first-child');
-    leftCells.forEach((element) => {
-      element.classList.add('heatmap-left-cells');
-    });
-  }, []);
 
   for (let i = 0; i < heatmapDim; i++)
     for (let j = 0; j <= i; j++) {
@@ -45,7 +32,7 @@ function Heatmap({ heatmap }) {
 
   return (
     <div className="heatmap-parent">
-      <div className="heatmap-container" ref={ref}>
+      <div className="heatmap-container">
         <HeatMap
           xLabels={array}
           yLabels={array}
