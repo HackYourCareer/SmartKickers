@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './App.css';
 import { resetGame } from './apis/resetGame';
 import GameStatistics from './components/Game/GameStatistics/GameStatistics.js';
@@ -6,13 +6,14 @@ import config from './config';
 import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
 import { Goal, TeamID } from './constants/score.js';
 import { useStopwatch } from 'react-timer-hook';
+import GameHistory from './components/Game/GameHistory/GameHistory';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
   const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
-  let [goalsArray, setGoalsArray] = useState([]);
+  const [goalsArray, setGoalsArray] = useState([]);
   const { seconds, minutes, isRunning, start, reset } = useStopwatch({ autoStart: false });
 
   useEffect(() => {
@@ -28,11 +29,31 @@ function App() {
       };
     };
   }, []);
+
+  const ScorePrevious = (value) => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  };
+
+  const prevBlueScore = ScorePrevious(blueScore);
+  const prevWhiteScore = ScorePrevious(whiteScore);
+
   useEffect(() => {
-    goalsArray.push(new Goal(TeamID.Team_blue, 'time: ' + minutes + ':' + seconds));
+    if (prevBlueScore > blueScore) {
+      goalsArray.pop();
+    } else {
+      goalsArray.push(new Goal(TeamID.Team_blue, 'time: ' + minutes + ':' + seconds));
+    }
   }, [blueScore]);
   useEffect(() => {
-    goalsArray.push(new Goal(TeamID.Team_white, 'time: ' + minutes + ':' + seconds));
+    if (prevWhiteScore > whiteScore) {
+      goalsArray.pop();
+    } else {
+      goalsArray.push(new Goal(TeamID.Team_white, 'time: ' + minutes + ':' + seconds));
+    }
   }, [whiteScore]);
 
   const handleStartGame = () => {
@@ -77,6 +98,7 @@ function App() {
           handleEndGame={handleEndGame}
         />
       )}
+      <GameHistory goalsArray={goalsArray} />
     </>
   );
 }

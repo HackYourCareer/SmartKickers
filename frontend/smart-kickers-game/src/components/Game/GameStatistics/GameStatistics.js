@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
 
 function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame, stopwatchStart, goalsArray, resetGoalsArray }) {
-  console.log(goalsArray);
   return (
     <>
       <h2>
@@ -24,6 +23,7 @@ function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame
         <div className="table-item">score</div>
         <div className="table-item">{finalScores.white}</div>
       </div>
+
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {
