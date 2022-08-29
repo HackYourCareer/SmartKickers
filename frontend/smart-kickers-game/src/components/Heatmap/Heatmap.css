@@ -5,7 +5,7 @@
   height: auto;
   transform: scaleX(-1);
 }
-
+/* Nesting is required by an external library */
 .heatmap-container > div > div > div > div {
   border-radius: 50%;
   -moz-border-radius: 50%;
@@ -17,6 +17,7 @@
   justify-content: space-evenly;
   padding-top: 30px;
 }
+/* Nesting is required by an external library */
 .heatmap-container > div > div > div > div:first-child {
   flex: 0 0 0 !important;
 }
