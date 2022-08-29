@@ -19,7 +19,7 @@ type Game interface {
 	SubGoal(int) error
 	UpdateShotsData(Shot) error
 	GetShotsData() ShotsData
-	WriteToHeatmap(float64, float64) error
+	IncrementHeatmap(float64, float64) error
 }
 
 type game struct {
@@ -149,7 +149,7 @@ func (g *game) GetShotsData() ShotsData {
 	return g.shotsData
 }
 
-func (g *game) WriteToHeatmap(xCord float64, yCord float64) error {
+func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	log.Trace("mutex lock: WriteToHeatmap")
 	g.m.Lock()
 	defer g.m.Unlock()

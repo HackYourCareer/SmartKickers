@@ -252,7 +252,7 @@ func TestSaveFastestGoal(t *testing.T) {
 
 }
 
-func TestWriteToHeatmap(t *testing.T) {
+func TestIncrementHeatmap(t *testing.T) {
 	game := &game{}
 
 	type args struct {
@@ -311,10 +311,10 @@ func TestWriteToHeatmap(t *testing.T) {
 			x := int(math.Round(config.HeatmapAccuracy * tt.xCord))
 			y := int(math.Round(config.HeatmapAccuracy * tt.yCord))
 
-			err := game.WriteToHeatmap(tt.xCord, tt.yCord)
+			err := game.IncrementHeatmap(tt.xCord, tt.yCord)
 			if err == nil {
 				game.heatmap[x][y] = tt.startingHeatmapValue
-				_ = game.WriteToHeatmap(tt.xCord, tt.yCord)
+				_ = game.IncrementHeatmap(tt.xCord, tt.yCord)
 				assert.Equal(t, tt.expectedHeatmapValue, game.heatmap[x][y])
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
