@@ -1,6 +1,7 @@
 package model
 
 import (
+	"math"
 	"testing"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
@@ -249,4 +250,76 @@ func TestSaveFastestGoal(t *testing.T) {
 		})
 	}
 
+}
+
+func TestWriteToHeatmap(t *testing.T) {
+	game := &game{}
+
+	type args struct {
+		name                 string
+		xCord                float64
+		yCord                float64
+		startingHeatmapValue int
+		expectedHeatmapValue int
+		expectedError        string
+	}
+	tests := []args{
+		{
+			name:                 "should increment heatmap value on given cords by one",
+			xCord:                0.1000,
+			yCord:                0.9940,
+			startingHeatmapValue: 0,
+			expectedHeatmapValue: 1,
+			expectedError:        "",
+		},
+		{
+			name:                 "should increment heatmap value on given cords by one",
+			xCord:                0.53126,
+			yCord:                0.85485,
+			startingHeatmapValue: 5,
+			expectedHeatmapValue: 6,
+			expectedError:        "",
+		},
+		{
+			name:                 "should cause an error when index out of x range",
+			xCord:                0.99500,
+			yCord:                0.86236,
+			startingHeatmapValue: 0,
+			expectedHeatmapValue: 0,
+			expectedError:        "x ball position index out of range",
+		},
+		{
+			name:                 "should cause an error when index out of x range",
+			xCord:                1.12634,
+			yCord:                0.86236,
+			startingHeatmapValue: 0,
+			expectedHeatmapValue: 0,
+			expectedError:        "x ball position index out of range",
+		},
+		{
+			name:                 "should cause an error when index out of y range",
+			xCord:                0.12634,
+			yCord:                1.52563,
+			startingHeatmapValue: 1,
+			expectedHeatmapValue: 1,
+			expectedError:        "y ball position index out of range",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			x := int(math.Round(config.HeatmapAccuracy * tt.xCord))
+			y := int(math.Round(config.HeatmapAccuracy * tt.yCord))
+
+			err := game.WriteToHeatmap(tt.xCord, tt.yCord)
+			if err == nil {
+				game.heatmap[x][y] = tt.startingHeatmapValue
+				_ = game.WriteToHeatmap(tt.xCord, tt.yCord)
+				assert.Equal(t, tt.expectedHeatmapValue, game.heatmap[x][y])
+			} else {
+				assert.EqualError(t, err, tt.expectedError)
+			}
+
+		})
+	}
 }

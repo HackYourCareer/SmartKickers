@@ -11,7 +11,7 @@ const (
 	AttributeTeam   = "team"
 	AttributeAction = "action"
 
-	// Constant for heatmap accuracy, the larger the more accurate but more resource demanding
+	// Constant for heatmap accuracy
 	HeatmapAccuracy = 100
 )
 
