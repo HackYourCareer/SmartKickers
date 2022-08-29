@@ -135,7 +135,7 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 	teamID, err := strconv.Atoi(team)
 
 	if err != nil || !isValidTeamID(teamID) {
-		if err = writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2"); err != nil {
+		if err = writeHTTPError(w, http.StatusBadRequest, fmt.Sprintf("Team ID has to be a number either %v or %v.", config.TeamWhite, config.TeamBlue)); err != nil {
 			log.Error(err)
 		}
 		return
@@ -143,17 +143,13 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch action := r.URL.Query().Get(config.AttributeAction); action {
 	case config.ActionAdd:
-		if err = s.game.UpdateManualGoals(teamID, config.ActionAdd); err != nil {
-			break
-		}
+		s.game.UpdateManualGoals(teamID, config.ActionAdd)
 		err = s.game.AddGoal(teamID)
 	case config.ActionSubtract:
-		if err = s.game.UpdateManualGoals(teamID, config.ActionSubtract); err != nil {
-			break
-		}
+		s.game.UpdateManualGoals(teamID, config.ActionSubtract)
 		err = s.game.SubGoal(teamID)
 	default:
-		err = writeHTTPError(w, http.StatusBadRequest, "Wrong action")
+		err = writeHTTPError(w, http.StatusBadRequest, fmt.Sprintf("Action has to be either \"%v\" or \"%v\".", config.ActionAdd, config.ActionSubtract))
 	}
 
 	if err != nil {

@@ -16,7 +16,7 @@ type Game interface {
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
-	UpdateManualGoals(int, string) error
+	UpdateManualGoals(int, string)
 	UpdateShotsData(Shot) error
 	GetShotsData() ShotsData
 }
@@ -25,7 +25,7 @@ type game struct {
 	score        GameScore
 	shotsData    ShotsData
 	scoreChannel chan GameScore
-	manualGoals  ManualGoals
+	manualGoals  map[int]map[string]int
 	m            sync.RWMutex
 }
 
@@ -53,7 +53,19 @@ type Shot struct {
 }
 
 func NewGame() Game {
-	return &game{scoreChannel: make(chan GameScore, 32)}
+	return &game{
+		scoreChannel: make(chan GameScore, 32),
+		manualGoals: map[int]map[string]int{
+			config.TeamWhite: {
+				config.ActionAdd:      0,
+				config.ActionSubtract: 0,
+			},
+			config.TeamBlue: {
+				config.ActionAdd:      0,
+				config.ActionSubtract: 0,
+			},
+		},
+	}
 }
 
 func (g *game) ResetScore() {
@@ -155,40 +167,8 @@ func (g *game) GetShotsData() ShotsData {
 	return g.shotsData
 }
 
-func (g *game) UpdateManualGoals(teamID int, action string) error {
+func (g *game) UpdateManualGoals(teamID int, action string) {
 	g.m.Lock()
 	defer g.m.Unlock()
-
-	var err error
-	switch action {
-	case config.ActionAdd:
-		err = addManualGoal(teamID, &g.manualGoals)
-	case config.ActionSubtract:
-		err = subManualGoal(teamID, &g.manualGoals)
-	default:
-		err = errors.New("bad action type")
-	}
-	return err
-}
-
-func addManualGoal(teamID int, manualGoals *ManualGoals) error {
-	if teamID == config.TeamWhite {
-		manualGoals.AddedWhite++
-		return nil
-	} else if teamID == config.TeamBlue {
-		manualGoals.AddedBlue++
-		return nil
-	}
-	return errors.New("bad team ID")
-}
-
-func subManualGoal(teamID int, manualGoals *ManualGoals) error {
-	if teamID == config.TeamWhite {
-		manualGoals.SubtractedWhite++
-		return nil
-	} else if teamID == config.TeamBlue {
-		manualGoals.SubtractedBlue++
-		return nil
-	}
-	return errors.New("bad team ID")
+	g.manualGoals[teamID][action]++
 }
