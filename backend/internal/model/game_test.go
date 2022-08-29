@@ -237,10 +237,7 @@ func Test_game_UpdateManualGoals(t *testing.T) {
 				assert.EqualError(t, err, tt.expectedError)
 			}
 
-			assert.Equal(t, game.manualGoals.AddedBlue, tt.expectedManualGoals.AddedBlue, "Manual goals for blue team added incorrectly")
-			assert.Equal(t, game.manualGoals.AddedWhite, tt.expectedManualGoals.AddedWhite, "Manual goals for white team added incorrectly")
-			assert.Equal(t, game.manualGoals.SubtractedBlue, tt.expectedManualGoals.SubtractedBlue, "Manual goals for blue team subtracted incorrectly")
-			assert.Equal(t, game.manualGoals.SubtractedWhite, tt.expectedManualGoals.SubtractedWhite, "Manual goals for white team subtracted incorrectly")
+			assert.Equal(t, game.manualGoals, tt.expectedManualGoals, "Incorrect manually changed goals count")
 		})
 	}
 }
