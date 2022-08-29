@@ -144,7 +144,6 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch action := r.URL.Query().Get(config.AttributeAction); action {
 	case config.ActionAdd:
-
 		if err := s.game.UpdateManualGoals(teamID, config.ActionAdd); err != nil {
 			log.Error(err)
 		}
@@ -156,15 +155,12 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 			log.Error(err)
 		}
 		if err := s.game.SubGoal(teamID); err != nil {
-
 			log.Error(err)
 		}
 	default:
-		err := writeHTTPError(w, http.StatusBadRequest, "Wrong action")
-		if err != nil {
+		if err := writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
 			log.Error(err)
 		}
-
 	}
 }
 
@@ -206,8 +202,7 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		err = s.game.UpdateShotsData(shot)
-		if err != nil {
+		if err := s.game.UpdateShotsData(shot); err != nil {
 			log.Error(err)
 		}
 
