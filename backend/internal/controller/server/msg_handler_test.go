@@ -56,13 +56,14 @@ func TestCreateResponse(t *testing.T) {
 		{
 			name: "position message",
 			msgIn: dispatcherMsg{
+				MsgType: "",
 				Goal:    0,
 				TableID: "5",
 				X:       14.3,
 				Y:       1.25,
 			},
 			returnsNil:    true,
-			expectedError: "unrecognized message type 0",
+			expectedError: "",
 		},
 		{
 			name: "unexpected message",
