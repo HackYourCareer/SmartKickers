@@ -202,10 +202,11 @@ func TestUpdateShotsData(t *testing.T) {
 				assert.EqualError(t, err, tt.expectedError)
 			}
 
-			assert.Equal(t, tt.expectedCountWhite, game.shotsData.WhiteCount)
-			assert.Equal(t, tt.expectedCountBlue, game.shotsData.BlueCount)
-			assert.Equal(t, tt.expectedWhiteAtGoalCount, game.shotsData.WhiteAtGoalCount)
-			assert.Equal(t, tt.expectedBlueAtGoalCount, game.shotsData.BlueAtGoalCount)
+			assert.Equal(t, tt.expectedCountWhite, game.gameData.WhiteShotsCount)
+			assert.Equal(t, tt.expectedCountBlue, game.gameData.BlueShotsCount)
+			assert.Equal(t, tt.expectedWhiteAtGoalCount, game.gameData.WhiteAtGoalCount)
+			assert.Equal(t, tt.expectedBlueAtGoalCount, game.gameData.BlueAtGoalCount)
+
 		})
 	}
 }
@@ -213,8 +214,8 @@ func TestUpdateShotsData(t *testing.T) {
 func TestSaveFastestGoal(t *testing.T) {
 
 	game := &game{
-		shotsData: ShotsData{
-			Fastest: Shot{
+		gameData: GameStats{
+			FastestShot: Shot{
 				Speed: 18.98,
 				Team:  1,
 			},
@@ -255,7 +256,7 @@ func TestSaveFastestGoal(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			game.saveFastestShot(tt.shotMsgIn)
 
-			assert.Equal(t, tt.expectedFastest, game.shotsData.Fastest)
+			assert.Equal(t, tt.expectedFastest, game.gameData.FastestShot)
 		})
 	}
 }
@@ -321,9 +322,9 @@ func TestIncrementHeatmap(t *testing.T) {
 
 			err := game.IncrementHeatmap(tt.xCord, tt.yCord)
 			if err == nil {
-				game.heatmap[x][y] = tt.startingHeatmapValue
+				game.gameData.Heatmap[x][y] = tt.startingHeatmapValue
 				_ = game.IncrementHeatmap(tt.xCord, tt.yCord)
-				assert.Equal(t, tt.expectedHeatmapValue, game.heatmap[x][y])
+				assert.Equal(t, tt.expectedHeatmapValue, game.gameData.Heatmap[x][y])
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
