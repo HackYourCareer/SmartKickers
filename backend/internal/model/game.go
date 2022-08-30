@@ -170,7 +170,7 @@ func (g *game) UpdateManualGoals(teamID int, action string) {
 }
 
 func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
-	log.Trace("mutex lock: WriteToHeatmap")
+	log.Trace("mutex lock: IncrementHeatmap")
 	g.m.Lock()
 	defer g.m.Unlock()
 
