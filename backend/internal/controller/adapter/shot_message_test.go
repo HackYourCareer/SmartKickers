@@ -139,3 +139,61 @@ func TestDecodeTeam(t *testing.T) {
 		})
 	}
 }
+
+func Test_checkIfShotAtGoal(t *testing.T) {
+	type args struct {
+		areaID int
+		teamID int
+	}
+	tests := []struct {
+		name           string
+		args           args
+		expectedResult bool
+	}{
+		{
+			name: "should return true when white team shots at blue team goal",
+			args: args{
+				areaID: config.WhiteTeamGoalArea,
+				teamID: config.TeamBlue,
+			},
+			expectedResult: true,
+		},
+		{
+			name: "should return true when blue team shots at white team goal",
+			args: args{
+				areaID: config.BlueTeamGoalArea,
+				teamID: config.TeamWhite,
+			},
+			expectedResult: true,
+		},
+		{
+			name: "should return false when blue team shots at their own goal",
+			args: args{
+				areaID: config.WhiteTeamGoalArea,
+				teamID: config.TeamWhite,
+			},
+			expectedResult: false,
+		},
+		{
+			name: "should return false when blue shot is blocked in the middle zone",
+			args: args{
+				areaID: config.WhiteTeamArea[1],
+				teamID: config.TeamBlue,
+			},
+			expectedResult: false,
+		},
+		{
+			name: "should return false when white shot is blocked in the middle zone",
+			args: args{
+				areaID: config.BlueTeamArea[2],
+				teamID: config.TeamWhite,
+			},
+			expectedResult: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.expectedResult, checkIfShotAtGoal(tt.args.areaID, tt.args.teamID))
+		})
+	}
+}
