@@ -43,14 +43,16 @@ function App() {
 
   useEffect(() => {
     if (prevBlueScore > blueScore) {
-      goalsArray.pop();
+      const indexOfLastBlue = goalsArray.indexOf(goalsArray.findLast((e) => e.teamID === TeamID.Team_blue));
+      goalsArray.splice(indexOfLastBlue, 1);
     } else {
       goalsArray.push(new Goal(TeamID.Team_blue, 'time: ' + minutes + ':' + seconds));
     }
   }, [blueScore]);
   useEffect(() => {
     if (prevWhiteScore > whiteScore) {
-      goalsArray.pop();
+      const indexOfLastWhite = goalsArray.indexOf(goalsArray.findLast((e) => e.teamID === TeamID.Team_white));
+      goalsArray.splice(indexOfLastWhite, 1);
     } else {
       goalsArray.push(new Goal(TeamID.Team_white, 'time: ' + minutes + ':' + seconds));
     }
