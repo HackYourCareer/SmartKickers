@@ -23,31 +23,36 @@ func TestUnpackShotMsg(t *testing.T) {
 			msgIn: tableShotParams{
 				Speed:     25.5,
 				StartArea: 1,
+				EndArea:   17,
 			},
 			expectedMsgOut: model.Shot{},
 			expectedError:  "couldn't decode teamID",
 		},
 		{
-			name: "should return speed 25.5 and team white",
+			name: "should return speed 25.5, team white and true",
 			msgIn: tableShotParams{
 				Speed:     25.5,
 				StartArea: 20,
+				EndArea:   27,
 			},
 			expectedMsgOut: model.Shot{
-				Speed: 25.5,
-				Team:  config.TeamWhite,
+				Speed:      25.5,
+				Team:       config.TeamWhite,
+				ShotAtGoal: true,
 			},
 			expectedError: "",
 		},
 		{
-			name: "should return speed 17.226 and team blue",
+			name: "should return speed 17.226, team blue and false",
 			msgIn: tableShotParams{
 				Speed:     17.226,
 				StartArea: 24,
+				EndArea:   27,
 			},
 			expectedMsgOut: model.Shot{
-				Speed: 17.226,
-				Team:  config.TeamBlue,
+				Speed:      17.226,
+				Team:       config.TeamBlue,
+				ShotAtGoal: false,
 			},
 			expectedError: "",
 		},
