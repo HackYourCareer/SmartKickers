@@ -140,35 +140,43 @@ func TestGameSubGoal(t *testing.T) {
 }
 
 func TestUpdateShotsData(t *testing.T) {
-	game := &game{}
 
 	type args struct {
-		name               string
-		shot               Shot
-		expectedCountWhite int
-		expectedCountBlue  int
-		expectedError      string
+		name                     string
+		shot                     Shot
+		ShotAtGoal               bool
+		expectedCountWhite       int
+		expectedCountBlue        int
+		expectedBlueAtGoalCount  int
+		expectedWhiteAtGoalCount int
+		expectedError            string
 	}
 	tests := []args{
 		{
 			name: "should increment team white shot count by one",
 			shot: Shot{
-				Speed: 15,
-				Team:  1,
+				Speed:      15,
+				Team:       1,
+				ShotAtGoal: true,
 			},
-			expectedCountWhite: 1,
-			expectedCountBlue:  0,
-			expectedError:      "",
+			expectedCountWhite:       1,
+			expectedCountBlue:        0,
+			expectedBlueAtGoalCount:  0,
+			expectedWhiteAtGoalCount: 1,
+			expectedError:            "",
 		},
 		{
 			name: "should increment team blue shot count by one",
 			shot: Shot{
-				Speed: 15,
-				Team:  2,
+				Speed:      15,
+				Team:       2,
+				ShotAtGoal: true,
 			},
-			expectedCountWhite: 0,
-			expectedCountBlue:  1,
-			expectedError:      "",
+			expectedCountWhite:       0,
+			expectedCountBlue:        1,
+			expectedBlueAtGoalCount:  1,
+			expectedWhiteAtGoalCount: 0,
+			expectedError:            "",
 		},
 		{
 			name: "should cause an error when invalid team ID",
@@ -184,8 +192,7 @@ func TestUpdateShotsData(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			game.shotsData.WhiteCount = 0
-			game.shotsData.BlueCount = 0
+			game := &game{}
 
 			err := game.UpdateShotsData(tt.shot)
 
@@ -197,6 +204,8 @@ func TestUpdateShotsData(t *testing.T) {
 
 			assert.Equal(t, tt.expectedCountWhite, game.shotsData.WhiteCount)
 			assert.Equal(t, tt.expectedCountBlue, game.shotsData.BlueCount)
+			assert.Equal(t, tt.expectedWhiteAtGoalCount, game.shotsData.WhiteAtGoalCount)
+			assert.Equal(t, tt.expectedBlueAtGoalCount, game.shotsData.BlueAtGoalCount)
 		})
 	}
 }

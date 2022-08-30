@@ -38,14 +38,17 @@ type GameScore struct {
 }
 
 type ShotsData struct {
-	WhiteCount int
-	BlueCount  int
-	Fastest    Shot
+	WhiteCount       int
+	BlueCount        int
+	Fastest          Shot
+	BlueAtGoalCount  int
+	WhiteAtGoalCount int
 }
 
 type Shot struct {
-	Speed float64
-	Team  int
+	Speed      float64
+	Team       int
+	ShotAtGoal bool
 }
 
 func NewGame() Game {
@@ -133,8 +136,14 @@ func (g *game) UpdateShotsData(shot Shot) error {
 	switch shot.Team {
 	case config.TeamWhite:
 		g.shotsData.WhiteCount++
+		if shot.ShotAtGoal {
+			g.shotsData.WhiteAtGoalCount++
+		}
 	case config.TeamBlue:
 		g.shotsData.BlueCount++
+		if shot.ShotAtGoal {
+			g.shotsData.BlueAtGoalCount++
+		}
 	default:
 		return fmt.Errorf("incorrect team ID")
 	}
