@@ -42,19 +42,21 @@ function App() {
   const prevWhiteScore = ScorePrevious(whiteScore);
 
   useEffect(() => {
+    if (!isRunning) return;
     if (prevBlueScore > blueScore) {
       const indexOfLastBlue = goalsArray.indexOf(goalsArray.findLast((e) => e.teamID === TeamID.Team_blue));
       goalsArray.splice(indexOfLastBlue, 1);
     } else {
-      goalsArray.push(new Goal(TeamID.Team_blue, 'time: ' + minutes + ':' + seconds));
+      goalsArray.push(new Goal(TeamID.Team_blue, 'time: ' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0')));
     }
   }, [blueScore]);
   useEffect(() => {
+    if (!isRunning) return;
     if (prevWhiteScore > whiteScore) {
       const indexOfLastWhite = goalsArray.indexOf(goalsArray.findLast((e) => e.teamID === TeamID.Team_white));
       goalsArray.splice(indexOfLastWhite, 1);
     } else {
-      goalsArray.push(new Goal(TeamID.Team_white, 'time: ' + minutes + ':' + seconds));
+      goalsArray.push(new Goal(TeamID.Team_white, 'time: ' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0')));
     }
   }, [whiteScore]);
 
