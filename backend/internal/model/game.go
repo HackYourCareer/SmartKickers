@@ -126,7 +126,7 @@ func (g *game) SubGoal(teamID int) error {
 }
 
 func (g *game) UpdateShotsData(shot Shot) error {
-	log.Trace("mutex lock: UpdateRecordedShots")
+	log.Trace("mutex lock: UpdateShotsData")
 	g.m.Lock()
 	defer g.m.Unlock()
 

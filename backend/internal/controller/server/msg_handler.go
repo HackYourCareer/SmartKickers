@@ -69,8 +69,8 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 		return nil, err
 	case adapter.MsgPosition:
 		log.Trace("X coord of the ball: ", message.X, " Y coord of the ball: ", message.Y)
-		s.game.IncrementHeatmap(message.X, message.Y)
-		return nil, nil
+		err := s.game.IncrementHeatmap(message.X, message.Y)
+		return nil, err
 	default:
 		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
 	}
