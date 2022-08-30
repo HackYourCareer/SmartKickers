@@ -249,7 +249,6 @@ func TestSaveFastestGoal(t *testing.T) {
 			assert.Equal(t, tt.expectedFastest, game.shotsData.Fastest)
 		})
 	}
-
 }
 
 func TestIncrementHeatmap(t *testing.T) {
