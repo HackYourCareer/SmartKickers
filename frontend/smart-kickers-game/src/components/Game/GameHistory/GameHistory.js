@@ -21,12 +21,17 @@ function GameHistory({ goalsArray }) {
         {goalsArray.map((item) =>
           item.teamID === TeamID.Team_blue ? (
             <>
-              <div className="table-item">{item.timestamp}</div>
-              <div className="table-item"></div>
+              <div key={item} className="table-item">
+                {item.timestamp}
+              </div>
+              <div key={item + item.timestamp} className="table-item"></div>
             </>
           ) : (
             <>
-              <div className="table-item"></div> <div className="table-item">{item.timestamp}</div>
+              <div key={item + item.timestamp} className="table-item"></div>{' '}
+              <div key={item} className="table-item">
+                {item.timestamp}
+              </div>
             </>
           )
         )}
