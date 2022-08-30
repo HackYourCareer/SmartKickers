@@ -20,19 +20,15 @@ function GameHistory({ goalsArray }) {
         </div>
         {goalsArray.map((item) =>
           item.teamID === TeamID.Team_blue ? (
-            <>
-              <div key={item} className="table-item">
-                {item.timestamp}
-              </div>
-              <div key={item + item.timestamp} className="table-item"></div>
-            </>
+            <React.Fragment key={item.teamID + item.timestamp}>
+              <div className="table-item">{item.timestamp}</div>
+              <div className="table-item"></div>
+            </React.Fragment>
           ) : (
-            <>
-              <div key={item + item.timestamp} className="table-item"></div>{' '}
-              <div key={item} className="table-item">
-                {item.timestamp}
-              </div>
-            </>
+            <React.Fragment key={item.teamID + item.timestamp}>
+              <div className="table-item"></div>
+              <div className="table-item">{item.timestamp}</div>
+            </React.Fragment>
           )
         )}
       </div>
