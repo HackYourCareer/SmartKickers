@@ -248,5 +248,4 @@ func TestSaveFastestGoal(t *testing.T) {
 			assert.Equal(t, tt.expectedFastest, game.shotsData.Fastest)
 		})
 	}
-
 }
