@@ -18,21 +18,25 @@ function GameHistory({ goalsArray }) {
           <FontAwesomeIcon className="white-team-icon" icon="fa-person" />
           White
         </div>
-        {goalsArray.map((item) =>
-          item.teamID === TeamID.Team_blue ? (
-            <React.Fragment key={item.teamID + item.timestamp}>
-              <div className="table-item">{item.timestamp}</div>
-              <div className="table-item"></div>
-            </React.Fragment>
-          ) : (
-            <React.Fragment key={item.teamID + item.timestamp}>
-              <div className="table-item"></div>
-              <div className="table-item">{item.timestamp}</div>
-            </React.Fragment>
-          )
-        )}
+        {goalsArray.map((item) => (
+          <HistoryItem item={item} />
+        ))}
       </div>
     </div>
+  );
+}
+
+function HistoryItem({ item }) {
+  return item.teamID === TeamID.Team_blue ? (
+    <React.Fragment key={item.teamID + item.timestamp}>
+      <div className="table-item">{item.timestamp}</div>
+      <div className="table-item"></div>
+    </React.Fragment>
+  ) : (
+    <React.Fragment key={item.teamID + item.timestamp}>
+      <div className="table-item"></div>
+      <div className="table-item">{item.timestamp}</div>
+    </React.Fragment>
   );
 }
 
