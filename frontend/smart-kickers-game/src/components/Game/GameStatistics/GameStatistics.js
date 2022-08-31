@@ -3,7 +3,7 @@ import './GameStatistics.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
 
-function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame }) {
+function GameStatistics({ finalScores, onNewGameRequested }) {
   return (
     <>
       <h2>
@@ -23,11 +23,11 @@ function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame
         <div className="table-item">score</div>
         <div className="table-item">{finalScores.white}</div>
       </div>
+
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {
-          setIsStatisticsDisplayed(false);
-          handleResetGame();
+          onNewGameRequested();
         }}
       >
         New game

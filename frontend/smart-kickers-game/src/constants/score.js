@@ -7,3 +7,10 @@ export const ScoreChange = {
   Add_goal: 'add',
   Sub_goal: 'sub',
 };
+
+export class Goal {
+  constructor(teamID, timestamp) {
+    this.teamID = teamID;
+    this.timestamp = timestamp;
+  }
+}
