@@ -4,12 +4,10 @@ import { resetGame } from './apis/resetGame';
 import GameStatistics from './components/Game/GameStatistics/GameStatistics.js';
 import config from './config';
 import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
-import { getHeatmapData } from './apis/heatmap';
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
-  const [heatmap, setHeatmap] = useState([]);
   const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
   useEffect(() => {
@@ -34,12 +32,7 @@ function App() {
   const handleEndGame = () => {
     setFinalScores({ blue: blueScore, white: whiteScore });
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
-    // getHeatmap();
   };
-  // async function getHeatmap() {
-  //   let heatMapTable = await getHeatmapData();
-  //   setHeatmap(heatMapTable.data.Heatmap);
-  // }
 
   return (
     <>

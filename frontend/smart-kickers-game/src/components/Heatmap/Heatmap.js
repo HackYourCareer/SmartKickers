@@ -5,20 +5,9 @@ import { Colors } from './Colors';
 import useHeatmap from '../../hooks/useHeatmap';
 
 function Heatmap() {
-  const [{ data, loading, error }] = useHeatmap();
+  const [{ loading, error, heatmap }] = useHeatmap();
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error</div>;
-  const heatmap = data.Heatmap;
-
-  const heatmapDim = heatmap.length;
-  const array = new Array(heatmapDim).fill(0).map(() => '');
-  let numbersCopy = JSON.parse(JSON.stringify(heatmap));
-
-  for (let i = 0; i < heatmapDim; i++)
-    for (let j = 0; j <= i; j++) {
-      numbersCopy[i][j] = numbersCopy[i][j] + numbersCopy[j][i] - numbersCopy[j][i];
-      numbersCopy[j][i] = numbersCopy[i][j];
-    }
 
   function chooseColor(value) {
     let chosenColor = Colors.none;
@@ -40,9 +29,9 @@ function Heatmap() {
     <div className="heatmap-parent">
       <div className="heatmap-container">
         <HeatMap
-          xLabels={array}
-          yLabels={array}
-          data={numbersCopy}
+          xLabels={heatmap.array}
+          yLabels={heatmap.array}
+          data={heatmap.numbersCopy}
           cellStyle={(background, value, min, max) => ({
             background: `${chooseColor(value)} `,
             fontSize: '0px',
