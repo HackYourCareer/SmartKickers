@@ -17,7 +17,6 @@ const useHeatmap = () => {
 
     for (let i = 0; i < heatmapDim; i++)
       for (let j = 0; j <= i; j++) {
-        numbersCopy[i][j] = numbersCopy[i][j] + numbersCopy[j][i] - numbersCopy[j][i];
         numbersCopy[j][i] = numbersCopy[i][j];
       }
 
