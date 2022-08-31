@@ -19,14 +19,14 @@ function GameHistory({ goalsArray }) {
           White
         </div>
         {goalsArray.map((item) => (
-          <HistoryItem item={item} />
+          <GoalsArrayItem item={item} />
         ))}
       </div>
     </div>
   );
 }
 
-function HistoryItem({ item }) {
+function GoalsArrayItem({ item }) {
   return item.teamID === TeamID.Team_blue ? (
     <React.Fragment key={item.teamID + item.timestamp}>
       <div className="table-item">{item.timestamp}</div>
