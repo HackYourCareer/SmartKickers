@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
 import Heatmap from '../../Heatmap/Heatmap';
 
-function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame }) {
+function GameStatistics({ finalScores, onNewGameRequested }) {
   return (
     <>
       <h2>
@@ -28,8 +28,7 @@ function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {
-          setIsStatisticsDisplayed(false);
-          handleResetGame();
+          onNewGameRequested();
         }}
       >
         New game
