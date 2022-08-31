@@ -11,7 +11,6 @@ const useHeatmap = () => {
   const heatmap = useMemo(() => (data?.Heatmap ? mirrorHeatmap() : []), [data]);
 
   function mirrorHeatmap() {
-    console.log('dipa');
     const heatmapDim = data.Heatmap.length;
     const array = new Array(heatmapDim).fill(0).map(() => '');
     let numbersCopy = JSON.parse(JSON.stringify(data.Heatmap));

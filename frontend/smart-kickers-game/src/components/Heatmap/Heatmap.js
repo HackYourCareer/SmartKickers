@@ -10,19 +10,31 @@ function Heatmap() {
   if (error) return <div>Error</div>;
 
   function chooseColor(value) {
-    let chosenColor = Colors.none;
-    if (value > 2 && value <= 5) {
-      chosenColor = Colors.blue;
-    } else if (value > 5 && value <= 10) {
-      chosenColor = Colors.purple;
-    } else if (value > 10 && value <= 15) {
-      chosenColor = Colors.green;
-    } else if (value > 15 && value <= 25) {
-      chosenColor = Colors.yellow;
-    } else if (value > 25) {
-      chosenColor = Colors.red;
+    let chosenColor;
+    switch (true) {
+      case value <= 2:
+        chosenColor = Colors.none;
+        break;
+      case value <= 5:
+        chosenColor = Colors.blue;
+        break;
+      case value <= 10:
+        chosenColor = Colors.purple;
+        break;
+      case value <= 15:
+        chosenColor = Colors.green;
+        break;
+      case value <= 25:
+        chosenColor = Colors.yellow;
+        break;
+      case value > 25:
+        chosenColor = Colors.red;
+        break;
+      default:
+        chosenColor = Colors.none;
+        break;
     }
-    return `rgb(${chosenColor.red}, ${chosenColor.green},${chosenColor.blue},  ${chosenColor.opacity} )`;
+    return `rgba(${chosenColor.red}, ${chosenColor.green},${chosenColor.blue},  ${chosenColor.opacity} )`;
   }
 
   return (
