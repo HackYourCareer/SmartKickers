@@ -7,8 +7,6 @@ import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
 import { getHeatmapData } from './apis/heatmap';
 
 function App() {
-  //hardcoded heatmap, will be removed when backend is ready
-  //let heatMapTable = new Array(100).fill(Math.floor(Math.random() * 50)).map(() => new Array(100).fill(Math.floor(Math.random() * 50)));
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
   const [heatmap, setHeatmap] = useState([]);
@@ -36,24 +34,18 @@ function App() {
   const handleEndGame = () => {
     setFinalScores({ blue: blueScore, white: whiteScore });
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
-    getHeatmap();
+    // getHeatmap();
   };
-  async function getHeatmap() {
-    //Todo uncomment this line when backend is working
-    let heatMapTable = await getHeatmapData();
-    setHeatmap(heatMapTable.data.Heatmap);
-  }
+  // async function getHeatmap() {
+  //   let heatMapTable = await getHeatmapData();
+  //   setHeatmap(heatMapTable.data.Heatmap);
+  // }
 
   return (
     <>
       <h1>Smart Kickers</h1>
       {isStatisticsDisplayed ? (
-        <GameStatistics
-          finalScores={finalScores}
-          setIsStatisticsDisplayed={setIsStatisticsDisplayed}
-          handleResetGame={handleResetGame}
-          heatmap={heatmap}
-        />
+        <GameStatistics finalScores={finalScores} setIsStatisticsDisplayed={setIsStatisticsDisplayed} handleResetGame={handleResetGame} />
       ) : (
         <CurrentGameplay blueScore={blueScore} whiteScore={whiteScore} handleResetGame={handleResetGame} handleEndGame={handleEndGame} />
       )}

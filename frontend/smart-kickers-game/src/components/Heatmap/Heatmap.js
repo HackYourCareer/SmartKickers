@@ -2,8 +2,14 @@ import React from 'react';
 import HeatMap from 'react-heatmap-grid';
 import './Heatmap.css';
 import { Colors } from './Colors';
+import useHeatmap from '../../hooks/useHeatmap';
 
-function Heatmap({ heatmap }) {
+function Heatmap() {
+  const [{ data, loading, error }] = useHeatmap();
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
+  const heatmap = data.Heatmap;
+
   const heatmapDim = heatmap.length;
   const array = new Array(heatmapDim).fill(0).map(() => '');
   let numbersCopy = JSON.parse(JSON.stringify(heatmap));
