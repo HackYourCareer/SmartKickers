@@ -27,7 +27,6 @@ type game struct {
 	score        GameScore
 	gameData     GameStats
 	scoreChannel chan GameScore
-	manualGoals  map[int]map[string]int
 	m            sync.RWMutex
 }
 
@@ -41,6 +40,7 @@ type GameStats struct {
 	BlueShotsCount  int
 	FastestShot     Shot
 	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int
+	manualGoals     map[int]map[string]int
 }
 
 type Shot struct {
@@ -51,14 +51,16 @@ type Shot struct {
 func NewGame() Game {
 	return &game{
 		scoreChannel: make(chan GameScore, 32),
-		manualGoals: map[int]map[string]int{
-			config.TeamWhite: {
-				config.ActionAdd:      0,
-				config.ActionSubtract: 0,
-			},
-			config.TeamBlue: {
-				config.ActionAdd:      0,
-				config.ActionSubtract: 0,
+		gameData: GameStats{
+			manualGoals: map[int]map[string]int{
+				config.TeamWhite: {
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
+				config.TeamBlue: {
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
 			},
 		},
 	}
@@ -166,7 +168,7 @@ func (g *game) GetGameStats() GameStats {
 func (g *game) UpdateManualGoals(teamID int, action string) {
 	g.m.Lock()
 	defer g.m.Unlock()
-	g.manualGoals[teamID][action]++
+	g.gameData.manualGoals[teamID][action]++
 }
 
 func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
