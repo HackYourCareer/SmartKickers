@@ -75,8 +75,8 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 	}
 }
 
-func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
-	s.game.ResetScore()
+func (s server) ResetStatsHandler(w http.ResponseWriter, r *http.Request) {
+	s.game.ResetStats()
 }
 
 func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
