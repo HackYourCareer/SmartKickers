@@ -73,6 +73,9 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 	case adapter.MsgGoal:
 		err := s.game.AddGoal(message.Team)
 		return nil, err
+	case adapter.MsgPosition:
+		log.Trace("X coord of the ball: ", message.X, " Y coord of the ball: ", message.Y)
+		return nil, s.game.IncrementHeatmap(message.X, message.Y)
 	default:
 		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
 	}
@@ -136,11 +139,10 @@ func waitForError(c *websocket.Conn, ch chan error) {
 // Team ID 1 stands for white and 2 for blue.
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 	team := r.URL.Query().Get(config.AttributeTeam)
-
 	teamID, err := strconv.Atoi(team)
+
 	if err != nil || !isValidTeamID(teamID) {
-		err := writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
-		if err != nil {
+		if err = writeHTTPError(w, http.StatusBadRequest, fmt.Sprintf("Team ID has to be a number either %v or %v.", config.TeamWhite, config.TeamBlue)); err != nil {
 			log.Error(err)
 		}
 
@@ -148,21 +150,18 @@ func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch action := r.URL.Query().Get(config.AttributeAction); action {
-	case "add":
-		err := s.game.AddGoal(teamID)
-		if err != nil {
-			log.Error(err)
-		}
-	case "sub":
-		err := s.game.SubGoal(teamID)
-		if err != nil {
-			log.Error(err)
-		}
+	case config.ActionAdd:
+		s.game.UpdateManualGoals(teamID, config.ActionAdd)
+		err = s.game.AddGoal(teamID)
+	case config.ActionSubtract:
+		s.game.UpdateManualGoals(teamID, config.ActionSubtract)
+		err = s.game.SubGoal(teamID)
 	default:
-		err := writeHTTPError(w, http.StatusBadRequest, "Wrong action")
-		if err != nil {
-			log.Error(err)
-		}
+		err = writeHTTPError(w, http.StatusBadRequest, fmt.Sprintf("Action has to be either \"%v\" or \"%v\".", config.ActionAdd, config.ActionSubtract))
+	}
+
+	if err != nil {
+		log.Error(err)
 	}
 }
 
@@ -206,8 +205,7 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		err = s.game.UpdateShotsData(shot)
-		if err != nil {
+		if err := s.game.UpdateShotsData(shot); err != nil {
 			log.Error(err)
 		}
 
@@ -216,7 +214,7 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := json.Marshal(s.game.GetShotsData().Fastest)
+	response, err := json.Marshal(s.game.GetGameStats())
 	if err != nil {
 		log.Error(err)
 

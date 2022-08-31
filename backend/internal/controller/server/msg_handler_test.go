@@ -57,13 +57,38 @@ func TestCreateResponse(t *testing.T) {
 		{
 			name: "position message",
 			msgIn: dispatcherMsg{
+				MsgType: "",
 				Goal:    0,
 				TableID: "5",
-				X:       14.3,
+				X:       0.3,
+				Y:       0.25,
+			},
+			returnsNil:    true,
+			expectedError: "",
+		},
+		{
+			name: "position message",
+			msgIn: dispatcherMsg{
+				MsgType: "",
+				Goal:    0,
+				TableID: "5",
+				X:       1.3,
+				Y:       0.25,
+			},
+			returnsNil:    true,
+			expectedError: "x ball position index out of range",
+		},
+		{
+			name: "position message",
+			msgIn: dispatcherMsg{
+				MsgType: "",
+				Goal:    0,
+				TableID: "5",
+				X:       0.3,
 				Y:       1.25,
 			},
 			returnsNil:    true,
-			expectedError: "unrecognized message type 0",
+			expectedError: "y ball position index out of range",
 		},
 		{
 			name: "unexpected message",
