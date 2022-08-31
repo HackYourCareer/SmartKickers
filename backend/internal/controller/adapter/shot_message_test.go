@@ -151,7 +151,7 @@ func Test_checkIfShotAtGoal(t *testing.T) {
 		expectedResult bool
 	}{
 		{
-			name: "should return true when white team shots at blue team goal",
+			name: "should return true when blue team shots at white team goal",
 			args: args{
 				areaID: config.WhiteTeamGoalArea,
 				teamID: config.TeamBlue,
@@ -159,7 +159,7 @@ func Test_checkIfShotAtGoal(t *testing.T) {
 			expectedResult: true,
 		},
 		{
-			name: "should return true when blue team shots at white team goal",
+			name: "should return true when white team shots at blue team goal",
 			args: args{
 				areaID: config.BlueTeamGoalArea,
 				teamID: config.TeamWhite,
@@ -167,7 +167,7 @@ func Test_checkIfShotAtGoal(t *testing.T) {
 			expectedResult: true,
 		},
 		{
-			name: "should return false when blue team shots at their own goal",
+			name: "should return false when white team shots at their own goal",
 			args: args{
 				areaID: config.WhiteTeamGoalArea,
 				teamID: config.TeamWhite,
