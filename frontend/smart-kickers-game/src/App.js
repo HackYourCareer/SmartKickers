@@ -81,18 +81,17 @@ function App() {
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
     reset();
   };
+  const handleNewGame = () => {
+    setIsStatisticsDisplayed(false);
+    handleResetGame();
+    start();
+    resetGoalsArray();
+  };
   return (
     <>
       <h1>Smart Kickers</h1>
       {isStatisticsDisplayed ? (
-        <GameStatistics
-          finalScores={finalScores}
-          setIsStatisticsDisplayed={setIsStatisticsDisplayed}
-          handleResetGame={handleResetGame}
-          stopwatchStart={start}
-          resetGoalsArray={resetGoalsArray}
-          goalsArray={goalsArray}
-        />
+        <GameStatistics finalScores={finalScores} onNewGameRequested={handleNewGame} />
       ) : (
         <CurrentGameplay
           blueScore={blueScore}
