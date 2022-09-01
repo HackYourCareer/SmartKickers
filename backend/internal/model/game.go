@@ -73,7 +73,18 @@ func (g *game) ResetStats() {
 	g.score.BlueScore = 0
 	g.score.WhiteScore = 0
 	g.scoreChannel <- g.score
-	g.gameData = GameStats{}
+	g.gameData = GameStats{
+		ManualGoals: map[int]map[string]int{
+			config.TeamWhite: {
+				config.ActionAdd:      0,
+				config.ActionSubtract: 0,
+			},
+			config.TeamBlue: {
+				config.ActionAdd:      0,
+				config.ActionSubtract: 0,
+			},
+		},
+	}
 }
 
 func (g *game) AddGoal(teamID int) error {
