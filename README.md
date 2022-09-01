@@ -9,6 +9,16 @@ The following repository contains:
 - Golang server for processing the data.
 - React client to display game information.
 
+## Table of content
+
+- [SmartKickers](#smartkickers)
+  - [Overview](#overview)
+  - [Table of content](#table-of-content)
+  - [Features](#features)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Launching](#launching)
+
 ## Features
 
 - Keeping track of the score.
@@ -16,24 +26,25 @@ The following repository contains:
 
 ## Prerequisites
 
-- [python](https://www.python.org/downloads/) in version 3.10.5 or higher
-- [node](https://nodejs.org/en/download/) in version 16.16.0 or higher
-- npm in version 8.11.0 or higher
-- [go](https://go.dev/dl/) in version 1.18.3 or higher
-- [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
-- [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package) (macOS)
-- Docker API [for example Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) (macOS)
-- opencv-python
+Install the following:
 
-  ```bash
-  pip3 install opencv-python
-  ```
+1. [python](https://www.python.org/downloads/) in version 3.10.5 or higher
+2. [node](https://nodejs.org/en/download/) in version 16.16.0 or higher
+3. [go](https://go.dev/dl/) in version 1.18.3 or higher
+4. [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
+5. [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package) (macOS)
+6. Docker API [for example Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) (macOS)
+7. opencv-python
 
-  For **brew** users:
+```bash
+pip3 install opencv-python
+```
 
-  ```bash
-  brew install opencv
-  ```
+For **brew** users:
+
+```bash
+brew install opencv
+```
 
 - numpy
 
