@@ -86,20 +86,18 @@ Install the following:
 
    **NOTE:** To get access for SmartKickersAI repository contact someone from [Team Beavers](https://wiki.one.int.sap/wiki/display/saplabspoland/Beavers+Team) on slack or via email.
 
-3. Run one of the scripts to check if your system fulfils all requirements.
+3. Check if you have installed all of the [prerequisites](https://github.com/HackYourCareer/SmartKickers#prerequisites).
+
+   **MacOS** users can run the [`requirementsCheck.sh`](requirementsCheck.sh) script to check if they have any missing dependencies.
 
    **NOTE:** The script will look for open-cv, numpy, imutils, ximer driver **only after successfully installing python!** So if you don't have python it won't print missing python dependent packages except python itself.
-
-   For macOS users run [`requirementsCheck.sh`](requirementsCheck.sh).
 
    ```bash
    cd SmartKickers
    sudo ./requirementsCheck.sh
    ```
 
-   <!--TODO: ADD SCRIPT FOR WINDOWS -->
-
-   > **NOTE:** Be sure to execute the script with administrator permissions
+   **Windows** users have to check the dependencies manually.
 
 4. Install missing dependencies. The links can be found in [prerequisites section.](https://github.com/HackYourCareer/SmartKickers#prerequisites)
 
