@@ -28,41 +28,45 @@ The following repository contains:
 
 Install the following:
 
-1. [python](https://www.python.org/downloads/) in version 3.10.5 or higher
-2. [node](https://nodejs.org/en/download/) in version 16.16.0 or higher
-3. [go](https://go.dev/dl/) in version 1.18.3 or higher
+1. [Python](https://www.python.org/downloads/) in version 3.10.5 or higher
+2. [Node](https://nodejs.org/en/download/) in version 16.16.0 or higher
+3. [Go](https://go.dev/dl/) in version 1.18.3 or higher
 4. [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
-5. [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package) (macOS)
-6. Docker API [for example Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) (macOS)
-7. opencv-python
+5. [Ximea camera drivers](https://www.ximea.com/support/wiki/apis/)
+6. Docker API for example Docker Desktop:
+   - [MacOS](https://docs.docker.com/desktop/install/mac-install/)
+   - [Windows](https://docs.docker.com/desktop/install/windows-install/)
+   - [Linux](https://docs.docker.com/desktop/install/linux-install/)
+     > **NOTE:** Docker API is not mandatory to run the application, although it's recommended.
+7. Opencv-python
 
-```bash
-pip3 install opencv-python
-```
+   ```bash
+   pip3 install opencv-python
+   ```
 
-For **brew** users:
+   For **brew** users:
 
-```bash
-brew install opencv
-```
+   ```bash
+   brew install opencv
+   ```
 
-- numpy
+8. Numpy
 
-  ```bash
-  pip3 install numpy
-  ```
+   ```bash
+   pip3 install numpy
+   ```
 
-  For **brew** users:
+   For **brew** users:
 
-  ```bash
-  brew install numpy
-  ```
+   ```bash
+   brew install numpy
+   ```
 
-- imutils
+9. Imutils
 
-  ```bash
-  pip3 install imutils
-  ```
+   ```bash
+   pip3 install imutils
+   ```
 
 ## Installation
 
