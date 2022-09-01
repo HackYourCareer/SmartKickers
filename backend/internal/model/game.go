@@ -39,8 +39,8 @@ type GameStats struct {
 	WhiteShotsCount int
 	BlueShotsCount  int
 	FastestShot     Shot
+	ManualGoals     map[int]map[string]int
 	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int
-	manualGoals     map[int]map[string]int
 }
 
 type Shot struct {
@@ -52,7 +52,7 @@ func NewGame() Game {
 	return &game{
 		scoreChannel: make(chan GameScore, 32),
 		gameData: GameStats{
-			manualGoals: map[int]map[string]int{
+			ManualGoals: map[int]map[string]int{
 				config.TeamWhite: {
 					config.ActionAdd:      0,
 					config.ActionSubtract: 0,
@@ -168,7 +168,7 @@ func (g *game) GetGameStats() GameStats {
 func (g *game) UpdateManualGoals(teamID int, action string) {
 	g.m.Lock()
 	defer g.m.Unlock()
-	g.gameData.manualGoals[teamID][action]++
+	g.gameData.ManualGoals[teamID][action]++
 }
 
 func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
