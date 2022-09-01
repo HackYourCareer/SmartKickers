@@ -7,16 +7,24 @@ import { useEffect, useState } from 'react';
 import { TeamID } from '../../../constants/score.js';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
-  const [data, setData] = useState({});
-  useEffect(() => {
-    getStatistics().then((result) => {
-      if (result?.error) alert(result.error);
-      setData(result.data);
-    });
-  });
+  const [statistics, setStatistics] = useState(null);
+
+  const handleGetStatistics = async () => {
+    const result = await getStatistics();
+    if (result?.error) alert(result.error);
+    setStatistics(result);
+  };
+
   function returnFastestShot(teamID) {
-    return data.FastestShot.Team === teamID ? data.FastestShot.Speed.toFixed(2) + ' km/h' : '';
+    if (!statistics) return;
+    const { Speed, Team } = statistics.FastestShot;
+    return Team === teamID ? Speed.toFixed(2) + ' km/h' : ':(';
   }
+
+  useEffect(() => {
+    handleGetStatistics();
+  }, []);
+
   return (
     <>
       <h2>
@@ -35,9 +43,9 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
         <div className="table-item">{finalScores.blue}</div>
         <div className="table-item">score</div>
         <div className="table-item">{finalScores.white}</div>
-        {data?.FastestShot && <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>}
+        <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>
         <div className="table-item">fastest shot of the game</div>
-        {data?.FastestShot && <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>}
+        <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>
       </div>
 
       <Button
