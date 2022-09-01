@@ -13,7 +13,7 @@ import (
 
 type Game interface {
 	AddGoal(int) error
-	ResetScore()
+	ResetStats()
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
@@ -66,13 +66,14 @@ func NewGame() Game {
 	}
 }
 
-func (g *game) ResetScore() {
-	log.Trace("mutex lock: ResetScore")
+func (g *game) ResetStats() {
+	log.Trace("mutex lock: ResetStats")
 	g.m.Lock()
 	defer g.m.Unlock()
 	g.score.BlueScore = 0
 	g.score.WhiteScore = 0
 	g.scoreChannel <- g.score
+	g.gameData = GameStats{}
 }
 
 func (g *game) AddGoal(teamID int) error {
