@@ -6,7 +6,7 @@ import { getStatistics } from '../../../apis/getStatistics.js';
 import { useEffect, useState } from 'react';
 import { TeamID } from '../../../constants/score.js';
 
-function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame }) {
+function GameStatistics({ finalScores, onNewGameRequested }) {
   const [data, setData] = useState({});
   useEffect(() => {
     getStatistics().then((result) => {
@@ -39,11 +39,11 @@ function GameStatistics({ finalScores, setIsStatisticsDisplayed, handleResetGame
         <div className="table-item">fastest shot of the game</div>
         {data?.FastestShot && <div className="table-item">{checkIfFastestShot(TeamID.Team_white)}</div>}
       </div>
+
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {
-          setIsStatisticsDisplayed(false);
-          handleResetGame();
+          onNewGameRequested();
         }}
       >
         New game

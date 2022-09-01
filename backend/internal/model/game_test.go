@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestResetScore(t *testing.T) {
+func TestResetStats(t *testing.T) {
 	game := &game{score: GameScore{3, 1}, scoreChannel: make(chan GameScore, 32)}
 
-	game.ResetScore()
+	game.ResetStats()
 	resultScore := <-game.scoreChannel
 
 	if resultScore.BlueScore != 0 || resultScore.WhiteScore != 0 {
