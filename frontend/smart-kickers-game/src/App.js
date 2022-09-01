@@ -14,7 +14,7 @@ function App() {
   const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
   const [goalsArray, setGoalsArray] = useState([]);
-  const { seconds, minutes, isRunning, start, reset } = useStopwatch({ autoStart: false });
+  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
 
   useEffect(() => {
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
@@ -79,11 +79,12 @@ function App() {
   const handleEndGame = () => {
     setFinalScores({ blue: blueScore, white: whiteScore });
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
-    reset();
+    pause();
   };
   const handleNewGame = () => {
     setIsStatisticsDisplayed(false);
     handleResetGame();
+    reset();
     start();
     resetGoalsArray();
   };
