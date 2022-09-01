@@ -18,6 +18,7 @@ The following repository contains:
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Launching](#launching)
+    - [Launching with Docker](#launching-with-docker)
 
 ## Features
 
@@ -111,17 +112,16 @@ Install the following:
 
 > **NOTE:** Configuration files for the camera view are provided by the developers in [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
 
+### Launching with Docker
+
 1. In the folder [`SmartKickers`](SmartKickers) launch the docker-compose.
 
    ```bash
    docker-compose up
    ```
 
-   After launching you will see that the backend and the frontend of the application has started successfully.
-
-   <h1 align="center">
-       <img src="assets/appLaunch.png">
-   </h1>
+   After launching you will see that the backend and the frontend of the application have started successfully.
+   ![App launch image](assets/appLaunch.png "App launch")
 
 2. Plug-in the camera wire to the computer.
 
@@ -134,19 +134,10 @@ Install the following:
 
    You will see the following output indicating that we have successfully connected to the go server.
 
-   <h1 align="center">
-       <img src="assets/nodeLaunch.png">
-   </h1>
+   ![Node launch image](assets/nodeLaunch.png "Node launch")
 
 4. In the browser, go to [`localhost:3007`](http://localhost:3007/) to see the react application.
 
    Properly working React application looks like this.
 
-   > **NOTE**: Team 1's score on the Go server represents the Blue Team's score in React, and Team 2's score represents the White Team's score.
-
-      <h1 align="center">
-          <img src="assets/reactApp.png">
-      </h1>
-
-   <!-- ## Development
-   More details for developers may be provided soon in separate Readme files for the frontend, backend and SmartKickersAI. -->
+   ![React application](assets/reactApp.png "React application")
