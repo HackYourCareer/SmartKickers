@@ -160,8 +160,6 @@ func (g *game) GetGameStats() GameStats {
 	log.Trace("mutex lock: GetGameStats")
 	g.m.RLock()
 	defer g.m.RUnlock()
-	g.gameData.Heatmap = g.transposeMatrix(g.gameData.Heatmap)
-	log.Print(g.gameData.Heatmap)
 	return g.gameData
 }
 
@@ -187,15 +185,4 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	}
 	g.gameData.Heatmap[x][y]++
 	return nil
-}
-
-func (g *game) transposeMatrix(matrix [config.HeatmapAccuracy][config.HeatmapAccuracy]int) [config.HeatmapAccuracy][config.HeatmapAccuracy]int {
-	for row := 0; row < len(matrix); row++ {
-		for column := 0; column < row; column++ {
-			temp := matrix[row][column]
-			matrix[row][column] = matrix[column][row]
-			matrix[column][row] = temp
-		}
-	}
-	return matrix
 }

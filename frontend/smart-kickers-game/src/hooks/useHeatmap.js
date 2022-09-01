@@ -15,7 +15,7 @@ const useHeatmap = () => {
     const array = new Array(heatmapDim).fill(0).map(() => '');
     let numbersCopy = JSON.parse(JSON.stringify(data.Heatmap));
 
-    // transpone
+    // transpose
     const transpose = (matrix) => {
       for (let row = 0; row < matrix.length; row++) {
         for (let column = 0; column < row; column++) {
@@ -27,13 +27,7 @@ const useHeatmap = () => {
       return matrix;
     };
 
-    // transpose(numbersCopy);
-    // reverse
-    // const reverse = (matrix) => matrix.map((row) => row.reverse());
-    // rotate
-    // const rotate = (matrix) => transpose(reverse(matrix));
-
-    // rotate(numbersCopy);
+    transpose(numbersCopy);
 
     return { array, numbersCopy };
   }
