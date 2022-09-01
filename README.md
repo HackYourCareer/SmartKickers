@@ -55,33 +55,40 @@ The following repository contains:
 
 ## Installation
 
-We are using macOS to build and run everything locally.
+1. Make a new directory and open it in command line terminal.
 
-1. Clone the repositories.
+   ```bash
+   mkdir smartkickers
+   cd smartkickers
+   ```
+
+2. Clone the repositories.
 
    ```bash
    git clone https://github.com/HackYourCareer/SmartKickers.git
    git clone https://github.com/HackYourCareer/SmartKickersAI.git
    ```
 
-2. Run the [`requirementsCheck.sh`](requirementsCheck.sh) script to check if your system fulfils all requirements.
+   **NOTE:** To get access for SmartKickersAI repository contact someone from [Team Beavers](https://wiki.one.int.sap/wiki/display/saplabspoland/Beavers+Team) on slack or via email.
 
-   The script will look for open-cv, numpy, imutils, ximer driver only after successfully installing python! So if you don't have python it won't print missing python dependent packages except python itself.
+3. Run one of the scripts to check if your system fulfils all requirements.
+
+   **NOTE:** The script will look for open-cv, numpy, imutils, ximer driver **only after successfully installing python!** So if you don't have python it won't print missing python dependent packages except python itself.
+
+   For macOS users run [`requirementsCheck.sh`](requirementsCheck.sh).
 
    ```bash
    cd SmartKickers
-   ./requirementsCheck.sh
+   sudo ./requirementsCheck.sh
    ```
 
-   > **NOTE:** Be sure to give permission for the script to execute.<br/>
+   <!--TODO: ADD SCRIPT FOR WINDOWS -->
 
-   ```bash
-   sudo chmod +x requirementsCheck.sh
-   ```
+   > **NOTE:** Be sure to execute the script with administrator permissions
 
-3. Install missing dependencies.
+4. Install missing dependencies. The links can be found in [prerequisites section.](https://github.com/HackYourCareer/SmartKickers#prerequisites)
 
-4. In folder [`SmartKickers`](SmartKickers) run docker-compose build.
+5. If you you use Docker, in folder [`SmartKickers`](SmartKickers) run docker-compose build.
 
    ```bash
    docker-compose build
