@@ -16,9 +16,9 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
   };
 
   function returnFastestShot(teamID) {
-    if (!statistics) return;
+    if (!statistics?.FastestShot) return;
     const { Speed, Team } = statistics.FastestShot;
-    return Team === teamID ? Speed.toFixed(2) + ' km/h' : ':(';
+    return Team === teamID ? Speed.toFixed(2) + ' km/h' : '😵';
   }
 
   useEffect(() => {
