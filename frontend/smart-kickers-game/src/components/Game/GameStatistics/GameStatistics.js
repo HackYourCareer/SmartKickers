@@ -14,8 +14,8 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
       setData(result.data);
     });
   });
-  function checkIfFastestShot(teamID) {
-    return data?.FastestShot.Team === teamID ? data?.FastestShot.Speed.toFixed(2) + ' km/h' : '';
+  function returnFastestShot(teamID) {
+    return data.FastestShot.Team === teamID ? data.FastestShot.Speed.toFixed(2) + ' km/h' : '';
   }
   return (
     <>
@@ -35,9 +35,9 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
         <div className="table-item">{finalScores.blue}</div>
         <div className="table-item">score</div>
         <div className="table-item">{finalScores.white}</div>
-        {data?.FastestShot && <div className="table-item">{checkIfFastestShot(TeamID.Team_blue)}</div>}
+        {data?.FastestShot && <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>}
         <div className="table-item">fastest shot of the game</div>
-        {data?.FastestShot && <div className="table-item">{checkIfFastestShot(TeamID.Team_white)}</div>}
+        {data?.FastestShot && <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>}
       </div>
 
       <Button
