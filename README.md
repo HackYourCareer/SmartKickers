@@ -16,7 +16,7 @@ The following repository contains:
 
 ## Prerequisites
 
-- [python](https://www.python.org/downloads/macos/) in version 3.10.5 or higher
+- [python](https://www.python.org/downloads/) in version 3.10.5 or higher
 - [node](https://nodejs.org/en/download/) in version 16.16.0 or higher
 - npm in version 8.11.0 or higher
 - [go](https://go.dev/dl/) in version 1.18.3 or higher
@@ -118,7 +118,7 @@ We are using macOS to build and run everything locally.
        <img src="assets/nodeLaunch.png">
    </h1>
 
-3. In the browser, go to [`localhost:3007`](http://localhost:3007/) to see the react application.
+4. In the browser, go to [`localhost:3007`](http://localhost:3007/) to see the react application.
 
    Properly working React application looks like this.
 
