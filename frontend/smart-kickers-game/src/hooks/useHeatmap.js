@@ -15,10 +15,25 @@ const useHeatmap = () => {
     const array = new Array(heatmapDim).fill(0).map(() => '');
     let numbersCopy = JSON.parse(JSON.stringify(data.Heatmap));
 
-    for (let i = 0; i < heatmapDim; i++)
-      for (let j = 0; j <= i; j++) {
-        numbersCopy[j][i] = numbersCopy[i][j];
+    // transpone
+    const transpose = (matrix) => {
+      for (let row = 0; row < matrix.length; row++) {
+        for (let column = 0; column < row; column++) {
+          let temp = matrix[row][column];
+          matrix[row][column] = matrix[column][row];
+          matrix[column][row] = temp;
+        }
       }
+      return matrix;
+    };
+
+    // transpose(numbersCopy);
+    // reverse
+    // const reverse = (matrix) => matrix.map((row) => row.reverse());
+    // rotate
+    // const rotate = (matrix) => transpose(reverse(matrix));
+
+    // rotate(numbersCopy);
 
     return { array, numbersCopy };
   }

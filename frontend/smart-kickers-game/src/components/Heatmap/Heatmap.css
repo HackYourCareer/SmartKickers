@@ -3,6 +3,7 @@
   background-size: 100% 100%;
   width: 700px;
   height: auto;
+  transform: scaleY(-1);
   transform: scaleX(-1);
 }
 /* Nesting is required by an external library */
