@@ -9,6 +9,16 @@ The following repository contains:
 - Golang server for processing the data.
 - React client to display game information.
 
+## Table of content
+
+- [SmartKickers](#smartkickers)
+  - [Overview](#overview)
+  - [Table of content](#table-of-content)
+  - [Features](#features)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Launching](#launching)
+
 ## Features
 
 - Keeping track of the score.
@@ -16,42 +26,47 @@ The following repository contains:
 
 ## Prerequisites
 
-- [python](https://www.python.org/downloads/) in version 3.10.5 or higher
-- [node](https://nodejs.org/en/download/) in version 16.16.0 or higher
-- npm in version 8.11.0 or higher
-- [go](https://go.dev/dl/) in version 1.18.3 or higher
-- [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
-- [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package) (macOS)
-- Docker API [for example Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) (macOS)
-- opencv-python
+Install the following:
 
-  ```bash
-  pip3 install opencv-python
-  ```
+1. [Python](https://www.python.org/downloads/) in version 3.10.5 or higher
+2. [Node](https://nodejs.org/en/download/) in version 16.16.0 or higher
+3. [Go](https://go.dev/dl/) in version 1.18.3 or higher
+4. [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
+5. [Ximea camera drivers](https://www.ximea.com/support/wiki/apis/)
+6. Docker API for example Docker Desktop:
+   - [MacOS](https://docs.docker.com/desktop/install/mac-install/)
+   - [Windows](https://docs.docker.com/desktop/install/windows-install/)
+   - [Linux](https://docs.docker.com/desktop/install/linux-install/)
+     > **NOTE:** Docker API is not mandatory to run the application, although it's recommended.
+7. Opencv-python
 
-  For **brew** users:
+   ```bash
+   pip3 install opencv-python
+   ```
 
-  ```bash
-  brew install opencv
-  ```
+   For **brew** users:
 
-- numpy
+   ```bash
+   brew install opencv
+   ```
 
-  ```bash
-  pip3 install numpy
-  ```
+8. Numpy
 
-  For **brew** users:
+   ```bash
+   pip3 install numpy
+   ```
 
-  ```bash
-  brew install numpy
-  ```
+   For **brew** users:
 
-- imutils
+   ```bash
+   brew install numpy
+   ```
 
-  ```bash
-  pip3 install imutils
-  ```
+9. Imutils
+
+   ```bash
+   pip3 install imutils
+   ```
 
 ## Installation
 
