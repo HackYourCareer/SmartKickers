@@ -18,8 +18,8 @@ The following repository contains:
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Launching](#launching)
-    - [For Docker users](#for-docker-users)
-    - [For Non-Docker users](#for-non-docker-users)
+    - [Launching the server and web application](#launching-the-server-and-web-application)
+    - [Launching the ball-tracking software](#launching-the-ball-tracking-software)
 
 ## Features
 
@@ -113,37 +113,13 @@ Install the following:
 
 > **NOTE:** Configuration files for the camera view are provided by the developers in [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
 
-### Launching the server and web application by Docker users
+### Launching the server and web application
 
 - In the folder **SmartKickers** launch the docker-compose.
 
   ```bash
   docker-compose up
   ```
-
-  After launching you will see that the backend and the frontend of the application have started successfully.
-  ![App launch image](assets/appLaunch.png "App launch")
-
-### Launching the server and web application by Non-Docker users
-
-- In the folder **SmartKickers/backend** launch main.go file
-
-  ```bash
-  cd backend
-  go run main.go
-
-  ```
-
-- In the folder **SmartKickers/frontend/smart-kickers-game** launch main.go file
-
-  ```bash
-  cd frontend/smart-kickers-game
-  npm install
-  npm start
-
-  ```
-
-  **NOTE:** If you are still in backend folder you may run "<code>cd ..</code>" command first to navigate to the root directory.
 
   After launching you will see that the backend and the frontend of the application have started successfully.
   ![App launch image](assets/appLaunch.png "App launch")
