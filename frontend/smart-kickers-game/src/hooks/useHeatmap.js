@@ -26,9 +26,9 @@ const useHeatmap = () => {
       return matrix;
     };
 
-    transpose(numbersCopy);
+    const transposedMatrix = transpose(numbersCopy);
 
-    return { array, numbersCopy };
+    return { array, transposedMatrix };
   }
 
   return [{ loading, error, heatmap }];
