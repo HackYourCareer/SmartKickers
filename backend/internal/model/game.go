@@ -41,14 +41,13 @@ type GameStats struct {
 	FastestShot     Shot
 	ManualGoals     map[int]map[string]int
 	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int
-	Team            []TeamStats
+	Team            map[int]TeamStats `json:"teamID"`
 }
 
 type TeamStats struct {
-	TeamID      int
-	ShotsCount  int
-	FastestShot float64
-	ManualGoals map[string]int
+	ShotsCount  int            `json:"shotsCount"`
+	FastestShot float64        `json:"fastestShot"`
+	ManualGoals map[string]int `json:"manualGoals"`
 }
 
 type Shot struct {
@@ -70,19 +69,19 @@ func NewGame() Game {
 					config.ActionSubtract: 0,
 				},
 			},
-			Team: []TeamStats{{
-				TeamID: config.TeamBlue,
-				ManualGoals: map[string]int{
-					config.ActionAdd:      0,
-					config.ActionSubtract: 0,
+			Team: map[int]TeamStats{
+				config.TeamBlue: {
+					ManualGoals: map[string]int{
+						config.ActionAdd:      0,
+						config.ActionSubtract: 0,
+					},
 				},
-			}, {
-				TeamID: config.TeamWhite,
-				ManualGoals: map[string]int{
-					config.ActionAdd:      0,
-					config.ActionSubtract: 0,
+				config.TeamWhite: {
+					ManualGoals: map[string]int{
+						config.ActionAdd:      0,
+						config.ActionSubtract: 0,
+					},
 				},
-			},
 			},
 		},
 	}
@@ -106,19 +105,19 @@ func (g *game) ResetStats() {
 				config.ActionSubtract: 0,
 			},
 		},
-		Team: []TeamStats{{
-			TeamID: config.TeamBlue,
-			ManualGoals: map[string]int{
-				config.ActionAdd:      0,
-				config.ActionSubtract: 0,
+		Team: map[int]TeamStats{
+			config.TeamBlue: {
+				ManualGoals: map[string]int{
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
 			},
-		}, {
-			TeamID: config.TeamWhite,
-			ManualGoals: map[string]int{
-				config.ActionAdd:      0,
-				config.ActionSubtract: 0,
+			config.TeamWhite: {
+				ManualGoals: map[string]int{
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
 			},
-		},
 		},
 	}
 }
@@ -180,13 +179,20 @@ func (g *game) UpdateShotsData(shot Shot) error {
 	g.m.Lock()
 	defer g.m.Unlock()
 
+	if entry, ok := g.gameData.Team[shot.Team]; ok {
+		entry.ShotsCount++
+		g.gameData.Team[shot.Team] = entry
+	} else {
+		return fmt.Errorf("incorrect team ID")
+	}
 	switch shot.Team {
 	case config.TeamWhite:
 		g.gameData.WhiteShotsCount++
-		g.gameData.Team[config.TeamWhite-1].ShotsCount++
+		//g.gameData.Team[config.TeamWhite-1].ShotsCount++
+
 	case config.TeamBlue:
 		g.gameData.BlueShotsCount++
-		g.gameData.Team[config.TeamBlue-1].ShotsCount++
+
 	default:
 		return fmt.Errorf("incorrect team ID")
 	}
@@ -204,9 +210,16 @@ func (g *game) isFastestShot(speed float64) bool {
 }
 
 func (g *game) isFastestShotv2(shot Shot) {
-	if g.gameData.Team[shot.Team-1].FastestShot < shot.Speed {
-		g.gameData.Team[shot.Team-1].FastestShot = shot.Speed
+	if entry, ok := g.gameData.Team[shot.Team]; ok {
+		if entry.FastestShot < shot.Speed {
+			entry.FastestShot = shot.Speed
+			g.gameData.Team[shot.Team] = entry
+		}
+
+	} else {
+
 	}
+
 }
 
 func (g *game) saveFastestShot(shot Shot) {
@@ -226,7 +239,7 @@ func (g *game) UpdateManualGoals(teamID int, action string) {
 	g.m.Lock()
 	defer g.m.Unlock()
 	g.gameData.ManualGoals[teamID][action]++
-	g.gameData.Team[teamID-1].ManualGoals[action]++
+	g.gameData.Team[teamID].ManualGoals[action]++
 
 }
 
