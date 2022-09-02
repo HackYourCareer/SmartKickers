@@ -1,11 +1,11 @@
-import React from 'react';
-import './GameStatistics.css';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
-import Heatmap from '../../Heatmap/Heatmap';
 import { getStatistics } from '../../../apis/getStatistics.js';
-import { useEffect, useState } from 'react';
 import { TeamID } from '../../../constants/score.js';
+import Heatmap from '../../Heatmap/Heatmap';
+
+import './GameStatistics.css';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
   const [statistics, setStatistics] = useState(null);
