@@ -6,8 +6,8 @@ import useHeatmap from '../../hooks/useHeatmap';
 
 function Heatmap() {
   const [{ loading, error, heatmap }] = useHeatmap();
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error</div>;
+  if (loading) return <div className="heatmap-status">Loading...</div>;
+  if (error) return <div className="heatmap-status">Error</div>;
 
   function chooseColor(value) {
     let chosenColor;

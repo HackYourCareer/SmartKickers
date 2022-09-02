@@ -22,3 +22,7 @@
 .heatmap-container > div > div > div > div:first-child {
   flex: 0 0 0 !important;
 }
+.heatmap-status {
+  text-align: center;
+  padding-top: 30px;
+}
