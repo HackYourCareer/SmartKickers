@@ -90,6 +90,7 @@ func (g *game) ResetStats() {
 			},
 		},
 	}
+	g.heatmap = Heatmap{}
 }
 
 func (g *game) AddGoal(teamID int) error {
