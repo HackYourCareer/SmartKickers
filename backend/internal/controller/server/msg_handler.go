@@ -229,3 +229,27 @@ func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 		log.Error(err)
 	}
 }
+
+func (s server) ShowHeatmapHandler(w http.ResponseWriter, r *http.Request) {
+	response, err := json.Marshal(s.game.GetHeatmap())
+	if err != nil {
+		log.Error(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
+		if err != nil {
+			log.Error(err)
+		}
+
+		return
+	}
+
+	_, err = w.Write(response)
+	if err != nil {
+		log.Error(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
+		if err != nil {
+			log.Error(err)
+		}
+
+		log.Error(err)
+	}
+}
