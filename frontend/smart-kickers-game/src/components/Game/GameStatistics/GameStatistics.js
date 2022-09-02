@@ -22,8 +22,8 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
   }
 
   function getManualChangedGoals(teamID) {
-    if (!statistics?.ManualGoals) return;
-    return statistics.ManualGoals[teamID];
+    if (!statistics?.manualGoals) return;
+    return statistics.manualGoals[teamID];
   }
 
   function getManualSubstractedGoals(teamID) {
