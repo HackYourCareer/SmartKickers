@@ -41,6 +41,14 @@ type GameStats struct {
 	FastestShot     Shot
 	ManualGoals     map[int]map[string]int
 	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int
+	Team            []TeamStats
+}
+
+type TeamStats struct {
+	TeamID      int
+	ShotsCount  int
+	FastestShot float64
+	ManualGoals map[string]int
 }
 
 type Shot struct {
@@ -61,6 +69,20 @@ func NewGame() Game {
 					config.ActionAdd:      0,
 					config.ActionSubtract: 0,
 				},
+			},
+			Team: []TeamStats{{
+				TeamID: config.TeamBlue,
+				ManualGoals: map[string]int{
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
+			}, {
+				TeamID: config.TeamWhite,
+				ManualGoals: map[string]int{
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
+			},
 			},
 		},
 	}
@@ -83,6 +105,20 @@ func (g *game) ResetStats() {
 				config.ActionAdd:      0,
 				config.ActionSubtract: 0,
 			},
+		},
+		Team: []TeamStats{{
+			TeamID: config.TeamBlue,
+			ManualGoals: map[string]int{
+				config.ActionAdd:      0,
+				config.ActionSubtract: 0,
+			},
+		}, {
+			TeamID: config.TeamWhite,
+			ManualGoals: map[string]int{
+				config.ActionAdd:      0,
+				config.ActionSubtract: 0,
+			},
+		},
 		},
 	}
 }
@@ -147,8 +183,10 @@ func (g *game) UpdateShotsData(shot Shot) error {
 	switch shot.Team {
 	case config.TeamWhite:
 		g.gameData.WhiteShotsCount++
+		g.gameData.Team[config.TeamWhite-1].ShotsCount++
 	case config.TeamBlue:
 		g.gameData.BlueShotsCount++
+		g.gameData.Team[config.TeamBlue-1].ShotsCount++
 	default:
 		return fmt.Errorf("incorrect team ID")
 	}
@@ -157,11 +195,18 @@ func (g *game) UpdateShotsData(shot Shot) error {
 		g.saveFastestShot(shot)
 	}
 
+	g.isFastestShotv2(shot)
 	return nil
 }
 
 func (g *game) isFastestShot(speed float64) bool {
 	return g.gameData.FastestShot.Speed < speed
+}
+
+func (g *game) isFastestShotv2(shot Shot) {
+	if g.gameData.Team[shot.Team-1].FastestShot < shot.Speed {
+		g.gameData.Team[shot.Team-1].FastestShot = shot.Speed
+	}
 }
 
 func (g *game) saveFastestShot(shot Shot) {
@@ -181,6 +226,8 @@ func (g *game) UpdateManualGoals(teamID int, action string) {
 	g.m.Lock()
 	defer g.m.Unlock()
 	g.gameData.ManualGoals[teamID][action]++
+	g.gameData.Team[teamID-1].ManualGoals[action]++
+
 }
 
 func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
