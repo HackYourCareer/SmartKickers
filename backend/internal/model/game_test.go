@@ -162,7 +162,7 @@ func TestUpdateShotsData(t *testing.T) {
 					Speed:      15,
 					Team:       1,
 					ShotAtGoal: false},
-				[config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 0, 1},
+				[config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 0, 1, map[int]map[string]int(nil)},
 		},
 		{
 			name: "should increment team blue shot count by one",
@@ -177,7 +177,7 @@ func TestUpdateShotsData(t *testing.T) {
 					Speed:      15,
 					Team:       2,
 					ShotAtGoal: false},
-				[config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 1, 0},
+				[config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 1, 0, map[int]map[string]int(nil)},
 		},
 		{
 			name: "should cause an error when invalid team ID",
@@ -186,7 +186,7 @@ func TestUpdateShotsData(t *testing.T) {
 				Team:  3,
 			},
 			expectedError:     "incorrect team ID",
-			expectedGameStats: GameStats{0, 0, Shot{}, [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 0, 0},
+			expectedGameStats: GameStats{0, 0, Shot{}, [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 0, 0, map[int]map[string]int(nil)},
 		},
 	}
 
