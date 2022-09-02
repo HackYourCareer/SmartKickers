@@ -1,41 +1,13 @@
 import React from 'react';
 import HeatMap from 'react-heatmap-grid';
 import './Heatmap.css';
-import { Colors } from './Colors';
+import { chooseColor } from './Colors';
 import useHeatmap from '../../hooks/useHeatmap';
 
 function Heatmap() {
   const [{ loading, error, heatmap }] = useHeatmap();
   if (loading) return <div className="heatmap-status">Loading...</div>;
   if (error) return <div className="heatmap-status">Error</div>;
-
-  function chooseColor(value) {
-    let chosenColor;
-    switch (true) {
-      case value <= 2:
-        chosenColor = Colors.none;
-        break;
-      case value <= 5:
-        chosenColor = Colors.blue;
-        break;
-      case value <= 10:
-        chosenColor = Colors.purple;
-        break;
-      case value <= 15:
-        chosenColor = Colors.green;
-        break;
-      case value <= 25:
-        chosenColor = Colors.yellow;
-        break;
-      case value > 25:
-        chosenColor = Colors.red;
-        break;
-      default:
-        chosenColor = Colors.none;
-        break;
-    }
-    return `rgba(${chosenColor.red}, ${chosenColor.green},${chosenColor.blue},  ${chosenColor.opacity} )`;
-  }
 
   return (
     <div className="heatmap-parent">

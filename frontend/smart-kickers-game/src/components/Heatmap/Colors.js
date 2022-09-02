@@ -36,3 +36,26 @@ export const Colors = {
     opacity: 0,
   },
 };
+
+export function chooseColor(value) {
+  switch (true) {
+    case value <= 2:
+      return returnCellColor(Colors.none);
+    case value <= 5:
+      return returnCellColor(Colors.blue);
+    case value <= 10:
+      return returnCellColor(Colors.purple);
+    case value <= 15:
+      return returnCellColor(Colors.green);
+    case value <= 25:
+      return returnCellColor(Colors.yellow);
+    case value > 25:
+      return returnCellColor(Colors.red);
+    default:
+      return returnCellColor(Colors.none);
+  }
+}
+
+function returnCellColor(chosenColor) {
+  return `rgba(${chosenColor.red}, ${chosenColor.green},${chosenColor.blue},  ${chosenColor.opacity} )`;
+}
