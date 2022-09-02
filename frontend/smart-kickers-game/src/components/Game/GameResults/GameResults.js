@@ -5,7 +5,7 @@ import './GameResults.css';
 import { TeamID, ScoreChange } from '../../../constants/score.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function GameResults({ blueScore, whiteScore }) {
+function GameResults({ blueScore, whiteScore, isVisible }) {
   async function handleUpdateScores(teamId, action) {
     const result = await updateScores(teamId, action);
     if (result.error) {
@@ -15,7 +15,7 @@ function GameResults({ blueScore, whiteScore }) {
 
   return (
     <div>
-      <div className="game-result-container">
+      <div className="game-result-container" hidden={!isVisible}>
         <div className="game-result-item">
           <Button
             onClick={() => {

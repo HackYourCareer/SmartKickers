@@ -13,6 +13,9 @@
   opacity: 0.5;
   cursor: initial;
 }
+.btn[hidden] {
+  visibility: hidden;
+}
 .btn--primary {
   background-color: var(--SAP-gold);
   color: #fff;
@@ -42,4 +45,9 @@
 .btn--large:hover,
 .btn--medium:hover {
   opacity: 0.7;
+}
+
+#start-game {
+  font-size: 40px;
+  background-color: var(--SAP-orange);
 }
