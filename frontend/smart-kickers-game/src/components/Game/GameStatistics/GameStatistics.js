@@ -21,6 +21,19 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
     return Team === teamID ? Speed.toFixed(2) + ' km/h' : '😵';
   }
 
+  function getManualChangedGoals(teamID) {
+    if (!statistics?.ManualGoals) return;
+    return statistics.ManualGoals[teamID];
+  }
+
+  function getManualSubstractedGoals(teamID) {
+    return getManualChangedGoals(teamID)?.sub || 0;
+  }
+
+  function getManualAddedGoals(teamID) {
+    return getManualChangedGoals(teamID)?.add || 0;
+  }
+
   useEffect(() => {
     handleGetStatistics();
   }, []);
@@ -46,6 +59,12 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
         <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>
         <div className="table-item">fastest shot of the game</div>
         <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>
+        <div className="table-item">{getManualAddedGoals(TeamID.Team_blue)}</div>
+        <div className="table-item">Manually added goals</div>
+        <div className="table-item">{getManualAddedGoals(TeamID.Team_white)}</div>
+        <div className="table-item">{getManualSubstractedGoals(TeamID.Team_blue)}</div>
+        <div className="table-item">Manually substracted goals</div>
+        <div className="table-item">{getManualSubstractedGoals(TeamID.Team_white)}</div>
       </div>
 
       <Button
