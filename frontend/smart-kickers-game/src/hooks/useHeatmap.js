@@ -13,7 +13,7 @@ const useHeatmap = () => {
   function mirrorHeatmap() {
     const heatmapDim = data.Heatmap.length;
     const array = new Array(heatmapDim).fill('');
-    let numbersCopy = JSON.parse(JSON.stringify(data.Heatmap));
+    const numbersCopy = JSON.parse(JSON.stringify(data.Heatmap));
 
     const transpose = (matrix) => {
       for (let row = 0; row < matrix.length; row++) {
