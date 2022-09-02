@@ -3,8 +3,29 @@ import './GameStatistics.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
 import Heatmap from '../../Heatmap/Heatmap';
+import { getStatistics } from '../../../apis/getStatistics.js';
+import { useEffect, useState } from 'react';
+import { TeamID } from '../../../constants/score.js';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
+  const [statistics, setStatistics] = useState(null);
+
+  const handleGetStatistics = async () => {
+    const result = await getStatistics();
+    if (result?.error) alert(result.error);
+    setStatistics(result);
+  };
+
+  function returnFastestShot(teamID) {
+    if (!statistics?.FastestShot) return;
+    const { Speed, Team } = statistics.FastestShot;
+    return Team === teamID ? Speed.toFixed(2) + ' km/h' : '😵';
+  }
+
+  useEffect(() => {
+    handleGetStatistics();
+  }, []);
+
   return (
     <>
       <h2>
@@ -23,6 +44,9 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
         <div className="table-item">{finalScores.blue}</div>
         <div className="table-item">score</div>
         <div className="table-item">{finalScores.white}</div>
+        <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>
+        <div className="table-item">fastest shot of the game</div>
+        <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>
       </div>
       <Heatmap />
       <Button

@@ -15,9 +15,9 @@ h2 {
   border: none;
   transition: 700ms;
   font-size: 120%;
+  background-color: var(--SAP-orange) !important;
 }
 .new-game-btn:hover {
-  background-color: var(--SAP-orange);
   color: var(--SAP-white);
   scale: calc(1.3);
 }
