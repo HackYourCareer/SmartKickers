@@ -30,29 +30,19 @@ The following repository contains:
 
 Install the following:
 
-1. [Python](https://www.python.org/downloads/) in version 3.10.5 or higher
-2. [Node](https://nodejs.org/en/download/) in version 16.16.0 or higher
-3. [Go](https://go.dev/dl/) in version 1.18.3 or higher
-4. [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
+1. [Git](https://git-scm.com/downloads)
+2. [Python](https://www.python.org/downloads/) in version 3.10.5 or higher
+3. [Node](https://nodejs.org/en/download/) in version 16.16.0 or higher
+4. Access to [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
+
+   **NOTE:** To get access for SmartKickersAI repository contact someone from [Team Beavers](https://wiki.one.int.sap/wiki/display/saplabspoland/Beavers+Team) on slack or via email.
+
 5. [Ximea camera drivers](https://www.ximea.com/support/wiki/apis/)
 6. Docker API for example Docker Desktop:
    - [MacOS](https://docs.docker.com/desktop/install/mac-install/)
    - [Windows](https://docs.docker.com/desktop/install/windows-install/)
    - [Linux](https://docs.docker.com/desktop/install/linux-install/)
-     > **NOTE:** Docker API is not mandatory to run the application, although it's recommended.
-7. Opencv-python
-
-   ```bash
-   pip3 install opencv-python
-   ```
-
-   For **brew** users:
-
-   ```bash
-   brew install opencv
-   ```
-
-8. Numpy
+7. Numpy
 
    ```bash
    pip3 install numpy
@@ -64,11 +54,23 @@ Install the following:
    brew install numpy
    ```
 
-9. Imutils
+8. OpenCV-python
 
    ```bash
-   pip3 install imutils
+   pip3 install opencv-python
    ```
+
+   For **brew** users:
+
+   ```bash
+   brew install opencv
+   ```
+
+9. Imutils
+
+```bash
+pip3 install imutils
+```
 
 ## Installation
 
@@ -85,8 +87,6 @@ Install the following:
    git clone https://github.com/HackYourCareer/SmartKickers.git
    git clone https://github.com/HackYourCareer/SmartKickersAI.git
    ```
-
-   **NOTE:** To get access for SmartKickersAI repository contact someone from [Team Beavers](https://wiki.one.int.sap/wiki/display/saplabspoland/Beavers+Team) on slack or via email.
 
 3. Check if you have installed all of the [prerequisites](https://github.com/HackYourCareer/SmartKickers#prerequisites).
 
