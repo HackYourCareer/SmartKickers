@@ -36,16 +36,16 @@ type GameScore struct {
 }
 
 type GameStats struct {
-	WhiteShotsCount int
-	BlueShotsCount  int
-	FastestShot     Shot
-	ManualGoals     map[int]map[string]int
-	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int
+	WhiteShotsCount int                                                 `json:"whiteShotsCount"`
+	BlueShotsCount  int                                                 `json:"blueShotsCount"`
+	FastestShot     Shot                                                `json:"fastestShot"`
+	ManualGoals     map[int]map[string]int                              `json:"manualGoals"`
+	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int `json:"heatmap"`
 }
 
 type Shot struct {
-	Speed float64
-	Team  int
+	Speed float64 `json:"speed"`
+	Team  int     `json:"team"`
 }
 
 func NewGame() Game {
