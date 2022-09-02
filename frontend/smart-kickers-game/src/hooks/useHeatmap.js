@@ -15,7 +15,6 @@ const useHeatmap = () => {
     const array = new Array(heatmapDim).fill('');
     let numbersCopy = JSON.parse(JSON.stringify(data.Heatmap));
 
-    // transpose
     const transpose = (matrix) => {
       for (let row = 0; row < matrix.length; row++) {
         for (let column = 0; column < row; column++) {
