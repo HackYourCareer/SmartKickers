@@ -7,22 +7,23 @@ function CurrentGameplay({ blueScore, whiteScore, handleStartGame, handleResetGa
     <div>
       <GameResults blueScore={blueScore} whiteScore={whiteScore} isVisible={isVisible} />
       <center className="game-ending-buttons">
-        <Button id="start-game" hidden={isVisible} onClick={() => handleStartGame()}>
-          Start game
-        </Button>
+        {!isVisible && (
+          <Button id="start-game" onClick={() => handleStartGame()}>
+            Start game
+          </Button>
+        )}
         <br />
-        <Button hidden={!isVisible} onClick={() => handleResetGame()}>
-          Reset game
-        </Button>
+        {isVisible && <Button onClick={() => handleResetGame()}>Reset game</Button>}
         <br />
-        <Button
-          hidden={!isVisible}
-          onClick={() => {
-            handleEndGame();
-          }}
-        >
-          End game
-        </Button>
+        {isVisible && (
+          <Button
+            onClick={() => {
+              handleEndGame();
+            }}
+          >
+            End game
+          </Button>
+        )}
       </center>
     </div>
   );

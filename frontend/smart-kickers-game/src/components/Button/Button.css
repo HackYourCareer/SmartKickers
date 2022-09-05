@@ -13,9 +13,6 @@
   opacity: 0.5;
   cursor: initial;
 }
-.btn[hidden] {
-  visibility: hidden;
-}
 .btn--primary {
   background-color: var(--SAP-gold);
   color: #fff;

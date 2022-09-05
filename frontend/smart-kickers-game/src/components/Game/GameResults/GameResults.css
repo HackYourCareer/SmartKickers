@@ -26,6 +26,3 @@
 .score {
   padding-left: 5px;
 }
-.game-result-container[hidden] {
-  visibility: hidden;
-}
