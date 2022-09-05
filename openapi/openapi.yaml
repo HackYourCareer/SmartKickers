@@ -1,0 +1,80 @@
+openapi: 3.0.3
+info:
+  title: Smart Kickers - OpenAPI 3.0
+  description: Documentation describing API for Smart Kickers server.
+  contact:
+    url: https://wiki.one.int.sap/wiki/display/saplabspoland/Beavers+Team
+    email: piotr.kolodziejski@sap.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.2
+externalDocs:
+  description: Smart Kickers repository
+  url: https://github.com/HackYourCareer/SmartKickers
+
+servers:
+  - url: https://localhost:3000/
+tags:
+  - name: reset
+    description: Reset score of current game
+  - name: goal
+    description: Manipulation of current game score
+paths:
+  /reset:
+    post:
+      tags:
+        - reset
+      summary: Resets score of current game
+      description: Set the score of current game to default state 0:0.
+      operationId: reset
+      responses:
+        "200":
+          description: Successful operation
+  /goal:
+    post:
+      tags:
+        - goal
+      summary: Manipulation of current game score
+      description: Edit the score manually by either adding or subtracting the goals for either team white (with team ID 1) or team blue (with team ID 2).
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Bad request
+      parameters:
+        - name: action
+          in: query
+          description: >-
+            Action can be either "add" if we want to add a goal or "sub" if we want to subtract a goal.
+          required: true
+          schema:
+            type: string
+            example: add
+        - name: team
+          in: query
+          description: >-
+            Team ID. Value <strong> 1 </strong> stands for team white and
+            <strong> 2 </strong> stands for team blue.
+          required: true
+          schema:
+            type: integer
+components:
+  schemas:
+    Goal:
+      type: object
+      properties:
+        action:
+          type: string
+          description: Action type.
+          example: "add"
+          enum:
+            - "add"
+            - "sub"
+        team:
+          type: integer
+          description: Team ID. Value 1 stands for team white and 2 stands for team blue.
+          example: 1
+          enum:
+            - 1
+            - 2

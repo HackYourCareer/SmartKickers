@@ -18,20 +18,30 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Error(err)
+		return
 	}
 
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
 
 	for {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
 			log.Error(err)
+			if websocket.IsCloseError(err, websocket.CloseAbnormalClosure) {
+				log.Error("Closing TableMessagesHandler")
+				return
+			}
 			continue
 		}
 		response, err := s.createResponse(receivedMsg)
 
 		if err != nil {
-			log.Debug(err)
+			log.Error(err)
 			continue
 		}
 		if response != nil {
@@ -55,6 +65,9 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 	case adapter.MsgGoal:
 		err := s.game.AddGoal(message.Team)
 		return nil, err
+	case adapter.MsgPosition:
+		log.Trace("X coord of the ball: ", message.X, " Y coord of the ball: ", message.Y)
+		return nil, s.game.IncrementHeatmap(message.X, message.Y)
 	default:
 		return nil, fmt.Errorf("unrecognized message type %d", message.Category)
 	}
@@ -67,7 +80,12 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 		log.Error(err)
 	}
 
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
 
 	for {
 		_, receivedMsg, err := c.NextReader()
@@ -79,10 +97,13 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 		shot, err := adapter.UnpackShotMsg(receivedMsg)
 		if err != nil {
 			log.Error(err)
+			continue
 		}
-		if s.game.IsFastestShot(shot.Speed) {
-			s.game.SaveFastestShot(shot)
+
+		if err := s.game.UpdateShotsData(shot); err != nil {
+			log.Error(err)
 		}
+
 		log.Debug(shot)
 	}
 }

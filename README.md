@@ -12,22 +12,21 @@ The following repository contains:
 ## Features
 
 - Keeping track of the score.
+- Manually adjust the score.
 
 ## Prerequisites
 
 - [python](https://www.python.org/downloads/macos/) in version 3.10.5 or higher
 - [node](https://nodejs.org/en/download/) in version 16.16.0 or higher
-- [go](https://go.dev/dl/) in version 1.18.3 or higher
 - npm in version 8.11.0 or higher
+- [go](https://go.dev/dl/) in version 1.18.3 or higher
 - [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
-
-## Requirements
-
 - [ximea camera drivers](https://www.ximea.com/support/wiki/apis/ximea_macos_software_package) (macOS)
+- Docker API [for example Docker Desktop](https://docs.docker.com/desktop/install/mac-install/) (macOS)
 - opencv-python
 
   ```bash
-  pip3 install open-cv
+  pip3 install opencv-python
   ```
 
   For **brew** users:
@@ -56,7 +55,7 @@ The following repository contains:
 
 ## Installation
 
-We are using macOS to build and run everything locally for now.
+We are using macOS to build and run everything locally.
 
 1. Clone the repositories.
 
@@ -65,7 +64,7 @@ We are using macOS to build and run everything locally for now.
    git clone https://github.com/HackYourCareer/SmartKickersAI.git
    ```
 
-2. Run the requirementsCheck.sh script to check if your system fulfils all requirements.
+2. Run the [`requirementsCheck.sh`](requirementsCheck.sh) script to check if your system fulfils all requirements.
 
    The script will look for open-cv, numpy, imutils, ximer driver only after successfully installing python! So if you don't have python it won't print missing python dependent packages except python itself.
 
@@ -74,69 +73,60 @@ We are using macOS to build and run everything locally for now.
    ./requirementsCheck.sh
    ```
 
-   > **NOTE:** Be sure to give permission for the script to execute.
+   > **NOTE:** Be sure to give permission for the script to execute.<br/>
+
+   ```bash
+   sudo chmod +x requirementsCheck.sh
+   ```
 
 3. Install missing dependencies.
 
-4. Switch to **frontend/smart-kickers-game** and run npm install.
+4. In folder [`SmartKickers`](SmartKickers) run docker-compose build.
 
    ```bash
-   cd frontend/smart-kickers-game
-   npm install
+   docker-compose build
    ```
 
 ## Launching
 
-> **NOTE:** The configuration for the table is provided by the developers in SmartKickersAI. In the future, there will be a manual to help to customize the configuration for any table to achieve the best ball detection accuracy.
+> **NOTE:** Configuration files for the camera view are provided by the developers in [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
 
-1. Switch to **SmartKickers/backend** and launch the go server.
+1. In the folder [`SmartKickers`](SmartKickers) launch the docker-compose.
 
    ```bash
-   cd SmartKickers/backend
-   go run main.go
+   docker-compose up
    ```
 
-   After launching you should see no response. The server is waiting for data from the node server. We plan to add an indicator of a successful launch in the future using logrus logs.
+   After launching you will see that the backend and the frontend of the application has started successfully.
 
    <h1 align="center">
-       <img src="assets/goLaunch.png">
+       <img src="assets/appLaunch.png">
    </h1>
 
-2. In new termnial switch to **SmartKickersAI/LocalServer/server** and launch the node server.
+2. Plug-in the camera wire to the computer.
+
+3. In new terminal switch to [`SmartKickersAI/LocalServer/server`](SmartKickersAI/LocalServer/server) and launch the node server.
 
    ```bash
    cd SmartKickersAI/LocalServer/server
    node server.js
    ```
 
-   You should see the following output indicating that we have successfully connected to the go server.
+   You will see the following output indicating that we have successfully connected to the go server.
 
    <h1 align="center">
        <img src="assets/nodeLaunch.png">
    </h1>
 
-   After launching the node server you should see the following output from your go server.
+3. In the browser, go to [`localhost:3007`](http://localhost:3007/) to see the react application.
 
-   As you can see, the last message is the score that has been sent to the react app.
+   Properly working React application looks like this.
 
-   <h1 align="center">
-       <img src="assets/goWithNode.png">
-   </h1>
+   > **NOTE**: Team 1's score on the Go server represents the Blue Team's score in React, and Team 2's score represents the White Team's score.
 
-3. In new termnial switch to **SmartKickers/frontend/smart-kickers-game** and launch the react client.
+      <h1 align="center">
+          <img src="assets/reactApp.png">
+      </h1>
 
-   ```bash
-   npm start
-   ```
-
-   Your react app should look like this.
-
-   > **NOTE**: The Team 1 score in the go server corresponds Blue score in the react app and Team 2 corresponds Blue.
-
-   <h1 align="center">
-       <img src="assets/reactApp.png">
-   </h1>
-
-## Development
-
-More details for developers will be provided soon in separate Readme files for the frontend, backend and SmartKickersAI.
+   <!-- ## Development
+   More details for developers may be provided soon in separate Readme files for the frontend, backend and SmartKickersAI. -->

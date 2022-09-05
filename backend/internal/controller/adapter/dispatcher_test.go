@@ -35,14 +35,14 @@ func TestGetMessageCategory(t *testing.T) {
 			},
 			expectedCategory: MsgGoal},
 		{
-			name: "position message, should return MsgNone",
+			name: "position message, should return MsgPosition",
 			msg: dispatcherMsg{
 				MsgType: "",
 				Goal:    0,
 				X:       4,
 				Y:       2.22,
 			},
-			expectedCategory: MsgNone},
+			expectedCategory: MsgPosition},
 		{
 			name: "unexpected message, should return MsgNone",
 			msg: dispatcherMsg{
@@ -61,7 +61,7 @@ func TestGetMessageCategory(t *testing.T) {
 	}
 }
 
-func TestUnpack(t *testing.T) {
+func TestUnpackDispatcherMsg(t *testing.T) {
 	type args struct {
 		name           string
 		msgIn          dispatcherMsg
@@ -108,9 +108,11 @@ func TestUnpack(t *testing.T) {
 				Y:       1.25,
 			},
 			ExpectedMsgOut: Message{
-				Category: MsgNone,
+				Category: MsgPosition,
 				TableID:  "5",
 				Team:     0,
+				X:        14.3,
+				Y:        1.25,
 			},
 		},
 		{
@@ -126,6 +128,8 @@ func TestUnpack(t *testing.T) {
 				Category: MsgNone,
 				TableID:  "Random",
 				Team:     0,
+				X:        14.3,
+				Y:        1.25,
 			},
 		},
 	}

@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -10,8 +11,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (s server) ResetScoreHandler(w http.ResponseWriter, r *http.Request) {
-	s.game.ResetScore()
+func (s server) ResetStatsHandler(w http.ResponseWriter, r *http.Request) {
+	s.game.ResetStats()
 }
 
 func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +28,12 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer c.Close()
+	defer func(c *websocket.Conn) {
+		err := c.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}(c)
 
 	if err := c.WriteJSON(s.game.GetScore()); err != nil {
 		log.Error(err)
@@ -40,7 +46,6 @@ func (s server) SendScoreHandler(w http.ResponseWriter, r *http.Request) {
 		case score := <-s.game.GetScoreChannel():
 			if err := c.WriteJSON(score); err != nil {
 				log.Error(err)
-				break
 			}
 		case err := <-closeConnChan:
 			log.Error(err)
@@ -66,23 +71,28 @@ func waitForError(c *websocket.Conn, ch chan error) {
 func (s server) ManipulateScoreHandler(w http.ResponseWriter, r *http.Request) {
 
 	team := r.URL.Query().Get(config.AttributeTeam)
-
 	teamID, err := strconv.Atoi(team)
+
 	if err != nil || !isValidTeamID(teamID) {
-		writeHTTPError(w, http.StatusBadRequest, "Team ID has to be a number either 1 or 2")
+		if err = writeHTTPError(w, http.StatusBadRequest, fmt.Sprintf("Team ID has to be a number either %v or %v.", config.TeamWhite, config.TeamBlue)); err != nil {
+			log.Error(err)
+		}
 		return
 	}
 
 	switch action := r.URL.Query().Get(config.AttributeAction); action {
-	case "add":
-		s.game.AddGoal(teamID)
-	case "sub":
-		s.game.SubGoal(teamID)
+	case config.ActionAdd:
+		s.game.UpdateManualGoals(teamID, config.ActionAdd)
+		err = s.game.AddGoal(teamID)
+	case config.ActionSubtract:
+		s.game.UpdateManualGoals(teamID, config.ActionSubtract)
+		err = s.game.SubGoal(teamID)
 	default:
-		if err = writeHTTPError(w, http.StatusBadRequest, "Wrong action"); err != nil {
-			log.Error(err)
-		}
+		err = writeHTTPError(w, http.StatusBadRequest, fmt.Sprintf("Action has to be either \"%v\" or \"%v\".", config.ActionAdd, config.ActionSubtract))
+	}
 
+	if err != nil {
+		log.Error(err)
 	}
 }
 
@@ -98,7 +108,7 @@ func isValidTeamID(teamID int) bool {
 }
 
 func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := json.Marshal(s.game.GetFastestShot())
+	response, err := json.Marshal(s.game.GetGameStats())
 	if err != nil {
 		log.Error(err)
 		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")

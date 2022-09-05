@@ -1,6 +1,7 @@
 package server
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/HackYourCareer/SmartKickers/internal/model"
@@ -11,6 +12,7 @@ import (
 
 type Server interface {
 	Start() error
+	createResponse(io.Reader) ([]byte, error)
 }
 type server struct {
 	router  *mux.Router
@@ -27,7 +29,7 @@ func New(addr string, game model.Game) Server {
 	serv.router.HandleFunc("/", serv.TableMessagesHandler)
 	serv.router.HandleFunc("/score", serv.SendScoreHandler)
 	serv.router.HandleFunc("/shot", serv.ShotParametersHandler)
-	serv.router.HandleFunc("/reset", serv.ResetScoreHandler).Methods("POST")
+	serv.router.HandleFunc("/reset", serv.ResetStatsHandler).Methods("POST")
 	serv.router.HandleFunc("/goal", serv.ManipulateScoreHandler).Methods("POST")
 	serv.router.HandleFunc("/stats", serv.ShowStatsHandler).Methods("GET")
 
