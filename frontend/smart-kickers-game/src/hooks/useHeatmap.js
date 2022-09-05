@@ -24,10 +24,13 @@ function mirrorHeatmap(data) {
 }
 
 const useHeatmap = () => {
-  const [{ data, loading, error }] = useAxios({
-    method: 'get',
-    url: `${config.apiBaseUrl}/stats`,
-  });
+  const [{ data, loading, error }] = useAxios(
+    {
+      method: 'get',
+      url: `${config.apiBaseUrl}/heatmap`,
+    },
+    { useCache: false }
+  );
 
   const heatmap = useMemo(() => (data?.heatmap ? mirrorHeatmap(data) : []), [data]);
 
