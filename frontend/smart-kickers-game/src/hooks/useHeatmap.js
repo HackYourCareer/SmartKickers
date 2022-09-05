@@ -32,7 +32,7 @@ const useHeatmap = () => {
     { useCache: false }
   );
 
-  const heatmap = useMemo(() => (data?.heatmap ? mirrorHeatmap(data) : []), [data]);
+  const heatmap = useMemo(() => data?.heatmap && mirrorHeatmap(data), [data]);
 
   return [{ loading, error, heatmap }];
 };
