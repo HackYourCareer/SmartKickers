@@ -21,6 +21,8 @@ const (
 
 // Numbers corresponding to areas on the table, as received from node application
 var (
-	WhiteTeamArea = [4]int{20, 21, 23, 25}
-	BlueTeamArea  = [4]int{22, 24, 26, 27}
+	WhiteTeamArea     = [4]int{20, 21, 23, 25}
+	BlueTeamArea      = [4]int{22, 24, 26, 27}
+	BlueTeamGoalArea  = BlueTeamArea[len(BlueTeamArea)-1]
+	WhiteTeamGoalArea = WhiteTeamArea[0]
 )

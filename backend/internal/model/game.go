@@ -36,16 +36,19 @@ type GameScore struct {
 }
 
 type GameStats struct {
-	WhiteShotsCount int                                                 `json:"whiteShotsCount"`
-	BlueShotsCount  int                                                 `json:"blueShotsCount"`
-	FastestShot     Shot                                                `json:"fastestShot"`
-	ManualGoals     map[int]map[string]int                              `json:"manualGoals"`
-	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int `json:"heatmap"`
+	WhiteShotsCount  int
+	BlueShotsCount   int
+	FastestShot      Shot
+	Heatmap          [config.HeatmapAccuracy][config.HeatmapAccuracy]int
+	BlueAtGoalCount  int
+	WhiteAtGoalCount int
+	ManualGoals      map[int]map[string]int
 }
 
 type Shot struct {
-	Speed float64 `json:"speed"`
-	Team  int     `json:"team"`
+	Speed      float64
+	Team       int
+	ShotAtGoal bool
 }
 
 func NewGame() Game {
@@ -147,8 +150,14 @@ func (g *game) UpdateShotsData(shot Shot) error {
 	switch shot.Team {
 	case config.TeamWhite:
 		g.gameData.WhiteShotsCount++
+		if shot.ShotAtGoal {
+			g.gameData.WhiteAtGoalCount++
+		}
 	case config.TeamBlue:
 		g.gameData.BlueShotsCount++
+		if shot.ShotAtGoal {
+			g.gameData.BlueAtGoalCount++
+		}
 	default:
 		return fmt.Errorf("incorrect team ID")
 	}

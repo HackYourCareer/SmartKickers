@@ -140,35 +140,44 @@ func TestGameSubGoal(t *testing.T) {
 }
 
 func TestUpdateShotsData(t *testing.T) {
-	game := &game{}
 
 	type args struct {
-		name               string
-		shot               Shot
-		expectedCountWhite int
-		expectedCountBlue  int
-		expectedError      string
+		name              string
+		shot              Shot
+		ShotAtGoal        bool
+		expectedError     string
+		expectedGameStats GameStats
 	}
 	tests := []args{
 		{
 			name: "should increment team white shot count by one",
 			shot: Shot{
-				Speed: 15,
-				Team:  1,
+				Speed:      15,
+				Team:       1,
+				ShotAtGoal: true,
 			},
-			expectedCountWhite: 1,
-			expectedCountBlue:  0,
-			expectedError:      "",
+			expectedError: "",
+			expectedGameStats: GameStats{1, 0,
+				Shot{
+					Speed:      15,
+					Team:       1,
+					ShotAtGoal: false},
+				[config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 0, 1, map[int]map[string]int(nil)},
 		},
 		{
 			name: "should increment team blue shot count by one",
 			shot: Shot{
-				Speed: 15,
-				Team:  2,
+				Speed:      15,
+				Team:       2,
+				ShotAtGoal: true,
 			},
-			expectedCountWhite: 0,
-			expectedCountBlue:  1,
-			expectedError:      "",
+			expectedError: "",
+			expectedGameStats: GameStats{0, 1,
+				Shot{
+					Speed:      15,
+					Team:       2,
+					ShotAtGoal: false},
+				[config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 1, 0, map[int]map[string]int(nil)},
 		},
 		{
 			name: "should cause an error when invalid team ID",
@@ -176,16 +185,14 @@ func TestUpdateShotsData(t *testing.T) {
 				Speed: 15,
 				Team:  3,
 			},
-			expectedCountWhite: 0,
-			expectedCountBlue:  0,
-			expectedError:      "incorrect team ID",
+			expectedError:     "incorrect team ID",
+			expectedGameStats: GameStats{0, 0, Shot{}, [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 0, 0, map[int]map[string]int(nil)},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			game.gameData.WhiteShotsCount = 0
-			game.gameData.BlueShotsCount = 0
+			game := &game{}
 
 			err := game.UpdateShotsData(tt.shot)
 
@@ -194,9 +201,7 @@ func TestUpdateShotsData(t *testing.T) {
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
-
-			assert.Equal(t, tt.expectedCountWhite, game.gameData.WhiteShotsCount)
-			assert.Equal(t, tt.expectedCountBlue, game.gameData.BlueShotsCount)
+			assert.Equal(t, tt.expectedGameStats, game.gameData)
 		})
 	}
 }
