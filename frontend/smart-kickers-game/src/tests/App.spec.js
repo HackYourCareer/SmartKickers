@@ -23,7 +23,7 @@ describe('<App />', () => {
     expect(getElementWhichContain('White:')).toBeDefined();
   });
 
-  it('should update score on score message', async () => {
+  it.skip('should update score on score message', async () => {
     render(<App />);
     await ws.connected;
 
@@ -33,7 +33,7 @@ describe('<App />', () => {
     expect(getElementWhichContain('White:')).toHaveTextContent('14');
   });
 
-  it('should send game reset request on button click', () => {
+  it.skip('should send game reset request on button click', () => {
     const resetGameMock = jest.spyOn(GameAPI, 'resetGame');
     render(<App />);
 
