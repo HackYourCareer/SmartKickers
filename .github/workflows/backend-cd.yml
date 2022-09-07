@@ -1,0 +1,27 @@
+name: GO server Continuos Delivery Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-cd.yml"
+      - "!**/*.md"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v3
+
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_TOKEN}}
+          run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build the docker image
+        run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/smartkickers-backend:latest
+      - name: Docker Push
+        run: Docker push ${{secrets.DOCKER_USER}}/smartkickers-backend
