@@ -20,14 +20,14 @@ type Game interface {
 	UpdateManualGoals(int, string)
 	UpdateShotsData(Shot) error
 	GetGameStats() GameStats
-	GetHeatmap() Heatmap
+	GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	IncrementHeatmap(float64, float64) error
 }
 
 type game struct {
 	score        GameScore
 	gameData     GameStats
-	heatmap      Heatmap
+	heatmap      [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	scoreChannel chan GameScore
 	m            sync.RWMutex
 }
@@ -42,10 +42,6 @@ type GameStats struct {
 	BlueShotsCount  int                    `json:"blueShotsCount"`
 	FastestShot     Shot                   `json:"fastestShot"`
 	ManualGoals     map[int]map[string]int `json:"manualGoals"`
-}
-
-type Heatmap struct {
-	Heatmap [config.HeatmapAccuracy][config.HeatmapAccuracy]int `json:"heatmap"`
 }
 
 type Shot struct {
@@ -90,7 +86,8 @@ func (g *game) ResetStats() {
 			},
 		},
 	}
-	g.heatmap = Heatmap{}
+	g.heatmap = [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}
+
 }
 
 func (g *game) AddGoal(teamID int) error {
@@ -203,11 +200,11 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	if y > heatmapUpperBound || y < 0 {
 		return errors.New("y ball position index out of range")
 	}
-	g.heatmap.Heatmap[x][y]++
+	g.heatmap[x][y]++
 	return nil
 }
 
-func (g *game) GetHeatmap() Heatmap {
+func (g *game) GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int {
 	log.Trace("mutex lock: GetHeatmap")
 	g.m.RLock()
 	defer g.m.RUnlock()
