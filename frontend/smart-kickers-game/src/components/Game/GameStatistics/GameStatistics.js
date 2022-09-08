@@ -5,6 +5,7 @@ import { Button } from '../../Button/Button.js';
 import { getStatistics } from '../../../apis/getStatistics.js';
 import { useEffect, useState } from 'react';
 import { TeamID } from '../../../constants/score.js';
+import StatisticsItem from './StatisticsItems/StatisticItem';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
   const [statistics, setStatistics] = useState(null);
@@ -44,27 +45,29 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
         <em>Statistics</em>
       </h2>
       <div className="table-with-stats">
-        <div className="table-item">
+        <StatisticsItem>
+          {' '}
           <FontAwesomeIcon className="blue-team-icon" icon="fa-person" />
           Blue
-        </div>
-        <div className="table-item"></div>
-        <div className="table-item">
+        </StatisticsItem>
+        <StatisticsItem />
+        <StatisticsItem>
+          {' '}
           <FontAwesomeIcon className="white-team-icon" icon="fa-person" />
           White
-        </div>
-        <div className="table-item">{finalScores.blue}</div>
-        <div className="table-item">score</div>
-        <div className="table-item">{finalScores.white}</div>
-        <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>
-        <div className="table-item">fastest shot of the game</div>
-        <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>
-        <div className="table-item">{getManualAddedGoals(TeamID.Team_blue)}</div>
-        <div className="table-item">Manually added goals</div>
-        <div className="table-item">{getManualAddedGoals(TeamID.Team_white)}</div>
-        <div className="table-item">{getManualSubstractedGoals(TeamID.Team_blue)}</div>
-        <div className="table-item">Manually substracted goals</div>
-        <div className="table-item">{getManualSubstractedGoals(TeamID.Team_white)}</div>
+        </StatisticsItem>
+        <StatisticsItem>{finalScores.blue}</StatisticsItem>
+        <StatisticsItem>score</StatisticsItem>
+        <StatisticsItem>{finalScores.white}</StatisticsItem>
+        <StatisticsItem>{returnFastestShot(TeamID.Team_blue)}</StatisticsItem>
+        <StatisticsItem>fastest shot of the game</StatisticsItem>
+        <StatisticsItem>{returnFastestShot(TeamID.white)}</StatisticsItem>
+        <StatisticsItem>{getManualAddedGoals(TeamID.Team_blue)}</StatisticsItem>
+        <StatisticsItem>Manually added goals</StatisticsItem>
+        <StatisticsItem>{getManualAddedGoals(TeamID.Team_white)}</StatisticsItem>
+        <StatisticsItem>{getManualSubstractedGoals(TeamID.Team_blue)}</StatisticsItem>
+        <StatisticsItem>Manually substracted goals</StatisticsItem>
+        <StatisticsItem>{getManualSubstractedGoals(TeamID.Team_white)}</StatisticsItem>
       </div>
 
       <Button
