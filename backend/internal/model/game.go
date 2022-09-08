@@ -52,16 +52,7 @@ func NewGame() Game {
 	return &game{
 		scoreChannel: make(chan GameScore, 32),
 		gameData: GameStats{
-			ManualGoals: map[int]map[string]int{
-				config.TeamWhite: {
-					config.ActionAdd:      0,
-					config.ActionSubtract: 0,
-				},
-				config.TeamBlue: {
-					config.ActionAdd:      0,
-					config.ActionSubtract: 0,
-				},
-			},
+			ManualGoals: NewManualGoalsMap(),
 		},
 	}
 }
@@ -74,16 +65,7 @@ func (g *game) ResetStats() {
 	g.score.WhiteScore = 0
 	g.scoreChannel <- g.score
 	g.gameData = GameStats{
-		ManualGoals: map[int]map[string]int{
-			config.TeamWhite: {
-				config.ActionAdd:      0,
-				config.ActionSubtract: 0,
-			},
-			config.TeamBlue: {
-				config.ActionAdd:      0,
-				config.ActionSubtract: 0,
-			},
-		},
+		ManualGoals: NewManualGoalsMap(),
 	}
 }
 
@@ -199,4 +181,17 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	}
 	g.gameData.Heatmap[x][y]++
 	return nil
+}
+
+func NewManualGoalsMap() map[int]map[string]int {
+	return map[int]map[string]int{
+		config.TeamWhite: {
+			config.ActionAdd:      0,
+			config.ActionSubtract: 0,
+		},
+		config.TeamBlue: {
+			config.ActionAdd:      0,
+			config.ActionSubtract: 0,
+		},
+	}
 }
