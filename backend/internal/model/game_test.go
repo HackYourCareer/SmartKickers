@@ -184,8 +184,14 @@ func TestUpdateShotsData(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			game.gameData.WhiteShotsCount = 0
-			game.gameData.BlueShotsCount = 0
+			if entry, ok := game.gameData.Team[config.TeamBlue]; ok {
+				entry.ShotsCount++
+				game.gameData.Team[config.TeamBlue] = entry
+			}
+			if entry, ok := game.gameData.Team[config.TeamWhite]; ok {
+				entry.ShotsCount++
+				game.gameData.Team[config.TeamWhite] = entry
+			}
 
 			err := game.UpdateShotsData(tt.shot)
 
@@ -195,58 +201,8 @@ func TestUpdateShotsData(t *testing.T) {
 				assert.EqualError(t, err, tt.expectedError)
 			}
 
-			assert.Equal(t, tt.expectedCountWhite, game.gameData.WhiteShotsCount)
-			assert.Equal(t, tt.expectedCountBlue, game.gameData.BlueShotsCount)
-		})
-	}
-}
-
-func TestSaveFastestGoal(t *testing.T) {
-
-	game := &game{
-		gameData: GameStats{
-			FastestShot: Shot{
-				Speed: 18.98,
-				Team:  1,
-			},
-		},
-	}
-
-	type args struct {
-		name            string
-		shotMsgIn       Shot
-		expectedFastest Shot
-	}
-
-	tests := []args{
-		{
-			name: "Should save new fastest of team 1",
-			shotMsgIn: Shot{
-				Speed: 21.45,
-				Team:  1,
-			},
-			expectedFastest: Shot{
-				Speed: 21.45,
-				Team:  1,
-			},
-		},
-		{
-			name: "Should save new fastest of team 2",
-			shotMsgIn: Shot{
-				Speed: 55.5555,
-				Team:  2,
-			},
-			expectedFastest: Shot{
-				Speed: 55.5555,
-				Team:  2,
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			game.saveFastestShot(tt.shotMsgIn)
-
-			assert.Equal(t, tt.expectedFastest, game.gameData.FastestShot)
+			assert.Equal(t, tt.expectedCountWhite, game.gameData.Team[config.TeamWhite].ShotsCount)
+			assert.Equal(t, tt.expectedCountBlue, game.gameData.Team[config.TeamBlue].ShotsCount)
 		})
 	}
 }
