@@ -225,8 +225,6 @@ func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Error(err)
 		}
-
-		log.Error(err)
 	}
 }
 
@@ -249,7 +247,5 @@ func (s server) ShowHeatmapHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Error(err)
 		}
-
-		log.Error(err)
 	}
 }
