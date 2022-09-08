@@ -140,7 +140,23 @@ func TestGameSubGoal(t *testing.T) {
 }
 
 func TestUpdateShotsData(t *testing.T) {
-	game := &game{}
+	game := &game{
+		gameData: GameStats{
+			Team: map[int]TeamStats{
+				config.TeamBlue: {
+					ManualGoals: map[string]int{
+						config.ActionAdd:      0,
+						config.ActionSubtract: 0,
+					},
+				},
+				config.TeamWhite: {
+					ManualGoals: map[string]int{
+						config.ActionAdd:      0,
+						config.ActionSubtract: 0,
+					},
+				},
+			},
+		}}
 
 	type args struct {
 		name               string
@@ -184,13 +200,13 @@ func TestUpdateShotsData(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if entry, ok := game.gameData.Team[config.TeamBlue]; ok {
-				entry.ShotsCount++
-				game.gameData.Team[config.TeamBlue] = entry
-			}
 			if entry, ok := game.gameData.Team[config.TeamWhite]; ok {
-				entry.ShotsCount++
+				entry.ShotsCount = 0
 				game.gameData.Team[config.TeamWhite] = entry
+			}
+			if entry, ok := game.gameData.Team[config.TeamBlue]; ok {
+				entry.ShotsCount = 0
+				game.gameData.Team[config.TeamBlue] = entry
 			}
 
 			err := game.UpdateShotsData(tt.shot)
