@@ -81,10 +81,9 @@ pip3 install imutils
    cd smartkickers
    ```
 
-2. Clone the repositories.
+2. Clone the repository.
 
    ```bash
-   git clone https://github.com/HackYourCareer/SmartKickers.git
    git clone https://github.com/HackYourCareer/SmartKickersAI.git
    ```
 
@@ -103,11 +102,17 @@ pip3 install imutils
 
 4. Install missing dependencies. The links can be found in [prerequisites section.](https://github.com/HackYourCareer/SmartKickers#prerequisites)
 
-5. If you you use Docker, in folder [`SmartKickers`](SmartKickers) run docker-compose build.
+5. Pull frontend image from GCR
 
-   ```bash
-   docker-compose build
-   ```
+```bash
+docker pull ghcr.io/hackyourcareer/smartkickers-frontend:latest
+```
+
+6. Pull backend image from GCR
+
+```bash
+docker pull ghcr.io/hackyourcareer/smartkickers-backend:latest
+```
 
 ## Launching
 
@@ -115,14 +120,19 @@ pip3 install imutils
 
 ### Launching the server and web application
 
-- In the folder **SmartKickers** launch the docker-compose.
+- Run pulled containers
+
+  - In terminal run:
 
   ```bash
-  docker-compose up
+  docker run -p 3000:3000 ghcr.io/hackyourcareer/smartkickers-backend:latest
   ```
 
-  After launching you will see that the backend and the frontend of the application have started successfully.
-  ![App launch image](assets/appLaunch.png "App launch")
+  - In the new terminal run:
+
+  ```bash
+  docker run -p 3007:80 ghcr.io/hackyourcareer/smartkickers-frontend:latest
+  ```
 
 ### Launching the ball-tracking software
 
