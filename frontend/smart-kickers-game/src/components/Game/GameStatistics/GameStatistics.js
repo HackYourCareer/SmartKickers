@@ -5,6 +5,7 @@ import { Button } from '../../Button/Button.js';
 import { getStatistics } from '../../../apis/getStatistics.js';
 import { useEffect, useState } from 'react';
 import { TeamID } from '../../../constants/score.js';
+import NumberOfShots from './NumberOfShots.js';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
   const [statistics, setStatistics] = useState(null);
@@ -65,6 +66,7 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
         <div className="table-item">{getManualSubstractedGoals(TeamID.Team_blue)}</div>
         <div className="table-item">Manually substracted goals</div>
         <div className="table-item">{getManualSubstractedGoals(TeamID.Team_white)}</div>
+        <NumberOfShots blue={statistics.blueShotsCount} white={statistics.whiteShotsCount} />
       </div>
 
       <Button
