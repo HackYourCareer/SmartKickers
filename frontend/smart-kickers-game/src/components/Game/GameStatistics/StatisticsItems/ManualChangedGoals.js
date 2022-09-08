@@ -1,5 +1,5 @@
 import React from 'react';
-import './GameStatistics.css';
+import './StatisticItem.css';
 
 function ManualChangedGoals({ blue, white, statistics }) {
   function getManualChangedGoals(teamID) {

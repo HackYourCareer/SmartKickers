@@ -1,15 +1,13 @@
 import React from 'react';
 import './GameStatistics.css';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button } from '../../Button/Button.js';
 import { getStatistics } from '../../../apis/getStatistics.js';
 import { useEffect, useState } from 'react';
 import { TeamID } from '../../../constants/score.js';
-//import StatisticsItem from './StatisticsItems/StatisticItem';
-import FinalScores from './FinalScores.js';
-import FastestShot from './FastestShot.js';
-import ManualChangedGoals from './ManualChangedGoals.js';
-import TeamIcons from './TeamIcons.js';
+import FinalScores from './StatisticsItems/FinalScores.js';
+import FastestShot from './StatisticsItems/FastestShot.js';
+import ManualChangedGoals from './StatisticsItems/ManualChangedGoals.js';
+import TeamIcons from './StatisticsItems/TeamIcons.js';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
   const [statistics, setStatistics] = useState(null);

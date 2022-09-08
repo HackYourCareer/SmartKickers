@@ -1,5 +1,5 @@
 import React from 'react';
-import './GameStatistics.css';
+import './StatisticItem.css';
 
 function FinalScores({ blue, white }) {
   return (

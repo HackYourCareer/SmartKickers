@@ -28,13 +28,6 @@ h2 {
   padding: 4px;
   margin-top: 40px;
 }
-.table-item {
-  background-color: var(--SAP-gold);
-  border: 0.5px solid var(--SAP-black);
-  padding: 16px;
-  font-size: 30px;
-  text-align: center;
-}
 @media only screen and (min-width: 1400px) {
   .new-game-btn {
     font-size: 150%;
