@@ -140,7 +140,9 @@ func TestUnpackDispatcherMsg(t *testing.T) {
 			jsn, _ := json.Marshal(tt.msgIn)
 			reader := bytes.NewReader(jsn)
 
-			msg, _ := UnpackDispatcherMsg(reader)
+			msg, err := UnpackDispatcherMsg(reader)
+
+			assert.Nil(t, err)
 			assert.Equal(t, msg, tt.ExpectedMsgOut)
 		})
 	}

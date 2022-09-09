@@ -195,6 +195,10 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
+			if websocket.IsCloseError(err, websocket.CloseAbnormalClosure) {
+				log.Error("Closing ShotParametersHandler")
+				return
+			}
 			log.Error(err)
 			continue
 		}
