@@ -4,8 +4,9 @@ import (
 	"math"
 	"testing"
 
-	"github.com/HackYourCareer/SmartKickers/internal/config"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/HackYourCareer/SmartKickers/internal/config"
 )
 
 func TestResetStats(t *testing.T) {
@@ -140,11 +141,9 @@ func TestGameSubGoal(t *testing.T) {
 }
 
 func TestUpdateShotsData(t *testing.T) {
-
 	type args struct {
 		name              string
 		shot              Shot
-		ShotAtGoal        bool
 		expectedError     string
 		expectedGameStats GameStats
 	}
@@ -163,7 +162,8 @@ func TestUpdateShotsData(t *testing.T) {
 					Speed:      15,
 					Team:       1,
 					ShotAtGoal: false},
-				[config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 0, 1, map[int]map[string]int(nil)},
+				nil, 0, 1,
+			},
 		},
 		{
 			name: "should increment team blue shot count by one",
@@ -178,7 +178,8 @@ func TestUpdateShotsData(t *testing.T) {
 					Speed:      15,
 					Team:       2,
 					ShotAtGoal: false},
-				[config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 1, 0, map[int]map[string]int(nil)},
+				nil, 1, 0,
+			},
 		},
 		{
 			name: "should cause an error when invalid team ID",
@@ -186,8 +187,11 @@ func TestUpdateShotsData(t *testing.T) {
 				Speed: 15,
 				Team:  3,
 			},
-			expectedError:     "incorrect team ID",
-			expectedGameStats: GameStats{0, 0, Shot{}, [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}, 0, 0, map[int]map[string]int(nil)},
+			expectedError: "incorrect team ID",
+			expectedGameStats: GameStats{0, 0,
+				Shot{},
+				nil, 0, 0,
+			},
 		},
 	}
 
