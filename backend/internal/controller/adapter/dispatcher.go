@@ -59,9 +59,11 @@ func (dispMsg dispatcherMsg) getMessageCategory() MsgCategory {
 	if dispMsg.MsgType == "INITIAL" {
 		return MsgInitial
 	}
+
 	if dispMsg.Goal != 0 {
 		return MsgGoal
 	}
+
 	if dispMsg.MsgType == "" {
 		return MsgPosition
 	}

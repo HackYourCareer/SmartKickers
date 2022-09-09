@@ -263,6 +263,7 @@ func TestIncrementHeatmap(t *testing.T) {
 		expectedHeatmapValue int
 		expectedError        string
 	}
+
 	tests := []args{
 		{
 			name:                 "should increment heatmap value on given cords by one",
@@ -319,7 +320,6 @@ func TestIncrementHeatmap(t *testing.T) {
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
-
 		})
 	}
 }
