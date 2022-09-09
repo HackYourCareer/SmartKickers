@@ -217,8 +217,7 @@ func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 	response, err := json.Marshal(s.game.GetGameStats())
 	if err != nil {
 		log.Error(err)
-
-		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get stats")
 		if err != nil {
 			log.Error(err)
 		}
@@ -229,12 +228,31 @@ func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 	_, err = w.Write(response)
 	if err != nil {
 		log.Error(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get stats")
+		if err != nil {
+			log.Error(err)
+		}
+	}
+}
 
-		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get fastest shot")
+func (s server) ShowHeatmapHandler(w http.ResponseWriter, r *http.Request) {
+	response, err := json.Marshal(s.game.GetHeatmap())
+	if err != nil {
+		log.Error(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get heatmap")
 		if err != nil {
 			log.Error(err)
 		}
 
+		return
+	}
+
+	_, err = w.Write(response)
+	if err != nil {
 		log.Error(err)
+		err = writeHTTPError(w, http.StatusInternalServerError, "Couldn't get heatmap")
+		if err != nil {
+			log.Error(err)
+		}
 	}
 }

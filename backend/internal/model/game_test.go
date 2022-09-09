@@ -313,9 +313,9 @@ func TestIncrementHeatmap(t *testing.T) {
 
 			err := game.IncrementHeatmap(tt.xCord, tt.yCord)
 			if err == nil {
-				game.gameData.Heatmap[x][y] = tt.startingHeatmapValue
+				game.heatmap[x][y] = tt.startingHeatmapValue
 				_ = game.IncrementHeatmap(tt.xCord, tt.yCord)
-				assert.Equal(t, tt.expectedHeatmapValue, game.gameData.Heatmap[x][y])
+				assert.Equal(t, tt.expectedHeatmapValue, game.heatmap[x][y])
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
