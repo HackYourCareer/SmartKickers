@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "backend/**"
-      - ".github/workflows/backend-cd.yml"
+      - "frontend/**"
+      - ".github/workflows/frontend-cd.yml"
       - "!**/*.md"
 jobs:
   build:
