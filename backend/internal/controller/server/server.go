@@ -43,5 +43,6 @@ func (s server) Start() error {
 	}).Info("Launching the server.")
 
 	corsObj := handlers.AllowedOrigins([]string{"*"})
+
 	return http.ListenAndServe(s.address, handlers.CORS(corsObj)(s.router))
 }
