@@ -28,6 +28,7 @@ func TestCreateResponse(t *testing.T) {
 		returnsNil    bool
 		expectedError string
 	}
+
 	tests := []args{
 		{
 			name: "initial message",
@@ -102,6 +103,7 @@ func TestCreateResponse(t *testing.T) {
 			expectedError: "unrecognized message type 0",
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			jsn, _ := json.Marshal(tt.msgIn)
@@ -122,7 +124,6 @@ func TestCreateResponse(t *testing.T) {
 			} else {
 				assert.Equal(t, response, expectedResponse)
 			}
-
 		})
 	}
 }

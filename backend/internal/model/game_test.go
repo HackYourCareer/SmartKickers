@@ -29,6 +29,7 @@ func TestAddGoal(t *testing.T) {
 		expectedWhiteScore int
 		expectedError      string
 	}
+
 	tests := []args{
 		{
 			name:               "should increment team white score by one",
@@ -52,7 +53,6 @@ func TestAddGoal(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
 			game.score.WhiteScore = 0
 			game.score.BlueScore = 0
 			err := game.AddGoal(tt.teamID)
@@ -82,6 +82,7 @@ func TestGameSubGoal(t *testing.T) {
 		expectedWhiteScore int
 		expectedError      string
 	}
+
 	tests := []args{
 		{
 			name:               "should decrement team white score by one",
@@ -165,6 +166,7 @@ func TestUpdateShotsData(t *testing.T) {
 		expectedCountBlue  int
 		expectedError      string
 	}
+
 	tests := []args{
 		{
 			name: "should increment team white shot count by one",
@@ -234,6 +236,7 @@ func TestIncrementHeatmap(t *testing.T) {
 		expectedHeatmapValue int
 		expectedError        string
 	}
+
 	tests := []args{
 		{
 			name:                 "should increment heatmap value on given cords by one",
@@ -290,7 +293,6 @@ func TestIncrementHeatmap(t *testing.T) {
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
-
 		})
 	}
 }

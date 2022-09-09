@@ -7,7 +7,6 @@ import (
 	"sync"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
-
 	log "github.com/sirupsen/logrus"
 )
 
@@ -19,13 +18,15 @@ type Game interface {
 	SubGoal(int) error
 	UpdateManualGoals(int, string)
 	UpdateShotsData(Shot) error
-	GetGameStats() GameStats
+	GetGameStats() map[int]TeamStats
+	GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	IncrementHeatmap(float64, float64) error
 }
 
 type game struct {
-	score        GameScore
-	gameData     GameStats
+	score    GameScore
+	gameData GameStats
+	//heatmap      [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	scoreChannel chan GameScore
 	m            sync.RWMutex
 }
@@ -96,6 +97,7 @@ func (g *game) ResetStats() {
 			},
 		},
 	}
+	g.gameData.Heatmap = [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}
 }
 
 func (g *game) AddGoal(teamID int) error {
@@ -167,12 +169,12 @@ func (g *game) UpdateShotsData(shot Shot) error {
 	return nil
 }
 
-func (g *game) GetGameStats() GameStats {
+func (g *game) GetGameStats() map[int]TeamStats {
 	log.Trace("mutex lock: GetGameStats")
 	g.m.RLock()
 	defer g.m.RUnlock()
 
-	return g.gameData
+	return g.gameData.Team
 }
 
 func (g *game) UpdateManualGoals(teamID int, action string) {
@@ -190,13 +192,24 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 
 	x := int(math.Round(config.HeatmapAccuracy * xCord))
 	y := int(math.Round(config.HeatmapAccuracy * yCord))
+
 	heatmapUpperBound := config.HeatmapAccuracy - 1
 	if x > heatmapUpperBound || x < 0 {
 		return errors.New("x ball position index out of range")
 	}
+
 	if y > heatmapUpperBound || y < 0 {
 		return errors.New("y ball position index out of range")
 	}
 	g.gameData.Heatmap[x][y]++
+
 	return nil
+}
+
+func (g *game) GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int {
+	log.Trace("mutex lock: GetHeatmap")
+	g.m.RLock()
+	defer g.m.RUnlock()
+
+	return g.gameData.Heatmap
 }

@@ -32,6 +32,7 @@ func New(addr string, game model.Game) Server {
 	serv.router.HandleFunc("/reset", serv.ResetStatsHandler).Methods("POST")
 	serv.router.HandleFunc("/goal", serv.ManipulateScoreHandler).Methods("POST")
 	serv.router.HandleFunc("/stats", serv.ShowStatsHandler).Methods("GET")
+	serv.router.HandleFunc("/heatmap", serv.ShowHeatmapHandler).Methods("GET")
 
 	return serv
 }
@@ -42,5 +43,6 @@ func (s server) Start() error {
 	}).Info("Launching the server.")
 
 	corsObj := handlers.AllowedOrigins([]string{"*"})
+
 	return http.ListenAndServe(s.address, handlers.CORS(corsObj)(s.router))
 }
