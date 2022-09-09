@@ -17,6 +17,7 @@ func TestUnpackShotMsg(t *testing.T) {
 		expectedMsgOut model.Shot
 		expectedError  string
 	}
+
 	tests := []args{
 		{
 			name: "wrong area message, should return empty model.Shot and error",
@@ -99,6 +100,7 @@ func TestDecodeTeam(t *testing.T) {
 		expectedTeam  int
 		expectedError string
 	}
+
 	tests := []args{
 		{
 			name:          "should return team white",
