@@ -86,7 +86,6 @@ func (g *game) ResetStats() {
 		},
 	}
 	g.heatmap = [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}
-
 }
 
 func (g *game) AddGoal(teamID int) error {
@@ -192,14 +191,17 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 
 	x := int(math.Round(config.HeatmapAccuracy * xCord))
 	y := int(math.Round(config.HeatmapAccuracy * yCord))
+
 	heatmapUpperBound := config.HeatmapAccuracy - 1
 	if x > heatmapUpperBound || x < 0 {
 		return errors.New("x ball position index out of range")
 	}
+
 	if y > heatmapUpperBound || y < 0 {
 		return errors.New("y ball position index out of range")
 	}
 	g.heatmap[x][y]++
+
 	return nil
 }
 
