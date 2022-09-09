@@ -8,6 +8,7 @@ import (
 	"github.com/HackYourCareer/SmartKickers/internal/config"
 	"github.com/HackYourCareer/SmartKickers/internal/model"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestUnpackShotMsg(t *testing.T) {
@@ -17,6 +18,7 @@ func TestUnpackShotMsg(t *testing.T) {
 		expectedMsgOut model.Shot
 		expectedError  string
 	}
+
 	tests := []args{
 		{
 			name: "wrong area message, should return empty model.Shot and error",
@@ -68,9 +70,8 @@ func TestUnpackShotMsg(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			var rawSlice []json.RawMessage
 			jsn, err := json.Marshal(tt.msgIn)
-			if err != nil {
-				assert.FailNow(t, err.Error())
-			}
+
+			require.Nil(t, err)
 			rawMsg := json.RawMessage(jsn)
 			if tt.msgIn != (tableShotParams{}) {
 				rawSlice = append(rawSlice, rawMsg)
@@ -80,15 +81,14 @@ func TestUnpackShotMsg(t *testing.T) {
 				Params: rawSlice,
 			}
 			shotJSON, err := json.Marshal(tableShot)
-			if err != nil {
-				assert.FailNow(t, err.Error())
-			}
+
+			require.Nil(t, err)
 			reader := bytes.NewReader(shotJSON)
 
 			msg, err := UnpackShotMsg(reader)
 
 			if tt.expectedError == "" {
-				assert.Nil(t, err)
+				require.Nil(t, err)
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
@@ -104,6 +104,7 @@ func TestDecodeTeam(t *testing.T) {
 		expectedTeam  int
 		expectedError string
 	}
+
 	tests := []args{
 		{
 			name:          "should return team white",

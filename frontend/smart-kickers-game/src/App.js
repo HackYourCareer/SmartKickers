@@ -15,6 +15,7 @@ function App() {
   const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
   const [goalsArray, setGoalsArray] = useState([]);
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
@@ -63,8 +64,8 @@ function App() {
   const handleStartGame = () => {
     resetGoalsArray();
     handleResetGame();
+    setIsVisible(true);
     start();
-    alert('Game started');
   };
 
   const resetGoalsArray = () => {
@@ -82,6 +83,7 @@ function App() {
     pause();
   };
   const handleNewGame = () => {
+    setIsVisible(false);
     setIsStatisticsDisplayed(false);
     handleResetGame();
     reset();
@@ -92,7 +94,10 @@ function App() {
     <>
       <h1>Smart Kickers</h1>
       {isStatisticsDisplayed ? (
-        <GameStatistics finalScores={finalScores} onNewGameRequested={handleNewGame} />
+        <>
+          <GameStatistics finalScores={finalScores} onNewGameRequested={handleNewGame} />
+          <GameHistory goalsArray={goalsArray} />
+        </>
       ) : (
         <CurrentGameplay
           blueScore={blueScore}
@@ -100,9 +105,9 @@ function App() {
           handleStartGame={handleStartGame}
           handleResetGame={handleResetGame}
           handleEndGame={handleEndGame}
+          isVisible={isVisible}
         />
       )}
-      <GameHistory goalsArray={goalsArray} />
     </>
   );
 }
