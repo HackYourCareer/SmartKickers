@@ -1,0 +1,26 @@
+name: Frontend Continues Delivery Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-cd.yml"
+      - "!**/*.md"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend/smart-kickers-game
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: docker login
+        run: echo ${{secrets.GITHUB_TOKEN}} | docker login -u ${{github.actor}} --password-stdin ghcr.io
+      - name: Build the docker image
+        run: docker build --file Dockerfile --tag ghcr.io/hackyourcareer/smartkickers-frontend:latest .
+      - name: Docker Push
+        run: docker push ghcr.io/hackyourcareer/smartkickers-frontend

@@ -12,7 +12,7 @@ import (
 
 type Game interface {
 	AddGoal(int) error
-	ResetScore()
+	ResetStats()
 	GetScore() GameScore
 	GetScoreChannel() chan GameScore
 	SubGoal(int) error
@@ -26,7 +26,6 @@ type game struct {
 	score        GameScore
 	gameData     GameStats
 	scoreChannel chan GameScore
-	manualGoals  map[int]map[string]int
 	m            sync.RWMutex
 }
 
@@ -36,21 +35,45 @@ type GameScore struct {
 }
 
 type GameStats struct {
-	WhiteShotsCount int
-	BlueShotsCount  int
-	FastestShot     Shot
-	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int
+	WhiteShotsCount int                                                 `json:"whiteShotsCount"`
+	BlueShotsCount  int                                                 `json:"blueShotsCount"`
+	FastestShot     Shot                                                `json:"fastestShot"`
+	ManualGoals     map[int]map[string]int                              `json:"manualGoals"`
+	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int `json:"heatmap"`
 }
 
 type Shot struct {
-	Speed float64
-	Team  int
+	Speed float64 `json:"speed"`
+	Team  int     `json:"team"`
 }
 
 func NewGame() Game {
 	return &game{
 		scoreChannel: make(chan GameScore, 32),
-		manualGoals: map[int]map[string]int{
+		gameData: GameStats{
+			ManualGoals: map[int]map[string]int{
+				config.TeamWhite: {
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
+				config.TeamBlue: {
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
+			},
+		},
+	}
+}
+
+func (g *game) ResetStats() {
+	log.Trace("mutex lock: ResetStats")
+	g.m.Lock()
+	defer g.m.Unlock()
+	g.score.BlueScore = 0
+	g.score.WhiteScore = 0
+	g.scoreChannel <- g.score
+	g.gameData = GameStats{
+		ManualGoals: map[int]map[string]int{
 			config.TeamWhite: {
 				config.ActionAdd:      0,
 				config.ActionSubtract: 0,
@@ -61,15 +84,6 @@ func NewGame() Game {
 			},
 		},
 	}
-}
-
-func (g *game) ResetScore() {
-	log.Trace("mutex lock: ResetScore")
-	g.m.Lock()
-	defer g.m.Unlock()
-	g.score.BlueScore = 0
-	g.score.WhiteScore = 0
-	g.scoreChannel <- g.score
 }
 
 func (g *game) AddGoal(teamID int) error {
@@ -165,7 +179,7 @@ func (g *game) GetGameStats() GameStats {
 func (g *game) UpdateManualGoals(teamID int, action string) {
 	g.m.Lock()
 	defer g.m.Unlock()
-	g.manualGoals[teamID][action]++
+	g.gameData.ManualGoals[teamID][action]++
 }
 
 func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
