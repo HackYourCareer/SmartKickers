@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: gosmartkickers
-          image: marekkawalski/smartkickers:latest
+          image: ghcr.io/hackyourcareer/smartkickers-backend:latest
           ports:
             - containerPort: 3000
           imagePullPolicy: Always
