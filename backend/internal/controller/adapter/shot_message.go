@@ -26,35 +26,37 @@ type tableShotMsg struct {
 	Params      []json.RawMessage `json:"messages"`
 }
 
-func UnpackShotMsg(message io.Reader) (model.Shot, error) {
+func UnpackShotMsg(message io.Reader) (shot model.Shot, err error) {
 	var (
 		shotMessage tableShotMsg
 		params      tableShotParams
 	)
 
-	err := json.NewDecoder(message).Decode(&shotMessage)
+	err = json.NewDecoder(message).Decode(&shotMessage)
 	if err != nil {
-		return model.Shot{}, err
+		return
 	}
 
 	if len(shotMessage.Params) == 0 {
-		return model.Shot{}, fmt.Errorf("missing shot parameters")
+		err = fmt.Errorf("missing shot parameters")
+		return
 	}
 
 	err = json.Unmarshal(shotMessage.Params[0], &params)
 	if err != nil {
-		return model.Shot{}, err
+		return
 	}
 
 	teamID, err := decodeTeam(params.StartArea)
 	if err != nil {
-		return model.Shot{}, err
+		return
 	}
 
-	return model.Shot{
+	shot = model.Shot{
 		Speed: params.Speed,
 		Team:  teamID,
-	}, nil
+	}
+	return
 }
 
 func decodeTeam(areaID int) (int, error) {

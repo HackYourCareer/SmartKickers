@@ -9,12 +9,12 @@ import (
 )
 
 func TestGetMessageCategory(t *testing.T) {
-
 	type args struct {
 		name             string
 		msg              dispatcherMsg
 		expectedCategory MsgCategory
 	}
+
 	tests := []args{
 		{
 			name: "initial message, should return MsgInitial",
@@ -67,6 +67,7 @@ func TestUnpackDispatcherMsg(t *testing.T) {
 		msgIn          dispatcherMsg
 		ExpectedMsgOut Message
 	}
+
 	tests := []args{
 		{
 			name: "initial message",
@@ -133,12 +134,15 @@ func TestUnpackDispatcherMsg(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			jsn, _ := json.Marshal(tt.msgIn)
 			reader := bytes.NewReader(jsn)
 
-			msg, _ := UnpackDispatcherMsg(reader)
+			msg, err := UnpackDispatcherMsg(reader)
+
+			assert.Nil(t, err)
 			assert.Equal(t, msg, tt.ExpectedMsgOut)
 		})
 	}
