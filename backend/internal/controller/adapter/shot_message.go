@@ -56,7 +56,8 @@ func UnpackShotMsg(message io.Reader) (shot model.Shot, err error) {
 		Speed: params.Speed,
 		Team:  teamID,
 	}
-	return
+
+	return shot, nil
 }
 
 func decodeTeam(areaID int) (int, error) {
