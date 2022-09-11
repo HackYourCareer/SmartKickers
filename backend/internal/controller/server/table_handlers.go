@@ -16,6 +16,7 @@ const messageTypeText = 1
 func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 	var upgrader websocket.Upgrader
 	c, err := upgrader.Upgrade(w, r, nil)
+
 	if err != nil {
 		log.Error(err)
 		return
@@ -32,18 +33,22 @@ func (s server) TableMessagesHandler(w http.ResponseWriter, r *http.Request) {
 		_, receivedMsg, err := c.NextReader()
 		if err != nil {
 			log.Error(err)
+
 			if websocket.IsCloseError(err, websocket.CloseAbnormalClosure) {
 				log.Error("Closing TableMessagesHandler")
 				return
 			}
+
 			continue
 		}
+
 		response, err := s.createResponse(receivedMsg)
 
 		if err != nil {
 			log.Error(err)
 			continue
 		}
+
 		if response != nil {
 			err = c.WriteMessage(messageTypeText, response)
 			if err != nil {
@@ -59,6 +64,7 @@ func (s server) createResponse(reader io.Reader) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	switch message.Category {
 	case adapter.MsgInitial:
 		return json.Marshal(adapter.NewDispatcherResponse(message.TableID))
@@ -95,7 +101,9 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 				log.Error("Closing ShotParametersHandler")
 				return
 			}
+
 			log.Error(err)
+
 			continue
 		}
 
