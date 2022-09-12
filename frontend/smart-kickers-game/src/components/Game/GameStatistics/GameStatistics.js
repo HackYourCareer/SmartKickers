@@ -66,7 +66,7 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
         <div className="table-item">{getManualSubstractedGoals(TeamID.Team_blue)}</div>
         <div className="table-item">Manually substracted goals</div>
         <div className="table-item">{getManualSubstractedGoals(TeamID.Team_white)}</div>
-        <NumberOfShots blue={statistics.blueShotsCount} white={statistics.whiteShotsCount} />
+        <NumberOfShots statistics={statistics} />
       </div>
 
       <Button
