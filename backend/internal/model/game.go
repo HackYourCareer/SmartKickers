@@ -163,6 +163,7 @@ func (g *game) UpdateShotsData(shot Shot) error {
 		if entry.FastestShot < shot.Speed {
 			entry.FastestShot = shot.Speed
 		}
+
 		if shot.ShotAtGoal {
 			entry.ShotsAtGoalCount++
 		}
@@ -199,6 +200,7 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	y := int(math.Round(config.HeatmapAccuracy * yCord))
 
 	heatmapUpperBound := config.HeatmapAccuracy - 1
+
 	if x > heatmapUpperBound || x < 0 {
 		return errors.New("x ball position index out of range")
 	}

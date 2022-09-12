@@ -199,7 +199,9 @@ func (s server) ShotParametersHandler(w http.ResponseWriter, r *http.Request) {
 				log.Error("Closing ShotParametersHandler")
 				return
 			}
+
 			log.Error(err)
+
 			continue
 		}
 
