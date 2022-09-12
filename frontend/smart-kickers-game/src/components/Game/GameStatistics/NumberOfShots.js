@@ -2,7 +2,6 @@ import React from 'react';
 import './GameStatistics.css';
 
 function NumberOfShots({ statistics }) {
-  console.log(statistics);
   return (
     <>
       <div className="table-item">{statistics?.blueShotsCount}</div>
