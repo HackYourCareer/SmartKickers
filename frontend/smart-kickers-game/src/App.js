@@ -76,6 +76,9 @@ function App() {
     resetGame().then((data) => {
       if (data.error) alert(data.error);
     });
+    reset();
+    start();
+    resetGoalsArray();
   };
   const handleEndGame = () => {
     setFinalScores({ blue: blueScore, white: whiteScore });
@@ -86,9 +89,6 @@ function App() {
     setIsVisible(false);
     setIsStatisticsDisplayed(false);
     handleResetGame();
-    reset();
-    start();
-    resetGoalsArray();
   };
   return (
     <>
