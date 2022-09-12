@@ -4,9 +4,8 @@ import (
 	"math"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/HackYourCareer/SmartKickers/internal/config"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestResetStats(t *testing.T) {

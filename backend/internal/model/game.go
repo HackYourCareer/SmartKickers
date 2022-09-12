@@ -6,9 +6,8 @@ import (
 	"math"
 	"sync"
 
-	log "github.com/sirupsen/logrus"
-
 	"github.com/HackYourCareer/SmartKickers/internal/config"
+	log "github.com/sirupsen/logrus"
 )
 
 type Game interface {
