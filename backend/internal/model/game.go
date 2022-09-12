@@ -26,7 +26,6 @@ type Game interface {
 type game struct {
 	score        GameScore
 	gameData     GameStats
-	Heatmap      [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	scoreChannel chan GameScore
 	m            sync.RWMutex
 }
@@ -162,10 +161,12 @@ func (g *game) UpdateShotsData(shot Shot) error {
 		if entry.FastestShot < shot.Speed {
 			entry.FastestShot = shot.Speed
 		}
+
 		g.gameData.Team[shot.Team] = entry
 	} else {
 		return fmt.Errorf("incorrect team ID")
 	}
+
 	return nil
 }
 
@@ -182,7 +183,6 @@ func (g *game) UpdateManualGoals(teamID int, action string) {
 	defer g.m.Unlock()
 
 	g.gameData.Team[teamID].ManualGoals[action]++
-
 }
 
 func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
@@ -201,7 +201,7 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	if y > heatmapUpperBound || y < 0 {
 		return errors.New("y ball position index out of range")
 	}
-	g.Heatmap[x][y]++
+	g.gameData.Heatmap[x][y]++
 
 	return nil
 }
@@ -211,5 +211,5 @@ func (g *game) GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int 
 	g.m.RLock()
 	defer g.m.RUnlock()
 
-	return g.Heatmap
+	return g.gameData.Heatmap
 }
