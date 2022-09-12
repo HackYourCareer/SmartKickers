@@ -9,106 +9,81 @@ The following repository contains:
 - Golang server for processing the data.
 - React client to display game information.
 
-## Table of content
+## Table of contents
 
-- [SmartKickers](#smartkickers)
-  - [Overview](#overview)
-  - [Table of content](#table-of-content)
-  - [Features](#features)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Launching](#launching)
-    - [Launching the server and web application](#launching-the-server-and-web-application)
-    - [Launching the ball-tracking software](#launching-the-ball-tracking-software)
+- [Overview](#overview)
+- [Table of content](#table-of-content)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Launching](#launching)
+  - [Launching the server and web application](#launching-the-server-and-web-application)
+  - [Launching the ball-tracking software](#launching-the-ball-tracking-software)
+- [Contact Information](#contact-information)
 
 ## Features
 
-- Keeping track of the score.
-- Manually adjust the score.
+- Keeping track of the score
+- Manually adjusting the score
 
 ## Prerequisites
 
-Install the following:
+Get the following:
 
 1. [Git](https://git-scm.com/downloads)
 2. [Python](https://www.python.org/downloads/) in version 3.10.5 or higher
-3. [Node](https://nodejs.org/en/download/) in version 16.16.0 or higher
+3. [Node.js](https://nodejs.org/en/download/) in version 16.16.0 or higher
 4. Access to [SmartKickersAI](https://github.com/HackYourCareer/SmartKickersAI)
 
-   **NOTE:** To get access for SmartKickersAI repository contact someone from [Team Beavers](https://wiki.one.int.sap/wiki/display/saplabspoland/Beavers+Team) on slack or via email.
+   > **NOTE:** To get access to the SmartKickersAI repository, [contact](#contact-information) Team Beavers.
 
 5. [Ximea camera drivers](https://www.ximea.com/support/wiki/apis/)
 6. Docker API for example Docker Desktop:
    - [MacOS](https://docs.docker.com/desktop/install/mac-install/)
    - [Windows](https://docs.docker.com/desktop/install/windows-install/)
    - [Linux](https://docs.docker.com/desktop/install/linux-install/)
-7. Numpy
+7. [NumPy](https://numpy.org/install/)
 
-   ```bash
-   pip3 install numpy
-   ```
-
-   For **brew** users:
-
-   ```bash
-   brew install numpy
-   ```
-
-8. OpenCV-python
-
-   ```bash
-   pip3 install opencv-python
-   ```
-
-   For **brew** users:
-
-   ```bash
-   brew install opencv
-   ```
-
-9. Imutils
+> **TIP:** If you're a macOS user, you can also use `brew` to install NumPy:
 
 ```bash
-pip3 install imutils
+brew install numpy
+```
+
+8. [OpenCV-Python](https://pypi.org/project/opencv-python/)
+
+9. [Imutils](https://pypi.org/project/imutils/)
+
+Check if you have installed all of the [prerequisites](https://github.com/HackYourCareer/SmartKickers#prerequisites).
+
+> **TIP:** If you're a macOS user, you can run the [`requirementsCheck.sh`](requirementsCheck.sh) script to check for any missing dependencies. Note that the script looks for OpenCV, NumPy, Imutils, and the Ximea driver **only after you have successfully installed Python!** If you don't have Python, it doesn't print missing Python-dependent packages except Python itself.
+
+```bash
+sudo ./requirementsCheck.sh
 ```
 
 ## Installation
 
-1. Make a new directory and open it in command line terminal.
+1. Create a new directory and navigate to it in a terminal.
 
-   ```bash
-   mkdir smartkickers
-   cd smartkickers
-   ```
+```bash
+mkdir smartkickers
+cd smartkickers
+```
 
 2. Clone the repository.
 
-   ```bash
-   git clone https://github.com/HackYourCareer/SmartKickersAI.git
-   ```
+```bash
+git clone https://github.com/HackYourCareer/SmartKickersAI.git
+```
 
-3. Check if you have installed all of the [prerequisites](https://github.com/HackYourCareer/SmartKickers#prerequisites).
-
-   **MacOS** users can run the [`requirementsCheck.sh`](requirementsCheck.sh) script to check if they have any missing dependencies.
-
-   **NOTE:** The script will look for open-cv, numpy, imutils, ximer driver **only after successfully installing python!** So if you don't have python it won't print missing python dependent packages except python itself.
-
-   ```bash
-   cd SmartKickers
-   sudo ./requirementsCheck.sh
-   ```
-
-   **Windows** users have to check the dependencies manually.
-
-4. Install missing dependencies. The links can be found in [prerequisites section.](https://github.com/HackYourCareer/SmartKickers#prerequisites)
-
-5. Pull frontend image from GCR
+3. Pull frontend image from GCR
 
 ```bash
 docker pull ghcr.io/hackyourcareer/smartkickers-frontend:latest
 ```
 
-6. Pull backend image from GCR
+4. Pull backend image from GCR
 
 ```bash
 docker pull ghcr.io/hackyourcareer/smartkickers-backend:latest
@@ -116,19 +91,19 @@ docker pull ghcr.io/hackyourcareer/smartkickers-backend:latest
 
 ## Launching
 
-> **NOTE:** Configuration files for the camera view are provided by the developers in [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
+> **NOTE:** Configuration files for the camera view are provided by the developers in the [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
 
 ### Launching the server and web application
 
 - Run pulled containers
 
-  - In terminal run:
+  - In a terminal run:
 
   ```bash
   docker run -p 3000:3000 ghcr.io/hackyourcareer/smartkickers-backend:latest
   ```
 
-  - In the new terminal run:
+  - Open a new terminal and run:
 
   ```bash
   docker run -p 3007:80 ghcr.io/hackyourcareer/smartkickers-frontend:latest
@@ -136,21 +111,34 @@ docker pull ghcr.io/hackyourcareer/smartkickers-backend:latest
 
 ### Launching the ball-tracking software
 
-- Plug-in the camera wire to the computer.
+1. Plug in the camera to the computer.
 
-- In new terminal switch to [`SmartKickersAI/LocalServer/server`](SmartKickersAI/LocalServer/server) and launch the node server.
+2. In a new terminal window, launch the Node.js server.
 
-  ```bash
-  cd SmartKickersAI/LocalServer/server
-  node server.js
-  ```
+In order to launch the application, navigate to the `SmartKickersAI` repo and run:
 
-  You will see the following output indicating that we have successfully connected to the go server.
+```bash
+cd LocalServer/server
+node server.js
+```
 
-  ![Node launch image](assets/nodeLaunch.png "Node launch")
+Successful connection to the Go server shows the connection details like in the screenshot below:
 
-- In the browser, go to [`localhost:3007`](http://localhost:3007/) to see the react application.
+![Node launch image](assets/nodeLaunch.png "Node launch")
 
-  Properly working React application looks like this.
+3. In your Internet browser, go to [`localhost:3007`](http://localhost:3007/) to see the React application.
 
-  ![React application](assets/reactApp.png "React application")
+This takes you to the SmartKickers React application.
+
+![React application](assets/reactApp.png "React application")
+
+## Contact Information
+
+Team Beavers members:
+
+- [Piotr Kołodziejski](https://github.com/Pichi00) - piotr.kolodziejski@sap.com
+- [Marek Kawalski](https://github.com/marekkawalski) - marek.kawalski@sap.com
+- [Michał Kalke](https://github.com/MichalKalke) - michal.kalke@sap.com
+- [Kacper Małachowski](https://github.com/KacperMalachowski) - kacper.malachowski@sap.com
+- [Marek Michali](https://github.com/MarekMichali) - marek.michali@sap.com
+- [Filip Gołyszny](https://github.com/Filip22022) - filip.golyszny@sap.com
