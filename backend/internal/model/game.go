@@ -24,9 +24,9 @@ type Game interface {
 }
 
 type game struct {
-	score    GameScore
-	gameData GameStats
-	//heatmap      [config.HeatmapAccuracy][config.HeatmapAccuracy]int
+	score        GameScore
+	gameData     GameStats
+	Heatmap      [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	scoreChannel chan GameScore
 	m            sync.RWMutex
 }
@@ -201,7 +201,7 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	if y > heatmapUpperBound || y < 0 {
 		return errors.New("y ball position index out of range")
 	}
-	g.gameData.Heatmap[x][y]++
+	g.Heatmap[x][y]++
 
 	return nil
 }
@@ -211,5 +211,5 @@ func (g *game) GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int 
 	g.m.RLock()
 	defer g.m.RUnlock()
 
-	return g.gameData.Heatmap
+	return g.Heatmap
 }
