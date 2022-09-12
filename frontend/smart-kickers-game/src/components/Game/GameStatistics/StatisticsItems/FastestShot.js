@@ -1,10 +1,9 @@
 import React from 'react';
 import './StatisticItem.css';
 
-function FastestShot({ blue, white, statistics }) {
+function FastestShot({ blue, white, fastestShot }) {
   function returnFastestShot(teamID) {
-    if (!statistics?.fastestShot) return '😞';
-    const { speed, team } = statistics.fastestShot;
+    const { speed, team } = fastestShot;
     return team === teamID ? speed.toFixed(2) + ' km/h' : '😵';
   }
   return (

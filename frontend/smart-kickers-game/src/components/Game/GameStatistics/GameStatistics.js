@@ -29,8 +29,10 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
       </h2>
       <div className="table-with-stats">
         <TeamIcons />
-        <FinalScores blue={finalScores.blue} white={finalScores.white} />
-        <FastestShot blue={TeamID.Team_blue} white={TeamID.Team_white} statistics={statistics} />
+        <FinalScores blue={finalScores.blueScore} white={finalScores.whiteScore} />
+        {statistics && statistics.fastestShot.speed !== 0 && (
+          <FastestShot blue={TeamID.Team_blue} white={TeamID.Team_white} fastestShot={statistics.fastestShot} />
+        )}
         <ManualChangedGoals blue={TeamID.Team_blue} white={TeamID.Team_white} statistics={statistics} />
       </div>
 
