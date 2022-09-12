@@ -41,14 +41,16 @@ type GameStats struct {
 }
 
 type TeamStats struct {
-	ShotsCount  int            `json:"shotsCount"`
-	FastestShot float64        `json:"fastestShot"`
-	ManualGoals map[string]int `json:"manualGoals"`
+	ShotsCount       int            `json:"shotsCount"`
+	FastestShot      float64        `json:"fastestShot"`
+	ManualGoals      map[string]int `json:"manualGoals"`
+	ShotsAtGoalCount int            `json:"shotsAtGoal"`
 }
 
 type Shot struct {
-	Speed float64 `json:"speed"`
-	Team  int     `json:"team"`
+	Speed      float64
+	Team       int
+	ShotAtGoal bool
 }
 
 func NewGame() Game {
@@ -160,6 +162,9 @@ func (g *game) UpdateShotsData(shot Shot) error {
 		entry.ShotsCount++
 		if entry.FastestShot < shot.Speed {
 			entry.FastestShot = shot.Speed
+		}
+		if shot.ShotAtGoal {
+			entry.ShotsAtGoalCount++
 		}
 
 		g.gameData.Team[shot.Team] = entry
