@@ -38,7 +38,7 @@ Get the following:
    > **NOTE:** To get access to the SmartKickersAI repository, [contact](#contact-information) Team Beavers.
 
 5. [Ximea camera drivers](https://www.ximea.com/support/wiki/apis/)
-6. Docker API for example Docker Desktop:
+6. Docker daemon for example Docker Desktop:
    - [MacOS](https://docs.docker.com/desktop/install/mac-install/)
    - [Windows](https://docs.docker.com/desktop/install/windows-install/)
    - [Linux](https://docs.docker.com/desktop/install/linux-install/)
