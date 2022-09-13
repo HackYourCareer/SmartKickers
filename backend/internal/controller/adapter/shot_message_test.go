@@ -8,6 +8,7 @@ import (
 	"github.com/HackYourCareer/SmartKickers/internal/config"
 	"github.com/HackYourCareer/SmartKickers/internal/model"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestUnpackShotMsg(t *testing.T) {
@@ -17,37 +18,43 @@ func TestUnpackShotMsg(t *testing.T) {
 		expectedMsgOut model.Shot
 		expectedError  string
 	}
+
 	tests := []args{
 		{
 			name: "wrong area message, should return empty model.Shot and error",
 			msgIn: tableShotParams{
 				Speed:     25.5,
 				StartArea: 1,
+				EndArea:   17,
 			},
 			expectedMsgOut: model.Shot{},
 			expectedError:  "couldn't decode teamID",
 		},
 		{
-			name: "should return speed 25.5 and team white",
+			name: "should return speed 25.5, team white and true",
 			msgIn: tableShotParams{
 				Speed:     25.5,
 				StartArea: 20,
+				EndArea:   27,
 			},
 			expectedMsgOut: model.Shot{
-				Speed: 25.5,
-				Team:  config.TeamWhite,
+				Speed:      25.5,
+				Team:       config.TeamWhite,
+				ShotAtGoal: true,
 			},
 			expectedError: "",
 		},
 		{
-			name: "should return speed 17.226 and team blue",
+			name: "should return speed 17.226, team blue and false",
 			msgIn: tableShotParams{
 				Speed:     17.226,
 				StartArea: 24,
+				EndArea:   27,
 			},
 			expectedMsgOut: model.Shot{
-				Speed: 17.226,
-				Team:  config.TeamBlue,
+				Speed:      17.226,
+				Team:       config.TeamBlue,
+				ShotAtGoal: false,
 			},
 			expectedError: "",
 		},
@@ -63,9 +70,8 @@ func TestUnpackShotMsg(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			var rawSlice []json.RawMessage
 			jsn, err := json.Marshal(tt.msgIn)
-			if err != nil {
-				assert.FailNow(t, err.Error())
-			}
+
+			require.Nil(t, err)
 			rawMsg := json.RawMessage(jsn)
 			if tt.msgIn != (tableShotParams{}) {
 				rawSlice = append(rawSlice, rawMsg)
@@ -75,15 +81,14 @@ func TestUnpackShotMsg(t *testing.T) {
 				Params: rawSlice,
 			}
 			shotJSON, err := json.Marshal(tableShot)
-			if err != nil {
-				assert.FailNow(t, err.Error())
-			}
+
+			require.Nil(t, err)
 			reader := bytes.NewReader(shotJSON)
 
 			msg, err := UnpackShotMsg(reader)
 
 			if tt.expectedError == "" {
-				assert.Nil(t, err)
+				require.Nil(t, err)
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
@@ -99,6 +104,7 @@ func TestDecodeTeam(t *testing.T) {
 		expectedTeam  int
 		expectedError string
 	}
+
 	tests := []args{
 		{
 			name:          "should return team white",
@@ -131,6 +137,64 @@ func TestDecodeTeam(t *testing.T) {
 				}
 				assert.Equal(t, tt.expectedTeam, team)
 			}
+		})
+	}
+}
+
+func Test_checkIfShotAtGoal(t *testing.T) {
+	type args struct {
+		areaID int
+		teamID int
+	}
+	tests := []struct {
+		name           string
+		args           args
+		expectedResult bool
+	}{
+		{
+			name: "should return true when blue team shots at white team goal",
+			args: args{
+				areaID: config.WhiteTeamGoalArea,
+				teamID: config.TeamBlue,
+			},
+			expectedResult: true,
+		},
+		{
+			name: "should return true when white team shots at blue team goal",
+			args: args{
+				areaID: config.BlueTeamGoalArea,
+				teamID: config.TeamWhite,
+			},
+			expectedResult: true,
+		},
+		{
+			name: "should return false when white team shots at their own goal",
+			args: args{
+				areaID: config.WhiteTeamGoalArea,
+				teamID: config.TeamWhite,
+			},
+			expectedResult: false,
+		},
+		{
+			name: "should return false when blue shot is blocked in the middle zone",
+			args: args{
+				areaID: config.WhiteTeamArea[1],
+				teamID: config.TeamBlue,
+			},
+			expectedResult: false,
+		},
+		{
+			name: "should return false when white shot is blocked in the middle zone",
+			args: args{
+				areaID: config.BlueTeamArea[2],
+				teamID: config.TeamWhite,
+			},
+			expectedResult: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.expectedResult, checkIfShotAtGoal(tt.args.areaID, tt.args.teamID))
 		})
 	}
 }

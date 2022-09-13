@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './GameStatistics.css';
 import { Button } from '../../Button/Button.js';
 import { getStatistics } from '../../../apis/getStatistics.js';
 import { TeamID } from '../../../constants/score.js';
+import FinalScores from './StatisticsItems/FinalScores.js';
+import FastestShot from './StatisticsItems/FastestShot.js';
+import ManualChangedGoals from './StatisticsItems/ManualChangedGoals.js';
+import TeamIcons from './StatisticsItems/TeamIcons.js';
 import Heatmap from '../../Heatmap/Heatmap';
-
-import './GameStatistics.css';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
   const [statistics, setStatistics] = useState(null);
@@ -15,12 +17,6 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
     if (result?.error) alert(result.error);
     setStatistics(result);
   };
-
-  function returnFastestShot(teamID) {
-    if (!statistics?.fastestShot) return;
-    const { speed, team } = statistics.fastestShot;
-    return team === teamID ? speed.toFixed(2) + ' km/h' : '😵';
-  }
 
   useEffect(() => {
     handleGetStatistics();
@@ -32,21 +28,10 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
         <em>Statistics</em>
       </h2>
       <div className="table-with-stats">
-        <div className="table-item">
-          <FontAwesomeIcon className="blue-team-icon" icon="fa-person" />
-          Blue
-        </div>
-        <div className="table-item"></div>
-        <div className="table-item">
-          <FontAwesomeIcon className="white-team-icon" icon="fa-person" />
-          White
-        </div>
-        <div className="table-item">{finalScores.blue}</div>
-        <div className="table-item">score</div>
-        <div className="table-item">{finalScores.white}</div>
-        <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>
-        <div className="table-item">fastest shot of the game</div>
-        <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>
+        <TeamIcons />
+        <FinalScores blue={finalScores.blueScore} white={finalScores.whiteScore} />
+        {statistics && statistics.fastestShot.speed !== 0 && <FastestShot fastestShot={statistics.fastestShot} />}
+        <ManualChangedGoals blue={TeamID.Team_blue} white={TeamID.Team_white} statistics={statistics} />
       </div>
       <Heatmap />
       <Button

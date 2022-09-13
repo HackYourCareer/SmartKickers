@@ -7,7 +7,6 @@ import (
 	"sync"
 
 	"github.com/HackYourCareer/SmartKickers/internal/config"
-
 	log "github.com/sirupsen/logrus"
 )
 
@@ -20,12 +19,14 @@ type Game interface {
 	UpdateManualGoals(int, string)
 	UpdateShotsData(Shot) error
 	GetGameStats() GameStats
+	GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	IncrementHeatmap(float64, float64) error
 }
 
 type game struct {
 	score        GameScore
 	gameData     GameStats
+	heatmap      [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	scoreChannel chan GameScore
 	m            sync.RWMutex
 }
@@ -36,16 +37,18 @@ type GameScore struct {
 }
 
 type GameStats struct {
-	WhiteShotsCount int                                                 `json:"whiteShotsCount"`
-	BlueShotsCount  int                                                 `json:"blueShotsCount"`
-	FastestShot     Shot                                                `json:"fastestShot"`
-	ManualGoals     map[int]map[string]int                              `json:"manualGoals"`
-	Heatmap         [config.HeatmapAccuracy][config.HeatmapAccuracy]int `json:"heatmap"`
+	WhiteShotsCount  int                    `json:"whiteShotsCount"`
+	BlueShotsCount   int                    `json:"blueShotsCount"`
+	FastestShot      Shot                   `json:"fastestShot"`
+	ManualGoals      map[int]map[string]int `json:"manualGoals"`
+	BlueAtGoalCount  int
+	WhiteAtGoalCount int
 }
 
 type Shot struct {
-	Speed float64 `json:"speed"`
-	Team  int     `json:"team"`
+	Speed      float64 `json:"speed"`
+	Team       int     `json:"team"`
+	ShotAtGoal bool    `json:"shotAtGoal"`
 }
 
 func NewGame() Game {
@@ -85,6 +88,7 @@ func (g *game) ResetStats() {
 			},
 		},
 	}
+	g.heatmap = [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}
 }
 
 func (g *game) AddGoal(teamID int) error {
@@ -147,8 +151,14 @@ func (g *game) UpdateShotsData(shot Shot) error {
 	switch shot.Team {
 	case config.TeamWhite:
 		g.gameData.WhiteShotsCount++
+		if shot.ShotAtGoal {
+			g.gameData.WhiteAtGoalCount++
+		}
 	case config.TeamBlue:
 		g.gameData.BlueShotsCount++
+		if shot.ShotAtGoal {
+			g.gameData.BlueAtGoalCount++
+		}
 	default:
 		return fmt.Errorf("incorrect team ID")
 	}
@@ -189,13 +199,24 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 
 	x := int(math.Round(config.HeatmapAccuracy * xCord))
 	y := int(math.Round(config.HeatmapAccuracy * yCord))
+
 	heatmapUpperBound := config.HeatmapAccuracy - 1
 	if x > heatmapUpperBound || x < 0 {
 		return errors.New("x ball position index out of range")
 	}
+
 	if y > heatmapUpperBound || y < 0 {
 		return errors.New("y ball position index out of range")
 	}
-	g.gameData.Heatmap[x][y]++
+	g.heatmap[x][y]++
+
 	return nil
+}
+
+func (g *game) GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int {
+	log.Trace("mutex lock: GetHeatmap")
+	g.m.RLock()
+	defer g.m.RUnlock()
+
+	return g.heatmap
 }

@@ -12,9 +12,10 @@ function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
   const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
-  const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
+  const [finalScores, setFinalScores] = useState({ blueScore: 0, whiteScore: 0 });
   const [goalsArray, setGoalsArray] = useState([]);
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
@@ -63,8 +64,8 @@ function App() {
   const handleStartGame = () => {
     resetGoalsArray();
     handleResetGame();
+    setIsVisible(true);
     start();
-    alert('Game started');
   };
 
   const resetGoalsArray = () => {
@@ -75,25 +76,29 @@ function App() {
     resetGame().then((data) => {
       if (data.error) alert(data.error);
     });
+    reset();
+    start();
+    resetGoalsArray();
   };
   const handleEndGame = () => {
-    setFinalScores({ blue: blueScore, white: whiteScore });
+    setFinalScores({ blueScore: blueScore, whiteScore: whiteScore });
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
     pause();
   };
   const handleNewGame = () => {
+    setIsVisible(false);
     setIsStatisticsDisplayed(false);
     handleResetGame();
-    reset();
-    start();
-    resetGoalsArray();
   };
 
   return (
     <>
       <h1>Smart Kickers</h1>
       {isStatisticsDisplayed ? (
-        <GameStatistics finalScores={finalScores} onNewGameRequested={handleNewGame} />
+        <>
+          <GameStatistics finalScores={finalScores} onNewGameRequested={handleNewGame} />
+          <GameHistory goalsArray={goalsArray} />
+        </>
       ) : (
         <CurrentGameplay
           blueScore={blueScore}
@@ -101,9 +106,9 @@ function App() {
           handleStartGame={handleStartGame}
           handleResetGame={handleResetGame}
           handleEndGame={handleEndGame}
+          isVisible={isVisible}
         />
       )}
-      <GameHistory goalsArray={goalsArray} />
     </>
   );
 }

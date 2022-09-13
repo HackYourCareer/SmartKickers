@@ -43,3 +43,8 @@
 .btn--medium:hover {
   opacity: 0.7;
 }
+
+#start-game {
+  font-size: 40px;
+  background-color: var(--SAP-orange);
+}
