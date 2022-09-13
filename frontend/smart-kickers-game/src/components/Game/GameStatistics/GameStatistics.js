@@ -37,10 +37,10 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
           <ManualChangedGoals blue={TeamID.Team_blue} white={TeamID.Team_white} statistics={statistics} />
           <NumberOfShots statistics={statistics} />{' '}
         </div>
-        <Heatmap />
       ) : (
         <div className="no-statistics">Something went wrong, statistics went on the vacation and we don't have it</div>
       )}
+      <Heatmap />
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {
