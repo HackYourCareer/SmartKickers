@@ -28,6 +28,10 @@ h2 {
   padding: 4px;
   margin-top: 40px;
 }
+.no-statistics {
+  text-align: center;
+  padding: 50px;
+}
 @media only screen and (min-width: 1400px) {
   .new-game-btn {
     font-size: 150%;
