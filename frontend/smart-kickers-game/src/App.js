@@ -90,6 +90,7 @@ function App() {
     setIsStatisticsDisplayed(false);
     handleResetGame();
   };
+
   return (
     <>
       <h1>Smart Kickers</h1>
