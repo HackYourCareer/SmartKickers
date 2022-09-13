@@ -5,22 +5,20 @@ import { useMemo } from 'react';
 function mirrorHeatmap(data) {
   const heatmapDim = data.length;
   const array = new Array(heatmapDim).fill('');
-  const numbersCopy = JSON.parse(JSON.stringify(data));
 
   const transpose = (matrix) => {
-    for (let row = 0; row < matrix.length; row++) {
+    const numbersCopy = structuredClone(matrix);
+    for (let row = 0; row < numbersCopy.length; row++) {
       for (let column = 0; column < row; column++) {
-        let temp = matrix[row][column];
-        matrix[row][column] = matrix[column][row];
-        matrix[column][row] = temp;
+        let temp = numbersCopy[row][column];
+        numbersCopy[row][column] = numbersCopy[column][row];
+        numbersCopy[column][row] = temp;
       }
     }
-    return matrix;
+    return numbersCopy;
   };
 
-  transpose(numbersCopy);
-
-  return { array, numbersCopy };
+  return { array, numbersCopy: transpose(data) };
 }
 
 const useHeatmap = () => {
@@ -31,8 +29,6 @@ const useHeatmap = () => {
     },
     { useCache: false }
   );
-  console.log(data);
-
   const heatmap = useMemo(() => data && mirrorHeatmap(data), [data]);
 
   return { loading, error, heatmap };
