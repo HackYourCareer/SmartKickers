@@ -56,6 +56,6 @@ export function chooseColor(value) {
   }
 }
 
-function returnCellColor(chosenColor) {
-  return `rgba(${chosenColor.red}, ${chosenColor.green},${chosenColor.blue},  ${chosenColor.opacity} )`;
+function returnCellColor({ red, green, blue, opacity }) {
+  return `rgba(${red}, ${green},${blue},  ${opacity} )`;
 }
