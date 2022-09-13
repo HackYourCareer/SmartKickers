@@ -58,7 +58,7 @@ func UnpackShotMsg(message io.Reader) (shot model.Shot, err error) {
 		ShotAtGoal: checkIfShotAtGoal(params.EndArea, teamID),
 	}
 
-	return shot, err
+	return shot, nil
 }
 
 func checkIfShotAtGoal(areaID int, teamID int) bool {

@@ -48,9 +48,9 @@ type TeamStats struct {
 }
 
 type Shot struct {
-	Speed      float64
-	Team       int
-	ShotAtGoal bool
+	Speed      float64 `json:"speed"`
+	Team       int     `json:"team"`
+	ShotAtGoal bool    `json:"shotAtGoal"`
 }
 
 func NewGame() Game {
