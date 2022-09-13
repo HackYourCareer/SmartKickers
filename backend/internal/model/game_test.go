@@ -191,13 +191,13 @@ func TestUpdateShotsData(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if entry, ok := game.gameData.Team[config.TeamWhite]; ok {
-				entry.ShotsCount = 0
-				game.gameData.Team[config.TeamWhite] = entry
+			if team, ok := game.gameData.Team[config.TeamWhite]; ok {
+				team.ShotsCount = 0
+				game.gameData.Team[config.TeamWhite] = team
 			}
-			if entry, ok := game.gameData.Team[config.TeamBlue]; ok {
-				entry.ShotsCount = 0
-				game.gameData.Team[config.TeamBlue] = entry
+			if team, ok := game.gameData.Team[config.TeamBlue]; ok {
+				team.ShotsCount = 0
+				game.gameData.Team[config.TeamBlue] = team
 			}
 
 			err := game.UpdateShotsData(tt.shot)

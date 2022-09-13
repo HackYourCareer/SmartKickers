@@ -158,17 +158,17 @@ func (g *game) UpdateShotsData(shot Shot) error {
 	g.m.Lock()
 	defer g.m.Unlock()
 
-	if entry, ok := g.gameData.Team[shot.Team]; ok {
-		entry.ShotsCount++
-		if entry.FastestShot < shot.Speed {
-			entry.FastestShot = shot.Speed
+	if team, ok := g.gameData.Team[shot.Team]; ok {
+		team.ShotsCount++
+		if team.FastestShot < shot.Speed {
+			team.FastestShot = shot.Speed
 		}
 
 		if shot.ShotAtGoal {
-			entry.ShotsAtGoalCount++
+			team.ShotsAtGoalCount++
 		}
 
-		g.gameData.Team[shot.Team] = entry
+		g.gameData.Team[shot.Team] = team
 	} else {
 		return fmt.Errorf("incorrect team ID")
 	}
