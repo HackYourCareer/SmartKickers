@@ -34,7 +34,6 @@ linters:
     - unparam
     - varcheck
     - whitespace
-    - wsl
 
 linters-settings:
   goconst:
