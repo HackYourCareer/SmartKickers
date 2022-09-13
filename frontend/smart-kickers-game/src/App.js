@@ -12,7 +12,7 @@ function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
   const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
-  const [finalScores, setFinalScores] = useState({ blue: 0, white: 0 });
+  const [finalScores, setFinalScores] = useState({ blueScore: 0, whiteScore: 0 });
   const [goalsArray, setGoalsArray] = useState([]);
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
   const [isVisible, setIsVisible] = useState(false);
@@ -81,7 +81,7 @@ function App() {
     resetGoalsArray();
   };
   const handleEndGame = () => {
-    setFinalScores({ blue: blueScore, white: whiteScore });
+    setFinalScores({ blueScore: blueScore, whiteScore: whiteScore });
     setIsStatisticsDisplayed(!isStatisticsDisplayed);
     pause();
   };
