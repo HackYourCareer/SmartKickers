@@ -35,7 +35,7 @@ const useHeatmap = () => {
 
   const heatmap = useMemo(() => data && mirrorHeatmap(data), [data]);
 
-  return [{ loading, error, heatmap }];
+  return { loading, error, heatmap };
 };
 
 export default useHeatmap;
