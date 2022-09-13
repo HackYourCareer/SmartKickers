@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './GameStatistics.css';
 import { Button } from '../../Button/Button.js';
 import { getStatistics } from '../../../apis/getStatistics.js';
-import { useEffect, useState } from 'react';
 import { TeamID } from '../../../constants/score.js';
 
 import NumberOfShots from './NumberOfShots.js';
@@ -10,6 +9,7 @@ import FinalScores from './StatisticsItems/FinalScores.js';
 import FastestShot from './StatisticsItems/FastestShot.js';
 import ManualChangedGoals from './StatisticsItems/ManualChangedGoals.js';
 import TeamIcons from './StatisticsItems/TeamIcons.js';
+import Heatmap from '../../Heatmap/Heatmap';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
   const [statistics, setStatistics] = useState(null);
@@ -37,6 +37,7 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
           <ManualChangedGoals blue={TeamID.Team_blue} white={TeamID.Team_white} statistics={statistics} />
           <NumberOfShots statistics={statistics} />{' '}
         </div>
+        <Heatmap />
       ) : (
         <div className="no-statistics">Something went wrong, statistics went on the vacation and we don't have it</div>
       )}

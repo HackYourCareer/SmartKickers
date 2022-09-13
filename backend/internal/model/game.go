@@ -183,7 +183,6 @@ func (g *game) GetGameStats() GameStats {
 	log.Trace("mutex lock: GetGameStats")
 	g.m.RLock()
 	defer g.m.RUnlock()
-
 	return g.gameData
 }
 
