@@ -16,8 +16,7 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
 
   const handleGetStatistics = async () => {
     const result = await getStatistics();
-    if (result?.error) alert(result.error);
-    setStatistics(result);
+    result?.error ? alert(result.error) : setStatistics(result);
   };
 
   useEffect(() => {
@@ -29,7 +28,7 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
       <h2>
         <em>Statistics</em>
       </h2>
-      {statistics?.fastestShot.speed !== 0 && statistics ? (
+      {statistics && statistics?.fastestShot?.speed !== 0 ? (
         <div className="table-with-stats">
           <TeamIcons />
           <FinalScores blue={finalScores.blueScore} white={finalScores.whiteScore} />
