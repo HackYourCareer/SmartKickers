@@ -3,9 +3,9 @@ import config from '../config';
 import { useMemo } from 'react';
 
 function mirrorHeatmap(data) {
-  const heatmapDim = data.heatmap.length;
+  const heatmapDim = data.length;
   const array = new Array(heatmapDim).fill('');
-  const numbersCopy = JSON.parse(JSON.stringify(data.heatmap));
+  const numbersCopy = JSON.parse(JSON.stringify(data));
 
   const transpose = (matrix) => {
     for (let row = 0; row < matrix.length; row++) {
@@ -31,8 +31,9 @@ const useHeatmap = () => {
     },
     { useCache: false }
   );
+  console.log(data);
 
-  const heatmap = useMemo(() => data?.heatmap && mirrorHeatmap(data), [data]);
+  const heatmap = useMemo(() => data && mirrorHeatmap(data), [data]);
 
   return [{ loading, error, heatmap }];
 };
