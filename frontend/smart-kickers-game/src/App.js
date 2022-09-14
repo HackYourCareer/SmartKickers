@@ -7,11 +7,28 @@ import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
 import { Goal, TeamID } from './constants/score.js';
 import { useStopwatch } from 'react-timer-hook';
 import GameHistory from './components/Game/GameHistory/GameHistory';
+import { BrowserRouter, Route, Routes, useNavigate, Link, useParams, Navigate } from 'react-router-dom';
+import Heatmap from './components/Heatmap/Heatmap';
+
+export default function Router() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/stats/heatmap" element={<Heatmap />} />
+        {/* TODO Add reading goalsArray from context */}
+        <Route path="/stats/gameHistory" element={<GameHistory goalsArray={[{}]} />} />
+        {/* TODO Add final scores and onNewGameRequested to context */}
+        <Route path="/stats" element={<GameStatistics finalScores={{}} onNewGameRequested={{}} />} />
+        <Route path="*" element={<App />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
 function App() {
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
-  const [isStatisticsDisplayed, setIsStatisticsDisplayed] = useState(false);
   const [finalScores, setFinalScores] = useState({ blueScore: 0, whiteScore: 0 });
   const [goalsArray, setGoalsArray] = useState([]);
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
@@ -82,35 +99,24 @@ function App() {
   };
   const handleEndGame = () => {
     setFinalScores({ blueScore: blueScore, whiteScore: whiteScore });
-    setIsStatisticsDisplayed(!isStatisticsDisplayed);
     pause();
   };
   const handleNewGame = () => {
     setIsVisible(false);
-    setIsStatisticsDisplayed(false);
     handleResetGame();
   };
 
   return (
     <>
       <h1>Smart Kickers</h1>
-      {isStatisticsDisplayed ? (
-        <>
-          <GameStatistics finalScores={finalScores} onNewGameRequested={handleNewGame} />
-          <GameHistory goalsArray={goalsArray} />
-        </>
-      ) : (
-        <CurrentGameplay
-          blueScore={blueScore}
-          whiteScore={whiteScore}
-          handleStartGame={handleStartGame}
-          handleResetGame={handleResetGame}
-          handleEndGame={handleEndGame}
-          isVisible={isVisible}
-        />
-      )}
+      <CurrentGameplay
+        blueScore={blueScore}
+        whiteScore={whiteScore}
+        handleStartGame={handleStartGame}
+        handleResetGame={handleResetGame}
+        handleEndGame={handleEndGame}
+        isVisible={isVisible}
+      />
     </>
   );
 }
-
-export default App;
