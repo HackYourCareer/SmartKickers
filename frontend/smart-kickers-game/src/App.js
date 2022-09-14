@@ -9,17 +9,18 @@ import { useStopwatch } from 'react-timer-hook';
 import GameHistory from './components/Game/GameHistory/GameHistory';
 import { BrowserRouter, Route, Routes, useNavigate, Link, useParams, Navigate } from 'react-router-dom';
 import Heatmap from './components/Heatmap/Heatmap';
+import StatsHeader from './components/Game/Header/StatsHeader';
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/stats/heatmap" element={<Heatmap />} />
+        <Route path="/stats/heatmap" element={[<StatsHeader />, <Heatmap />]} />
         {/* TODO Add reading goalsArray from context */}
-        <Route path="/stats/gameHistory" element={<GameHistory goalsArray={[{}]} />} />
+        <Route path="/stats/gameHistory" element={[<StatsHeader />, <GameHistory goalsArray={[{}]} />]} />
         {/* TODO Add final scores and onNewGameRequested to context */}
-        <Route path="/stats" element={<GameStatistics finalScores={{}} onNewGameRequested={{}} />} />
+        <Route path="/stats" element={[<StatsHeader />, <GameStatistics finalScores={{}} onNewGameRequested={{}} />]} />
         <Route path="*" element={<App />} />
       </Routes>
     </BrowserRouter>
