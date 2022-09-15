@@ -28,10 +28,6 @@ export default function Router() {
 }
 
 function App() {
-  const [blueScore, setBlueScore] = useState(0);
-  const [whiteScore, setWhiteScore] = useState(0);
-  const [finalScores, setFinalScores] = useState({ blueScore: 0, whiteScore: 0 });
-  const [goalsArray, setGoalsArray] = useState([]);
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
   const [isVisible, setIsVisible] = useState(false);
 
