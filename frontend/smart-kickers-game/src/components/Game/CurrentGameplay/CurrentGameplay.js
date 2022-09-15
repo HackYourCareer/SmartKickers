@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button } from '../../Button/Button';
 import GameResults from '../GameResults/GameResults.js';
+import { useNavigate } from 'react-router-dom';
 
 function CurrentGameplay({ blueScore, whiteScore, handleStartGame, handleResetGame, handleEndGame, isVisible }) {
+  const navigate = useNavigate();
   return (
     <div>
       <GameResults blueScore={blueScore} whiteScore={whiteScore} isVisible={isVisible} />
@@ -19,6 +21,7 @@ function CurrentGameplay({ blueScore, whiteScore, handleStartGame, handleResetGa
           <Button
             onClick={() => {
               handleEndGame();
+              navigate('/stats');
             }}
           >
             End game

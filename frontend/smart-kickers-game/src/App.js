@@ -103,7 +103,6 @@ function App() {
     pause();
   };
   const handleNewGame = () => {
-    setIsVisible(false);
     handleResetGame();
   };
 

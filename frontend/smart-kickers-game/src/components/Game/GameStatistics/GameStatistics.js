@@ -9,9 +9,11 @@ import FinalScores from './StatisticsItems/FinalScores.js';
 import FastestShot from './StatisticsItems/FastestShot.js';
 import ManualChangedGoals from './StatisticsItems/ManualChangedGoals.js';
 import TeamIcons from './StatisticsItems/TeamIcons.js';
+import { useNavigate } from 'react-router-dom';
 
 function GameStatistics({ finalScores, onNewGameRequested }) {
   const [statistics, setStatistics] = useState(null);
+  const navigate = useNavigate();
 
   const handleGetStatistics = async () => {
     const result = await getStatistics();
@@ -42,7 +44,8 @@ function GameStatistics({ finalScores, onNewGameRequested }) {
       <Button
         className="btn--primary new-game-btn"
         onClick={() => {
-          onNewGameRequested();
+          // onNewGameRequested();
+          navigate('/');
         }}
       >
         New game
