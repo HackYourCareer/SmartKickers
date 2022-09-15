@@ -10,10 +10,12 @@ import FastestShot from './StatisticsItems/FastestShot.js';
 import ManualChangedGoals from './StatisticsItems/ManualChangedGoals.js';
 import TeamIcons from './StatisticsItems/TeamIcons.js';
 import { useNavigate } from 'react-router-dom';
+import { useGameDataContext } from '../../../contexts/GameDataContext';
 
-function GameStatistics({ finalScores, onNewGameRequested }) {
+function GameStatistics() {
   const [statistics, setStatistics] = useState(null);
   const navigate = useNavigate();
+  const finalScores = useGameDataContext().finalScores;
 
   const handleGetStatistics = async () => {
     const result = await getStatistics();

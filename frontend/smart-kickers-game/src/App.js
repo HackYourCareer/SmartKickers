@@ -18,10 +18,8 @@ export default function Router() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/stats/heatmap" element={[<StatsHeader />, <Heatmap />]} />
-        {/* TODO Add reading goalsArray from context */}
         <Route path="/stats/gameHistory" element={[<StatsHeader />, <GameHistory />]} />
-        {/* TODO Add final scores and onNewGameRequested to context */}
-        <Route path="/stats" element={[<StatsHeader />, <GameStatistics finalScores={{}} onNewGameRequested={{}} />]} />
+        <Route path="/stats" element={[<StatsHeader />, <GameStatistics />]} />
         <Route path="*" element={<App />} />
       </Routes>
     </BrowserRouter>
@@ -99,9 +97,6 @@ function App() {
   const handleEndGame = () => {
     setFinalScores({ blueScore: blueScore, whiteScore: whiteScore });
     pause();
-  };
-  const handleNewGame = () => {
-    handleResetGame();
   };
 
   return (
