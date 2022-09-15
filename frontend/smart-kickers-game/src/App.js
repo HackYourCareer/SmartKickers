@@ -19,7 +19,7 @@ export default function Router() {
         <Route path="/" element={<App />} />
         <Route path="/stats/heatmap" element={[<StatsHeader />, <Heatmap />]} />
         {/* TODO Add reading goalsArray from context */}
-        <Route path="/stats/gameHistory" element={[<StatsHeader />, <GameHistory goalsArray={[{}]} />]} />
+        <Route path="/stats/gameHistory" element={[<StatsHeader />, <GameHistory />]} />
         {/* TODO Add final scores and onNewGameRequested to context */}
         <Route path="/stats" element={[<StatsHeader />, <GameStatistics finalScores={{}} onNewGameRequested={{}} />]} />
         <Route path="*" element={<App />} />
@@ -33,7 +33,6 @@ function App() {
   const [isVisible, setIsVisible] = useState(false);
 
   const { blueScore, setBlueScore, whiteScore, setWhiteScore, finalScores, setFinalScores, goalsArray, setGoalsArray } = useGameDataContext();
-
   useEffect(() => {
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
 
