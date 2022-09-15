@@ -10,6 +10,7 @@ import GameHistory from './components/Game/GameHistory/GameHistory';
 import { BrowserRouter, Route, Routes, useNavigate, Link, useParams, Navigate } from 'react-router-dom';
 import Heatmap from './components/Heatmap/Heatmap';
 import StatsHeader from './components/Game/Header/StatsHeader';
+import { useGameDataContext } from './contexts/GameDataContext';
 
 export default function Router() {
   return (
@@ -30,6 +31,8 @@ export default function Router() {
 function App() {
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
   const [isVisible, setIsVisible] = useState(false);
+
+  const { blueScore, setBlueScore, whiteScore, setWhiteScore, finalScores, setFinalScores, goalsArray, setGoalsArray } = useGameDataContext();
 
   useEffect(() => {
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
