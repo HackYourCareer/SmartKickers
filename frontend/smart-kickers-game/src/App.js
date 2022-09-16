@@ -12,6 +12,7 @@ import Heatmap from './components/Heatmap/Heatmap';
 import StatsHeader from './components/Game/Header/StatsHeader';
 import { useGameDataContext } from './contexts/GameDataContext';
 import StatsContextProvider from './contexts/StatsContext.js';
+import NewGameButton from './components/Button/NewGameButton.js';
 
 export default function Router() {
   return (
@@ -22,7 +23,7 @@ export default function Router() {
           path="/stats/heatmap"
           element={
             <StatsContextProvider>
-              [<StatsHeader />, <Heatmap />]
+              <StatsHeader /> <Heatmap /> <NewGameButton />
             </StatsContextProvider>
           }
         />
@@ -30,7 +31,7 @@ export default function Router() {
           path="/stats/gameHistory"
           element={
             <StatsContextProvider>
-              [<StatsHeader />, <GameHistory />]{' '}
+              <StatsHeader /> <GameHistory /> <NewGameButton />
             </StatsContextProvider>
           }
         />
@@ -38,7 +39,7 @@ export default function Router() {
           path="/stats"
           element={
             <StatsContextProvider>
-              [<StatsHeader />, <GameStatistics />]
+              <StatsHeader /> <GameStatistics /> <NewGameButton />
             </StatsContextProvider>
           }
         />

@@ -5,13 +5,11 @@ const StatsContext = createContext({});
 
 export default function StatsContextProvider({ children }) {
   const { loading, error, heatmap } = useHeatmap();
-
+  //const heaatmaaap = { loading, error, heatmap };
   return (
     <StatsContext.Provider
       value={{
-        heatmap,
-        loading,
-        error,
+        heaatmaaap: { loading, error, heatmap },
       }}
     >
       {children}

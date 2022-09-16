@@ -8,7 +8,6 @@ function Heatmap() {
   const heatmap = useStatsContext().heatmap;
   const loading = useStatsContext().loading;
   const error = useStatsContext().error;
-  console.log({ loading, error, heatmap });
   if (loading) return <div className="heatmap-status">Loading...</div>;
   if (error) return <div className="heatmap-status">Error</div>;
 

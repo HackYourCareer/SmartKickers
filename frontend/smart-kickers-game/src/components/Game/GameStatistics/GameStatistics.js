@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './GameStatistics.css';
-import { Button } from '../../Button/Button.js';
 import { getStatistics } from '../../../apis/getStatistics.js';
 import { TeamID } from '../../../constants/score.js';
 
@@ -42,16 +41,6 @@ function GameStatistics() {
       ) : (
         <div className="no-statistics">Something went wrong, statistics went on the vacation and we don't have it</div>
       )}
-
-      <Button
-        className="btn--primary new-game-btn"
-        onClick={() => {
-          // onNewGameRequested();
-          navigate('/');
-        }}
-      >
-        New game
-      </Button>
     </>
   );
 }
