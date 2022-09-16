@@ -2,10 +2,13 @@ import React from 'react';
 import HeatMap from 'react-heatmap-grid';
 import './Heatmap.css';
 import { chooseColor } from './Colors';
-import useHeatmap from '../../hooks/useHeatmap';
+import { useStatsContext } from '../../contexts/StatsContext';
 
 function Heatmap() {
-  const { loading, error, heatmap } = useHeatmap();
+  const heatmap = useStatsContext().heatmap;
+  const loading = useStatsContext().loading;
+  const error = useStatsContext().error;
+  console.log({ loading, error, heatmap });
   if (loading) return <div className="heatmap-status">Loading...</div>;
   if (error) return <div className="heatmap-status">Error</div>;
 

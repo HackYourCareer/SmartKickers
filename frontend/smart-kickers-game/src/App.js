@@ -7,19 +7,41 @@ import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
 import { Goal, TeamID } from './constants/score.js';
 import { useStopwatch } from 'react-timer-hook';
 import GameHistory from './components/Game/GameHistory/GameHistory';
-import { BrowserRouter, Route, Routes, useNavigate, Link, useParams, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Heatmap from './components/Heatmap/Heatmap';
 import StatsHeader from './components/Game/Header/StatsHeader';
 import { useGameDataContext } from './contexts/GameDataContext';
+import StatsContextProvider from './contexts/StatsContext.js';
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/stats/heatmap" element={[<StatsHeader />, <Heatmap />]} />
-        <Route path="/stats/gameHistory" element={[<StatsHeader />, <GameHistory />]} />
-        <Route path="/stats" element={[<StatsHeader />, <GameStatistics />]} />
+        <Route
+          path="/stats/heatmap"
+          element={
+            <StatsContextProvider>
+              [<StatsHeader />, <Heatmap />]
+            </StatsContextProvider>
+          }
+        />
+        <Route
+          path="/stats/gameHistory"
+          element={
+            <StatsContextProvider>
+              [<StatsHeader />, <GameHistory />]{' '}
+            </StatsContextProvider>
+          }
+        />
+        <Route
+          path="/stats"
+          element={
+            <StatsContextProvider>
+              [<StatsHeader />, <GameStatistics />]
+            </StatsContextProvider>
+          }
+        />
         <Route path="*" element={<App />} />
       </Routes>
     </BrowserRouter>
