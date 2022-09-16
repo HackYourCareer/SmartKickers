@@ -2,14 +2,13 @@ import React, { createContext, useCallback, useContext, useState } from 'react';
 import useHeatmap from '../hooks/useHeatmap';
 
 const StatsContext = createContext({});
-
+//Todo Remove this component
 export default function StatsContextProvider({ children }) {
   const { loading, error, heatmap } = useHeatmap();
-  //const heaatmaaap = { loading, error, heatmap };
   return (
     <StatsContext.Provider
       value={{
-        heaatmaaap: { loading, error, heatmap },
+        heatmapData: { loading, error, heatmap },
       }}
     >
       {children}

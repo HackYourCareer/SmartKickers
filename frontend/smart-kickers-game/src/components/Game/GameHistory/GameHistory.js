@@ -28,6 +28,7 @@ function GameHistory() {
   );
 }
 
+//Todo -optional move to separate hook
 function GoalsArrayItem({ item }) {
   return item.teamID === TeamID.Team_blue ? (
     <React.Fragment key={item.teamID + item.timestamp}>

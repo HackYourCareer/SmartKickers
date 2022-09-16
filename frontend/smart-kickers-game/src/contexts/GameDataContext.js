@@ -1,5 +1,5 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
-
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import config from '../config';
 const GameDataContext = createContext({});
 
 export default function GameDataContextProvider({ children }) {
@@ -8,6 +8,22 @@ export default function GameDataContextProvider({ children }) {
   const [goalsArray, setGoalsArray] = useState([]);
   const [finalScores, setFinalScores] = useState({ blueScore: 0, whiteScore: 0 });
 
+  useEffect(() => {
+    const socket = new WebSocket(`${config.wsBaseUrl}/score`);
+
+    socket.onopen = () => {
+      // Send to server
+      socket.send('Hello from client');
+      socket.onmessage = (msg) => {
+        msg = JSON.parse(msg.data);
+        setBlueScore(msg.blueScore);
+        setWhiteScore(msg.whiteScore);
+      };
+    };
+  }, []);
+
+  //Todo remove unused props if needed
+  //Todo props to objects
   return (
     <GameDataContext.Provider
       value={{

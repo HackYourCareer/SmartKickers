@@ -5,9 +5,9 @@ import { chooseColor } from './Colors';
 import { useStatsContext } from '../../contexts/StatsContext';
 
 function Heatmap() {
-  const heatmap = useStatsContext().heatmap;
-  const loading = useStatsContext().loading;
-  const error = useStatsContext().error;
+  const heatmap = useStatsContext().heatmapData.heatmap;
+  const loading = useStatsContext().heatmapData.loading;
+  const error = useStatsContext().heatmapData.error;
   if (loading) return <div className="heatmap-status">Loading...</div>;
   if (error) return <div className="heatmap-status">Error</div>;
 

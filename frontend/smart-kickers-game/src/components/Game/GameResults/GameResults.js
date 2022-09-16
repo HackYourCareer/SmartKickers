@@ -5,6 +5,7 @@ import './GameResults.css';
 import { TeamID, ScoreChange } from '../../../constants/score.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+//Todo use context instead of passing props
 function GameResults({ blueScore, whiteScore, isVisible }) {
   async function handleUpdateScores(teamId, action) {
     const result = await updateScores(teamId, action);

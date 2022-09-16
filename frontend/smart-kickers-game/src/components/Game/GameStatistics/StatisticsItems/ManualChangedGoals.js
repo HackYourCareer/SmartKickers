@@ -1,6 +1,8 @@
 import React from 'react';
 import './StatisticItem.css';
 
+//Todo get rid of blue, white, use config here
+//Todo consider getting statistics from context
 function ManualChangedGoals({ blue, white, statistics }) {
   function getManualChangedGoals(teamID) {
     if (!statistics?.manualGoals) return;
