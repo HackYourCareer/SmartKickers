@@ -6,11 +6,9 @@ import FinalScores from './StatisticsItems/FinalScores.js';
 import FastestShot from './StatisticsItems/FastestShot.js';
 import ManualChangedGoals from './StatisticsItems/ManualChangedGoals.js';
 import TeamIcons from './StatisticsItems/TeamIcons.js';
-import { useGameDataContext } from '../../../contexts/GameDataContext';
 
 function GameStatistics() {
   const [statistics, setStatistics] = useState(null);
-  const finalScores = useGameDataContext().finalScores;
 
   const handleGetStatistics = async () => {
     const result = await getStatistics();
@@ -29,7 +27,7 @@ function GameStatistics() {
       {statistics && statistics?.fastestShot?.speed !== 0 ? (
         <div className="table-with-stats">
           <TeamIcons />
-          <FinalScores blue={finalScores.blueScore} white={finalScores.whiteScore} />
+          <FinalScores />
           <FastestShot fastestShot={statistics.fastestShot} />
           <ManualChangedGoals statistics={statistics} />
           <NumberOfShots statistics={statistics} />{' '}
