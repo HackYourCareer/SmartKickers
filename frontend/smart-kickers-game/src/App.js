@@ -6,7 +6,6 @@ import GameHistory from './components/Game/GameHistory/GameHistory';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Heatmap from './components/Heatmap/Heatmap';
 import StatsHeader from './components/Game/Header/StatsHeader';
-import StatsContextProvider from './contexts/StatsContext.js';
 import NewGameButton from './components/Button/NewGameButton.js';
 
 export default function Router() {
@@ -19,27 +18,27 @@ export default function Router() {
           path="/stats/heatmap"
           element={
             //Todo Wrap this
-            <StatsContextProvider>
+            <>
               <StatsHeader /> <Heatmap /> <NewGameButton />
-            </StatsContextProvider>
+            </>
           }
         />
         <Route
           path="/stats/gameHistory"
           element={
             //Todo Wrap this
-            <StatsContextProvider>
+            <>
               <StatsHeader /> <GameHistory /> <NewGameButton />
-            </StatsContextProvider>
+            </>
           }
         />
         <Route
           path="/stats"
           element={
             //Todo Wrap this
-            <StatsContextProvider>
+            <>
               <StatsHeader /> <GameStatistics /> <NewGameButton />
-            </StatsContextProvider>
+            </>
           }
         />
         <Route path="*" element={<App />} />
