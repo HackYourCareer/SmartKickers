@@ -3,9 +3,8 @@ import GameStatistics from '../components/Game/GameStatistics/GameStatistics.js'
 import GameHistory from '../components/Game/GameHistory/GameHistory';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Heatmap from '../components/Heatmap/Heatmap';
-import StatsHeader from '../components/Game/Header/StatsHeader';
-import NewGameButton from '../components/Button/NewGameButton.js';
 import App from '../App.js';
+import RouterItem from './RouterItem.js';
 
 export default function Router() {
   return (
@@ -15,28 +14,25 @@ export default function Router() {
         <Route
           path="/stats/heatmap"
           element={
-            //Todo Wrap this
-            <>
-              <StatsHeader /> <Heatmap /> <NewGameButton />
-            </>
+            <RouterItem>
+              <Heatmap />
+            </RouterItem>
           }
         />
         <Route
           path="/stats/gameHistory"
           element={
-            //Todo Wrap this
-            <>
-              <StatsHeader /> <GameHistory /> <NewGameButton />
-            </>
+            <RouterItem>
+              <GameHistory />
+            </RouterItem>
           }
         />
         <Route
           path="/stats"
           element={
-            //Todo Wrap this
-            <>
-              <StatsHeader /> <GameStatistics /> <NewGameButton />
-            </>
+            <RouterItem>
+              <GameStatistics />
+            </RouterItem>
           }
         />
         <Route path="*" element={<App />} />
