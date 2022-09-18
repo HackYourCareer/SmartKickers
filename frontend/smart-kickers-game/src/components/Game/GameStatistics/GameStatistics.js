@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './GameStatistics.css';
 import { getStatistics } from '../../../apis/getStatistics.js';
-import { TeamID } from '../../../constants/score.js';
-
 import NumberOfShots from './NumberOfShots.js';
 import FinalScores from './StatisticsItems/FinalScores.js';
 import FastestShot from './StatisticsItems/FastestShot.js';
@@ -33,7 +31,7 @@ function GameStatistics() {
           <TeamIcons />
           <FinalScores blue={finalScores.blueScore} white={finalScores.whiteScore} />
           <FastestShot fastestShot={statistics.fastestShot} />
-          <ManualChangedGoals blue={TeamID.Team_blue} white={TeamID.Team_white} statistics={statistics} />
+          <ManualChangedGoals statistics={statistics} />
           <NumberOfShots statistics={statistics} />{' '}
         </div>
       ) : (
