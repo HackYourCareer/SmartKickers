@@ -12,7 +12,6 @@ function GameStatistics() {
 
   const handleGetStatistics = async () => {
     const result = await getStatistics();
-    console.log(result);
     result?.error ? alert(result.error) : setStatistics(result);
   };
 
