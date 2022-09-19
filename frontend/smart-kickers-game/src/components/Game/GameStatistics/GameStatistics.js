@@ -12,6 +12,7 @@ function GameStatistics() {
 
   const handleGetStatistics = async () => {
     const result = await getStatistics();
+    console.log(result);
     result?.error ? alert(result.error) : setStatistics(result);
   };
 
@@ -24,13 +25,13 @@ function GameStatistics() {
       <h2>
         <em>Statistics</em>
       </h2>
-      {statistics && statistics?.fastestShot?.speed !== 0 ? (
+      {statistics ? (
         <div className="table-with-stats">
           <TeamIcons />
           <FinalScores />
-          <FastestShot fastestShot={statistics.fastestShot} />
+          <FastestShot statistics={statistics} />
           <ManualChangedGoals statistics={statistics} />
-          <NumberOfShots statistics={statistics} />{' '}
+          <NumberOfShots statistics={statistics} />
         </div>
       ) : (
         <div className="no-statistics">Something went wrong, statistics went on the vacation and we don't have it</div>
