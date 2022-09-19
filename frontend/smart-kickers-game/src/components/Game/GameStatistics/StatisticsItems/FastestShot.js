@@ -3,11 +3,14 @@ import './StatisticItem.css';
 import { TeamID } from '../../../../constants/score.js';
 
 function FastestShot({ statistics }) {
+  function returnFastestShot(teamID) {
+    return statistics?.teamID[teamID]?.fastestShot.toFixed(2) + ' km/h';
+  }
   return (
     <>
-      <div className="table-item">{statistics?.teamID[TeamID.Team_blue]?.fastestShot}</div>
+      <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>
       <div className="table-item">fastest shot of the game</div>
-      <div className="table-item">{statistics?.teamID[TeamID.Team_white]?.fastestShot}</div>
+      <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>
     </>
   );
 }
