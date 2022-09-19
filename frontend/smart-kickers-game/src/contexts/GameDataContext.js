@@ -22,8 +22,6 @@ export default function GameDataContextProvider({ children }) {
     };
   }, []);
 
-  //Todo remove unused props if needed
-  //Todo props to objects
   return (
     <GameDataContext.Provider
       value={{
