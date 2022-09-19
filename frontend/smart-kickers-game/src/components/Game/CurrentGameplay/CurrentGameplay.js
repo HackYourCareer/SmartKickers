@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import useCurrentGameplay from '../../../hooks/useCurrentGameplay';
 
 function CurrentGameplay() {
-  const { blueScore, whiteScore, isVisible, handleStartGame, handleResetGame, handleEndGame } = useCurrentGameplay();
+  const { isVisible, handleStartGame, handleResetGame, handleEndGame } = useCurrentGameplay();
   const navigate = useNavigate();
 
   return (
     <div>
-      <GameResults blueScore={blueScore} whiteScore={whiteScore} isVisible={isVisible} />
+      <GameResults isVisible={isVisible} />
       <center className="game-ending-buttons">
         {!isVisible && (
           <Button id="start-game" onClick={() => handleStartGame()}>

@@ -4,9 +4,12 @@ import { updateScores } from '../../../apis/updateScores.js';
 import './GameResults.css';
 import { TeamID, ScoreChange } from '../../../constants/score.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGameDataContext } from '../../../contexts/GameDataContext';
 
-//Todo use context instead of passing props
-function GameResults({ blueScore, whiteScore, isVisible }) {
+function GameResults({ isVisible }) {
+  const blueScore = useGameDataContext().blueScore;
+  const whiteScore = useGameDataContext().whiteScore;
+
   async function handleUpdateScores(teamId, action) {
     const result = await updateScores(teamId, action);
     if (result.error) {

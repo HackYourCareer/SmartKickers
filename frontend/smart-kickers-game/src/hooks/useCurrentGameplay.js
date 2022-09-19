@@ -63,5 +63,5 @@ export default function useCurrentGameplay() {
     pause();
   };
 
-  return { blueScore, whiteScore, isVisible, handleStartGame, handleResetGame, handleEndGame };
+  return { isVisible, handleStartGame, handleResetGame, handleEndGame };
 }
