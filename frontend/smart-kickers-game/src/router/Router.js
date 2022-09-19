@@ -1,7 +1,7 @@
 import React from 'react';
 import GameStatistics from '../components/Game/GameStatistics/GameStatistics.js';
 import GameHistory from '../components/Game/GameHistory/GameHistory';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Heatmap from '../components/Heatmap/Heatmap';
 import App from '../App.js';
 import RouterItem from './RouterItem.js';
@@ -35,7 +35,7 @@ export default function Router() {
             </RouterItem>
           }
         />
-        <Route path="*" element={<App />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
