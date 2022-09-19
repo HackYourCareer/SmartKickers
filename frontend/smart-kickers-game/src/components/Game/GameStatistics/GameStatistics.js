@@ -24,11 +24,11 @@ function GameStatistics() {
       <h2>
         <em>Statistics</em>
       </h2>
-      {statistics && statistics?.fastestShot?.speed !== 0 ? (
+      {statistics ? (
         <div className="table-with-stats">
           <TeamIcons />
           <FinalScores />
-          <FastestShot fastestShot={statistics.fastestShot} />
+          {statistics?.fastestShot?.speed !== 0 ? <FastestShot fastestShot={statistics.fastestShot} /> : null}
           <ManualChangedGoals statistics={statistics} />
           <NumberOfShots statistics={statistics} />{' '}
         </div>
