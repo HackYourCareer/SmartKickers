@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
+import './StartGame.css';
 import useCurrentGameplay from './hooks/useCurrentGameplay';
 import { Button } from './components/Button/Button';
 
-export default function App() {
+export default function StartGame() {
   const { handleStartGame } = useCurrentGameplay();
   return (
     <>
