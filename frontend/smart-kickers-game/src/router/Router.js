@@ -4,7 +4,7 @@ import GameHistory from '../components/Game/GameHistory/GameHistory';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Heatmap from '../components/Heatmap/Heatmap';
 import App from '../App.js';
-import RouterItem from './RouterItem.js';
+import StatsItem from './StatsItem.js';
 
 export default function Router() {
   return (
@@ -14,25 +14,25 @@ export default function Router() {
         <Route
           path="/stats/heatmap"
           element={
-            <RouterItem>
+            <StatsItem>
               <Heatmap />
-            </RouterItem>
+            </StatsItem>
           }
         />
         <Route
           path="/stats/gameHistory"
           element={
-            <RouterItem>
+            <StatsItem>
               <GameHistory />
-            </RouterItem>
+            </StatsItem>
           }
         />
         <Route
           path="/stats"
           element={
-            <RouterItem>
+            <StatsItem>
               <GameStatistics />
-            </RouterItem>
+            </StatsItem>
           }
         />
         <Route path="*" element={<Navigate to="/" replace />} />
