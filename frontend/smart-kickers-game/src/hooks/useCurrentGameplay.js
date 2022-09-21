@@ -7,7 +7,7 @@ import { resetGame } from '../apis/resetGame';
 export default function useCurrentGameplay() {
   const [isVisible, setIsVisible] = useState(false);
 
-  const { blueScore, whiteScore, setFinalScores, goalsArray, setGoalsArray } = useGameDataContext();
+  const { blueScore, whiteScore, setFinalScores, goalsArray, setGoalsArray, setIsGameEnded } = useGameDataContext();
 
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
   const ScorePrevious = (value) => {
@@ -61,6 +61,7 @@ export default function useCurrentGameplay() {
   const handleEndGame = () => {
     setFinalScores({ blueScore: blueScore, whiteScore: whiteScore });
     pause();
+    //setIsGameEnded(true);
   };
 
   return { isVisible, handleStartGame, handleResetGame, handleEndGame };
