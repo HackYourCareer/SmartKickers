@@ -11,7 +11,7 @@ function StatsHeader() {
       <div className="nav-buttons">
         <Button onClick={() => navigate('/stats')}>Statistics</Button>
         <Button onClick={() => navigate('/stats/heatmap')}>Heatmap</Button>
-        <Button onClick={() => navigate('/stats/gameHistory')}>Game history</Button>
+        <Button onClick={() => navigate('/stats/game-history')}>Game history</Button>
       </div>
     </>
   );

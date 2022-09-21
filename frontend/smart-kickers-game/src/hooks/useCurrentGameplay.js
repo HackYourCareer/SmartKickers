@@ -61,7 +61,7 @@ export default function useCurrentGameplay() {
   const handleEndGame = () => {
     setFinalScores({ blueScore: blueScore, whiteScore: whiteScore });
     pause();
-    //setIsGameEnded(true);
+    setIsGameEnded(true);
   };
 
   return { isVisible, handleStartGame, handleResetGame, handleEndGame };

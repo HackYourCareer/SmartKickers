@@ -13,31 +13,34 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-
-        <Route
-          path="/stats/heatmap"
-          element={
-            <StatsItem>
-              <Heatmap />
-            </StatsItem>
-          }
-        />
-        <Route
-          path="/stats/gameHistory"
-          element={
-            <StatsItem>
-              <GameHistory />
-            </StatsItem>
-          }
-        />
-        <Route
-          path="/stats"
-          element={
-            <StatsItem>
-              <GameStatistics />
-            </StatsItem>
-          }
-        />
+        {isGameEnded && (
+          <>
+            <Route
+              path="/stats/heatmap"
+              element={
+                <StatsItem>
+                  <Heatmap />
+                </StatsItem>
+              }
+            />
+            <Route
+              path="/stats/game-history"
+              element={
+                <StatsItem>
+                  <GameHistory />
+                </StatsItem>
+              }
+            />
+            <Route
+              path="/stats"
+              element={
+                <StatsItem>
+                  <GameStatistics />
+                </StatsItem>
+              }
+            />
+          </>
+        )}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
