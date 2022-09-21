@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import CurrentGameplay from './components/Game/CurrentGameplay/CurrentGameplay';
+import StartGame from './components/Game/StartGame/StartGame';
 
 export default function App() {
   return (
     <>
       <h1>Smart Kickers</h1>
-      <CurrentGameplay />
+      <StartGame />
     </>
   );
 }

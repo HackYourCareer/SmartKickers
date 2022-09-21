@@ -8,6 +8,7 @@ export default function GameDataContextProvider({ children }) {
   const [goalsArray, setGoalsArray] = useState([]);
   const [finalScores, setFinalScores] = useState({ blueScore: 0, whiteScore: 0 });
   const [isGameEnded, setIsGameEnded] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   useEffect(() => {
     const socket = new WebSocket(`${config.wsBaseUrl}/score`);
@@ -36,6 +37,8 @@ export default function GameDataContextProvider({ children }) {
         setGoalsArray,
         isGameEnded,
         setIsGameEnded,
+        isGameStarted,
+        setIsGameStarted,
       }}
     >
       {children}

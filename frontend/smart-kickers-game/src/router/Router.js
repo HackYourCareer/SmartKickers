@@ -6,13 +6,15 @@ import Heatmap from '../components/Heatmap/Heatmap';
 import App from '../App.js';
 import StatsItem from './StatsItem.js';
 import { useGameDataContext } from '../contexts/GameDataContext.js';
+import CurrentGameplay from '../components/Game/CurrentGameplay/CurrentGameplay.js';
 
 export default function Router() {
-  const { isGameEnded } = useGameDataContext();
+  const { isGameEnded, isGameStarted } = useGameDataContext();
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        {isGameStarted && <Route path="/game" element={<CurrentGameplay />} />}
         {isGameEnded && (
           <>
             <Route
