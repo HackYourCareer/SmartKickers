@@ -7,8 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGameDataContext } from '../../../contexts/GameDataContext';
 
 function GameResults({ isVisible }) {
-  const blueScore = useGameDataContext().blueScore;
-  const whiteScore = useGameDataContext().whiteScore;
+  const { blueScore, whiteScore } = useGameDataContext();
 
   async function handleUpdateScores(teamId, action) {
     const result = await updateScores(teamId, action);
