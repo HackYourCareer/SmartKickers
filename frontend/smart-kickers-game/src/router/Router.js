@@ -3,10 +3,10 @@ import GameStatistics from '../components/Game/GameStatistics/GameStatistics.js'
 import GameHistory from '../components/Game/GameHistory/GameHistory';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Heatmap from '../components/Heatmap/Heatmap';
-import App from '../App.js';
 import StatsItem from './StatsItem.js';
 import { useGameDataContext } from '../contexts/GameDataContext.js';
 import CurrentGameplay from '../components/Game/CurrentGameplay/CurrentGameplay.js';
+import App from '../App.js';
 
 export default function Router() {
   const { isGameEnded, isGameStarted } = useGameDataContext();
