@@ -3,11 +3,11 @@ import '@testing-library/jest-dom/extend-expect';
 import WS from 'jest-websocket-mock';
 import { getElementWhichContain } from './helpers';
 import * as GameAPI from '../apis/resetGame';
-import App from '../App';
+import StartGame from '../StartGame';
 import config from '../config';
 
 let ws;
-describe('<App />', () => {
+describe('<StartGame />', () => {
   beforeEach(() => {
     ws = new WS(`${config.wsBaseUrl}/score`);
   });
@@ -17,14 +17,14 @@ describe('<App />', () => {
   });
 
   it.skip('should render correctly', async () => {
-    render(<App />);
+    render(<StartGame />);
 
     expect(getElementWhichContain('Blue:')).toBeDefined();
     expect(getElementWhichContain('White:')).toBeDefined();
   });
 
   it.skip('should update score on score message', async () => {
-    render(<App />);
+    render(<StartGame />);
     await ws.connected;
 
     ws.send(JSON.stringify({ blueScore: 10, whiteScore: 14 }));
@@ -35,7 +35,7 @@ describe('<App />', () => {
 
   it.skip('should send game reset request on button click', () => {
     const resetGameMock = jest.spyOn(GameAPI, 'resetGame');
-    render(<App />);
+    render(<StartGame />);
 
     getElementWhichContain('Reset Game').click();
 
@@ -49,7 +49,7 @@ describe('<App />', () => {
       status: 500,
     });
 
-    render(<App />);
+    render(<StartGame />);
     getElementWhichContain('Reset Game').click();
 
     waitFor(() => {
