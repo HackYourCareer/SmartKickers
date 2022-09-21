@@ -1,7 +1,8 @@
 import React from 'react';
 import './StatisticItem.css';
+import { TeamID } from '../../../../constants/score.js';
 
-function ManualChangedGoals({ blue, white, statistics }) {
+function ManualChangedGoals({ statistics }) {
   function getManualChangedGoals(teamID) {
     if (!statistics?.manualGoals) return;
     return statistics.manualGoals[teamID];
@@ -16,12 +17,12 @@ function ManualChangedGoals({ blue, white, statistics }) {
   }
   return (
     <>
-      <div className="table-item">{getManualAddedGoals(blue)}</div>
+      <div className="table-item">{getManualAddedGoals(TeamID.Team_blue)}</div>
       <div className="table-item">Manually added goals</div>
-      <div className="table-item">{getManualAddedGoals(white)}</div>
-      <div className="table-item">{getManualSubstractedGoals(blue)}</div>
+      <div className="table-item">{getManualAddedGoals(TeamID.Team_white)}</div>
+      <div className="table-item">{getManualSubstractedGoals(TeamID.Team_blue)}</div>
       <div className="table-item">Manually substracted goals</div>
-      <div className="table-item">{getManualSubstractedGoals(white)}</div>
+      <div className="table-item">{getManualSubstractedGoals(TeamID.Team_white)}</div>
     </>
   );
 }

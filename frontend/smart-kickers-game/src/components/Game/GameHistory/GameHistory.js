@@ -2,8 +2,10 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './GameHistory.css';
 import { TeamID } from '../../../constants/score.js';
+import { useGameDataContext } from '../../../contexts/GameDataContext';
 
-function GameHistory({ goalsArray }) {
+function GameHistory() {
+  const { goalsArray } = useGameDataContext();
   return (
     <div>
       <h2>
