@@ -11,15 +11,16 @@ The following repository contains:
 
 ## Table of contents
 
-- [Overview](#overview)
-- [Table of content](#table-of-content)
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Launching](#launching)
-  - [Launching the server and web application](#launching-the-server-and-web-application)
-  - [Launching the ball-tracking software](#launching-the-ball-tracking-software)
-- [Contact Information](#contact-information)
+- [SmartKickers](#smartkickers)
+  - [Overview](#overview)
+  - [Table of contents](#table-of-contents)
+  - [Features](#features)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Launching](#launching)
+    - [Launching the server and web application](#launching-the-server-and-web-application)
+    - [Launching the ball-tracking software](#launching-the-ball-tracking-software)
+  - [Contact Information](#contact-information)
 
 ## Features
 
@@ -113,18 +114,11 @@ docker pull ghcr.io/hackyourcareer/smartkickers-backend:latest
 
 1. Plug in the camera to the computer.
 
-2. In a new terminal window, launch the Node.js server.
+2. In order to launch the application, navigate to the `SmartKickersAI` repo and double click `start` file.
 
-In order to launch the application, navigate to the `SmartKickersAI` repo and run:
+   Successful connection to the Go server shows the connection details like in the screenshot below:
 
-```bash
-cd LocalServer/server
-node server.js
-```
-
-Successful connection to the Go server shows the connection details like in the screenshot below:
-
-![Node launch image](assets/nodeLaunch.png "Node launch")
+   ![Node launch image](assets/nodeLaunch.png "Node launch")
 
 3. In your Internet browser, go to [`localhost:3007`](http://localhost:3007/) to see the React application.
 
