@@ -4,8 +4,8 @@ import { TeamID } from '../../../../constants/score.js';
 
 function ManualChangedGoals({ statistics }) {
   function getManualChangedGoals(teamID) {
-    if (!statistics?.manualGoals) return;
-    return statistics.manualGoals[teamID];
+    if (!statistics?.teamID[teamID]?.manualGoals) return;
+    return statistics.teamID[teamID].manualGoals;
   }
 
   function getManualSubstractedGoals(teamID) {

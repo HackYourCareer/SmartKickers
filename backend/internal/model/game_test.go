@@ -140,45 +140,42 @@ func TestGameSubGoal(t *testing.T) {
 }
 
 func TestUpdateShotsData(t *testing.T) {
+	game := &game{
+		gameData: GameStats{
+			Team: map[int]TeamStats{
+				config.TeamBlue:  {},
+				config.TeamWhite: {},
+			},
+		}}
+
 	type args struct {
-		name              string
-		shot              Shot
-		expectedError     string
-		expectedGameStats GameStats
+		name               string
+		shot               Shot
+		expectedCountWhite int
+		expectedCountBlue  int
+		expectedError      string
 	}
 
 	tests := []args{
 		{
 			name: "should increment team white shot count by one",
 			shot: Shot{
-				Speed:      15,
-				Team:       1,
-				ShotAtGoal: true,
+				Speed: 15,
+				Team:  1,
 			},
-			expectedError: "",
-			expectedGameStats: GameStats{1, 0,
-				Shot{
-					Speed:      15,
-					Team:       1,
-					ShotAtGoal: false},
-				nil, 0, 1,
-			},
+			expectedCountWhite: 1,
+			expectedCountBlue:  0,
+			expectedError:      "",
 		},
 		{
 			name: "should increment team blue shot count by one",
 			shot: Shot{
-				Speed:      15,
-				Team:       2,
-				ShotAtGoal: true,
+				Speed: 15,
+				Team:  2,
 			},
-			expectedError: "",
-			expectedGameStats: GameStats{0, 1,
-				Shot{
-					Speed:      15,
-					Team:       2,
-					ShotAtGoal: false},
-				nil, 1, 0,
-			},
+			expectedCountWhite: 0,
+			expectedCountBlue:  1,
+			expectedError:      "",
 		},
 		{
 			name: "should cause an error when invalid team ID",
@@ -186,17 +183,22 @@ func TestUpdateShotsData(t *testing.T) {
 				Speed: 15,
 				Team:  3,
 			},
-			expectedError: "incorrect team ID",
-			expectedGameStats: GameStats{0, 0,
-				Shot{},
-				nil, 0, 0,
-			},
+			expectedCountWhite: 0,
+			expectedCountBlue:  0,
+			expectedError:      "incorrect team ID",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			game := &game{}
+			if team, ok := game.gameData.Team[config.TeamWhite]; ok {
+				team.ShotsCount = 0
+				game.gameData.Team[config.TeamWhite] = team
+			}
+			if team, ok := game.gameData.Team[config.TeamBlue]; ok {
+				team.ShotsCount = 0
+				game.gameData.Team[config.TeamBlue] = team
+			}
 
 			err := game.UpdateShotsData(tt.shot)
 
@@ -205,56 +207,9 @@ func TestUpdateShotsData(t *testing.T) {
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
-			assert.Equal(t, tt.expectedGameStats, game.gameData)
-		})
-	}
-}
 
-func TestSaveFastestGoal(t *testing.T) {
-	game := &game{
-		gameData: GameStats{
-			FastestShot: Shot{
-				Speed: 18.98,
-				Team:  1,
-			},
-		},
-	}
-
-	type args struct {
-		name            string
-		shotMsgIn       Shot
-		expectedFastest Shot
-	}
-
-	tests := []args{
-		{
-			name: "Should save new fastest of team 1",
-			shotMsgIn: Shot{
-				Speed: 21.45,
-				Team:  1,
-			},
-			expectedFastest: Shot{
-				Speed: 21.45,
-				Team:  1,
-			},
-		},
-		{
-			name: "Should save new fastest of team 2",
-			shotMsgIn: Shot{
-				Speed: 55.5555,
-				Team:  2,
-			},
-			expectedFastest: Shot{
-				Speed: 55.5555,
-				Team:  2,
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			game.saveFastestShot(tt.shotMsgIn)
-
-			assert.Equal(t, tt.expectedFastest, game.gameData.FastestShot)
+			assert.Equal(t, tt.expectedCountWhite, game.gameData.Team[config.TeamWhite].ShotsCount)
+			assert.Equal(t, tt.expectedCountBlue, game.gameData.Team[config.TeamBlue].ShotsCount)
 		})
 	}
 }
@@ -313,9 +268,9 @@ func TestIncrementHeatmap(t *testing.T) {
 			name:                         "should cause an error when index out of y range",
 			xCord:                        0.12634,
 			yCord:                        1.52563,
-			startingHeatmapValue:         1,
-			expectedHeatmapAdjacentValue: 2,
-			expectedHeatmapMainValue:     3,
+			startingHeatmapValue:         0,
+			expectedHeatmapAdjacentValue: 1,
+			expectedHeatmapMainValue:     2,
 			expectedError:                "y ball position index out of range",
 		},
 	}
@@ -330,7 +285,7 @@ func TestIncrementHeatmap(t *testing.T) {
 			for i, j := x-1, y-1; i <= x+1; i, j = i+1, j+1 {
 				if i > 0 && i < heatmapUpperBound {
 					if j > 0 && j < heatmapUpperBound {
-						game.heatmap[i][j] = tt.startingHeatmapValue
+						game.gameData.Heatmap[i][j] = tt.startingHeatmapValue
 					}
 				}
 			}
@@ -340,9 +295,9 @@ func TestIncrementHeatmap(t *testing.T) {
 					if i > 0 && i < heatmapUpperBound {
 						if j > 0 && j < heatmapUpperBound {
 							if i == x && j == y {
-								assert.Equal(t, tt.expectedHeatmapMainValue, game.heatmap[i][j])
+								assert.Equal(t, tt.expectedHeatmapMainValue, game.gameData.Heatmap[i][j])
 							} else {
-								assert.Equal(t, tt.expectedHeatmapAdjacentValue, game.heatmap[i][j])
+								assert.Equal(t, tt.expectedHeatmapAdjacentValue, game.gameData.Heatmap[i][j])
 							}
 						}
 					}
