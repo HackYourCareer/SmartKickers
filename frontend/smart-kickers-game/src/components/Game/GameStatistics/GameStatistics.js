@@ -1,37 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './GameStatistics.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '../../Button/Button.js';
+import { getStatistics } from '../../../apis/getStatistics.js';
+import NumberOfShots from './NumberOfShots.js';
+import FinalScores from './StatisticsItems/FinalScores.js';
+import FastestShot from './StatisticsItems/FastestShot.js';
+import ManualChangedGoals from './StatisticsItems/ManualChangedGoals.js';
+import TeamIcons from './StatisticsItems/TeamIcons.js';
 
-function GameStatistics({ finalScores, onNewGameRequested }) {
+function GameStatistics() {
+  const [statistics, setStatistics] = useState(null);
+
+  const handleGetStatistics = async () => {
+    const result = await getStatistics();
+    result?.error ? alert(result.error) : setStatistics(result);
+  };
+
+  useEffect(() => {
+    handleGetStatistics();
+  }, []);
+
   return (
     <>
       <h2>
         <em>Statistics</em>
       </h2>
-      <div className="table-with-stats">
-        <div className="table-item">
-          <FontAwesomeIcon className="blue-team-icon" icon="fa-person" />
-          Blue
+      {statistics ? (
+        <div className="table-with-stats">
+          <TeamIcons />
+          <FinalScores />
+          <FastestShot statistics={statistics} />
+          <ManualChangedGoals statistics={statistics} />
+          <NumberOfShots statistics={statistics} />
         </div>
-        <div className="table-item"></div>
-        <div className="table-item">
-          <FontAwesomeIcon className="white-team-icon" icon="fa-person" />
-          White
-        </div>
-        <div className="table-item">{finalScores.blue}</div>
-        <div className="table-item">score</div>
-        <div className="table-item">{finalScores.white}</div>
-      </div>
-
-      <Button
-        className="btn--primary new-game-btn"
-        onClick={() => {
-          onNewGameRequested();
-        }}
-      >
-        New game
-      </Button>
+      ) : (
+        <div className="no-statistics">Something went wrong, statistics went on the vacation and we don't have it</div>
+      )}
     </>
   );
 }

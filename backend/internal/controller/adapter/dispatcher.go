@@ -59,17 +59,21 @@ func (dispMsg dispatcherMsg) getMessageCategory() MsgCategory {
 	if dispMsg.MsgType == "INITIAL" {
 		return MsgInitial
 	}
+
 	if dispMsg.Goal != 0 {
 		return MsgGoal
 	}
+
 	if dispMsg.MsgType == "" {
 		return MsgPosition
 	}
+
 	return MsgNone
 }
 
 func NewDispatcherResponse(tableID string) *initialResponse {
 	dr := new(initialResponse)
 	dr.GameID = tableID
+
 	return dr
 }

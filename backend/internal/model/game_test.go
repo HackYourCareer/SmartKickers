@@ -29,6 +29,7 @@ func TestAddGoal(t *testing.T) {
 		expectedWhiteScore int
 		expectedError      string
 	}
+
 	tests := []args{
 		{
 			name:               "should increment team white score by one",
@@ -52,7 +53,6 @@ func TestAddGoal(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
 			game.score.WhiteScore = 0
 			game.score.BlueScore = 0
 			err := game.AddGoal(tt.teamID)
@@ -81,7 +81,9 @@ func TestGameSubGoal(t *testing.T) {
 		expectedBlueScore  int
 		expectedWhiteScore int
 		expectedError      string
+		initialScore       GameScore
 	}
+
 	tests := []args{
 		{
 			name:               "should decrement team white score by one",
@@ -89,6 +91,7 @@ func TestGameSubGoal(t *testing.T) {
 			expectedBlueScore:  1,
 			expectedWhiteScore: 0,
 			expectedError:      "",
+			initialScore:       GameScore{1, 1},
 		},
 		{
 			name:               "should decrement team blue score by one",
@@ -96,6 +99,7 @@ func TestGameSubGoal(t *testing.T) {
 			expectedBlueScore:  0,
 			expectedWhiteScore: 1,
 			expectedError:      "",
+			initialScore:       GameScore{1, 1},
 		},
 		{
 			name:               "should cause an error when invalid team ID",
@@ -103,25 +107,21 @@ func TestGameSubGoal(t *testing.T) {
 			expectedBlueScore:  1,
 			expectedWhiteScore: 1,
 			expectedError:      "bad team ID",
+			initialScore:       GameScore{1, 1},
 		},
 		{
-			name:               "shoud not decrement the score",
+			name:               "should not decrement the score",
 			teamID:             config.TeamBlue,
 			expectedBlueScore:  0,
 			expectedWhiteScore: 0,
 			expectedError:      "",
+			initialScore:       GameScore{0, 0},
 		},
 	}
 
-	for id, tt := range tests {
+	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			game.score.WhiteScore = 1
-			game.score.BlueScore = 1
-
-			if id == 3 {
-				game.score.WhiteScore = 0
-				game.score.BlueScore = 0
-			}
+			game.score = tt.initialScore
 
 			err := game.SubGoal(tt.teamID)
 			if err == nil {
@@ -140,7 +140,13 @@ func TestGameSubGoal(t *testing.T) {
 }
 
 func TestUpdateShotsData(t *testing.T) {
-	game := &game{}
+	game := &game{
+		gameData: GameStats{
+			Team: map[int]TeamStats{
+				config.TeamBlue:  {},
+				config.TeamWhite: {},
+			},
+		}}
 
 	type args struct {
 		name               string
@@ -149,6 +155,7 @@ func TestUpdateShotsData(t *testing.T) {
 		expectedCountBlue  int
 		expectedError      string
 	}
+
 	tests := []args{
 		{
 			name: "should increment team white shot count by one",
@@ -184,8 +191,14 @@ func TestUpdateShotsData(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			game.gameData.WhiteShotsCount = 0
-			game.gameData.BlueShotsCount = 0
+			if team, ok := game.gameData.Team[config.TeamWhite]; ok {
+				team.ShotsCount = 0
+				game.gameData.Team[config.TeamWhite] = team
+			}
+			if team, ok := game.gameData.Team[config.TeamBlue]; ok {
+				team.ShotsCount = 0
+				game.gameData.Team[config.TeamBlue] = team
+			}
 
 			err := game.UpdateShotsData(tt.shot)
 
@@ -195,58 +208,8 @@ func TestUpdateShotsData(t *testing.T) {
 				assert.EqualError(t, err, tt.expectedError)
 			}
 
-			assert.Equal(t, tt.expectedCountWhite, game.gameData.WhiteShotsCount)
-			assert.Equal(t, tt.expectedCountBlue, game.gameData.BlueShotsCount)
-		})
-	}
-}
-
-func TestSaveFastestGoal(t *testing.T) {
-
-	game := &game{
-		gameData: GameStats{
-			FastestShot: Shot{
-				Speed: 18.98,
-				Team:  1,
-			},
-		},
-	}
-
-	type args struct {
-		name            string
-		shotMsgIn       Shot
-		expectedFastest Shot
-	}
-
-	tests := []args{
-		{
-			name: "Should save new fastest of team 1",
-			shotMsgIn: Shot{
-				Speed: 21.45,
-				Team:  1,
-			},
-			expectedFastest: Shot{
-				Speed: 21.45,
-				Team:  1,
-			},
-		},
-		{
-			name: "Should save new fastest of team 2",
-			shotMsgIn: Shot{
-				Speed: 55.5555,
-				Team:  2,
-			},
-			expectedFastest: Shot{
-				Speed: 55.5555,
-				Team:  2,
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			game.saveFastestShot(tt.shotMsgIn)
-
-			assert.Equal(t, tt.expectedFastest, game.gameData.FastestShot)
+			assert.Equal(t, tt.expectedCountWhite, game.gameData.Team[config.TeamWhite].ShotsCount)
+			assert.Equal(t, tt.expectedCountBlue, game.gameData.Team[config.TeamBlue].ShotsCount)
 		})
 	}
 }
@@ -262,6 +225,7 @@ func TestIncrementHeatmap(t *testing.T) {
 		expectedHeatmapValue int
 		expectedError        string
 	}
+
 	tests := []args{
 		{
 			name:                 "should increment heatmap value on given cords by one",
@@ -318,7 +282,6 @@ func TestIncrementHeatmap(t *testing.T) {
 			} else {
 				assert.EqualError(t, err, tt.expectedError)
 			}
-
 		})
 	}
 }

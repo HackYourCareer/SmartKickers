@@ -1,19 +1,25 @@
 import React from 'react';
 import { Button } from '../../Button/Button';
 import GameResults from '../GameResults/GameResults.js';
+import { useNavigate } from 'react-router-dom';
+import useCurrentGameplay from '../../../hooks/useCurrentGameplay';
 
-function CurrentGameplay({ blueScore, whiteScore, handleStartGame, handleResetGame, handleEndGame }) {
+function CurrentGameplay() {
+  const { handleResetGame, handleEndGame } = useCurrentGameplay();
+  const navigate = useNavigate();
+
   return (
     <div>
-      <GameResults blueScore={blueScore} whiteScore={whiteScore} />
+      <GameResults />
       <center className="game-ending-buttons">
-        <Button onClick={() => handleStartGame()}>Start game</Button>
         <br />
         <Button onClick={() => handleResetGame()}>Reset game</Button>
         <br />
+
         <Button
           onClick={() => {
             handleEndGame();
+            navigate('/stats');
           }}
         >
           End game

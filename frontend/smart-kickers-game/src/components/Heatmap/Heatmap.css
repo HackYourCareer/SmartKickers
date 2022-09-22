@@ -1,0 +1,28 @@
+.heatmap-container {
+  background-image: url('../../assets/images/pitch.png');
+  background-size: 100% 100%;
+  width: 700px;
+  height: auto;
+  transform: scaleY(-1);
+  transform: scaleX(-1);
+}
+/* Nesting is required by an external library */
+.heatmap-container > div > div > div > div {
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+.heatmap-parent {
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 30px;
+}
+/* Nesting is required by an external library */
+.heatmap-container > div > div > div > div:first-child {
+  flex: 0 0 0 !important;
+}
+.heatmap-status {
+  text-align: center;
+  padding-top: 30px;
+}
