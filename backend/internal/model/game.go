@@ -220,7 +220,7 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 		}
 	} else {
 		for i := x - 1; i <= x+1; i++ {
-			for j := y - 1; j <= y+1; j++ {	
+			for j := y - 1; j <= y+1; j++ {
 				g.gameData.Heatmap[i][j]++
 			}
 		}
