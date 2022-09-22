@@ -282,22 +282,26 @@ func TestIncrementHeatmap(t *testing.T) {
 
 			heatmapUpperBound := config.HeatmapAccuracy - 1
 
-			for i, j := x-1, y-1; i <= x+1; i, j = i+1, j+1 {
-				if i > 0 && i < heatmapUpperBound {
-					if j > 0 && j < heatmapUpperBound {
-						game.gameData.Heatmap[i][j] = tt.startingHeatmapValue
+			for i := x - 1; i <= x+1; i = i + 1 {
+				for j := y - 1; j <= y+1; j++ {
+					if i > 0 && i < heatmapUpperBound {
+						if j > 0 && j < heatmapUpperBound {
+							game.gameData.Heatmap[i][j] = tt.startingHeatmapValue
+						}
 					}
 				}
 			}
 			err := game.IncrementHeatmap(tt.xCord, tt.yCord)
 			if err == nil {
-				for i, j := x-1, y-1; i <= x+1; i, j = i+1, j+1 {
-					if i > 0 && i < heatmapUpperBound {
-						if j > 0 && j < heatmapUpperBound {
-							if i == x && j == y {
-								assert.Equal(t, tt.expectedHeatmapMainValue, game.gameData.Heatmap[i][j])
-							} else {
-								assert.Equal(t, tt.expectedHeatmapAdjacentValue, game.gameData.Heatmap[i][j])
+				for i := x - 1; i <= x+1; i = i + 1 {
+					for j := y - 1; j <= y+1; j++ {
+						if i > 0 && i < heatmapUpperBound {
+							if j > 0 && j < heatmapUpperBound {
+								if i == x && j == y {
+									assert.Equal(t, tt.expectedHeatmapMainValue, game.gameData.Heatmap[i][j])
+								} else {
+									assert.Equal(t, tt.expectedHeatmapAdjacentValue, game.gameData.Heatmap[i][j])
+								}
 							}
 						}
 					}
