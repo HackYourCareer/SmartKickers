@@ -3,11 +3,13 @@ import { Goal, TeamID } from '../constants/score.js';
 import { useStopwatch } from 'react-timer-hook';
 import { useGameDataContext } from '../contexts/GameDataContext';
 import { resetGame } from '../apis/resetGame';
+import { useNavigate } from 'react-router-dom';
 
 export default function useCurrentGameplay() {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
 
-  const { blueScore, whiteScore, setFinalScores, goalsArray, setGoalsArray } = useGameDataContext();
+  const { blueScore, whiteScore, setFinalScores, goalsArray, setGoalsArray, setIsGameEnded, setIsGameStarted } = useGameDataContext();
 
   const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
   const ScorePrevious = (value) => {
@@ -40,10 +42,12 @@ export default function useCurrentGameplay() {
   }, [whiteScore]);
 
   const handleStartGame = () => {
+    navigate('/game');
     resetGoalsArray();
     handleResetGame();
     setIsVisible(true);
     start();
+    setIsGameStarted(true);
   };
 
   const resetGoalsArray = () => {
@@ -61,6 +65,7 @@ export default function useCurrentGameplay() {
   const handleEndGame = () => {
     setFinalScores({ blueScore: blueScore, whiteScore: whiteScore });
     pause();
+    setIsGameEnded(true);
   };
 
   return { isVisible, handleStartGame, handleResetGame, handleEndGame };

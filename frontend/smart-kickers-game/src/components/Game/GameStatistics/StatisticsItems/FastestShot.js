@@ -2,10 +2,9 @@ import React from 'react';
 import './StatisticItem.css';
 import { TeamID } from '../../../../constants/score.js';
 
-function FastestShot({ fastestShot }) {
+function FastestShot({ statistics }) {
   function returnFastestShot(teamID) {
-    const { speed, team } = fastestShot;
-    return team === teamID ? speed.toFixed(2) + ' km/h' : '😵';
+    return statistics?.teamID[teamID]?.fastestShot.toFixed(2) + ' km/h';
   }
   return (
     <>

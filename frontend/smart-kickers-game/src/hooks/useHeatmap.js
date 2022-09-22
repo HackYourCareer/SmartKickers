@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 function mirrorHeatmap(data) {
   const heatmapDim = data.length;
   const array = new Array(heatmapDim).fill('');
-
   const transpose = (matrix) => {
     const numbersCopy = structuredClone(matrix);
     for (let row = 0; row < numbersCopy.length; row++) {
@@ -29,7 +28,7 @@ const useHeatmap = () => {
     },
     { useCache: false }
   );
-  const heatmap = useMemo(() => data && mirrorHeatmap(data), [data]);
+  const heatmap = useMemo(() => data && mirrorHeatmap(data.heatmap), [data]);
 
   return { loading, error, heatmap };
 };

@@ -146,6 +146,7 @@ func Test_checkIfShotAtGoal(t *testing.T) {
 		areaID int
 		teamID int
 	}
+
 	tests := []struct {
 		name           string
 		args           args
@@ -192,6 +193,7 @@ func Test_checkIfShotAtGoal(t *testing.T) {
 			expectedResult: false,
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(t, tt.expectedResult, checkIfShotAtGoal(tt.args.areaID, tt.args.teamID))

@@ -5,31 +5,25 @@ import { useNavigate } from 'react-router-dom';
 import useCurrentGameplay from '../../../hooks/useCurrentGameplay';
 
 function CurrentGameplay() {
-  const { isVisible, handleStartGame, handleResetGame, handleEndGame } = useCurrentGameplay();
+  const { handleResetGame, handleEndGame } = useCurrentGameplay();
   const navigate = useNavigate();
 
   return (
     <div>
-      <GameResults isVisible={isVisible} />
+      <GameResults />
       <center className="game-ending-buttons">
-        {!isVisible && (
-          <Button id="start-game" onClick={() => handleStartGame()}>
-            Start game
-          </Button>
-        )}
         <br />
-        {isVisible && <Button onClick={() => handleResetGame()}>Reset game</Button>}
+        <Button onClick={() => handleResetGame()}>Reset game</Button>
         <br />
-        {isVisible && (
-          <Button
-            onClick={() => {
-              handleEndGame();
-              navigate('/stats');
-            }}
-          >
-            End game
-          </Button>
-        )}
+
+        <Button
+          onClick={() => {
+            handleEndGame();
+            navigate('/stats');
+          }}
+        >
+          End game
+        </Button>
       </center>
     </div>
   );

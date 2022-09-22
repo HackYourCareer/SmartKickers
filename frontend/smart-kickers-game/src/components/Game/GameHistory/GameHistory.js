@@ -5,7 +5,7 @@ import { TeamID } from '../../../constants/score.js';
 import { useGameDataContext } from '../../../contexts/GameDataContext';
 
 function GameHistory() {
-  const goalsArray = useGameDataContext().goalsArray;
+  const { goalsArray } = useGameDataContext();
   return (
     <div>
       <h2>
