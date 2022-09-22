@@ -11,7 +11,7 @@ export default function useCurrentGameplay() {
 
   const { blueScore, whiteScore, setFinalScores, goalsArray, setGoalsArray, setIsGameEnded, setIsGameStarted } = useGameDataContext();
 
-  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
+  const { seconds, minutes, start, pause, reset } = useStopwatch({ autoStart: false });
   const ScorePrevious = (value) => {
     const ref = useRef();
     useEffect(() => {
