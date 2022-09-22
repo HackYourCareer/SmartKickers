@@ -282,7 +282,7 @@ func TestIncrementHeatmap(t *testing.T) {
 
 			heatmapUpperBound := config.HeatmapAccuracy - 1
 
-			for i := x - 1; i <= x+1; i = i + 1 {
+			for i := x - 1; i <= x+1; i++ {
 				for j := y - 1; j <= y+1; j++ {
 					if i > 0 && i < heatmapUpperBound {
 						if j > 0 && j < heatmapUpperBound {
@@ -293,7 +293,7 @@ func TestIncrementHeatmap(t *testing.T) {
 			}
 			err := game.IncrementHeatmap(tt.xCord, tt.yCord)
 			if err == nil {
-				for i := x - 1; i <= x+1; i = i + 1 {
+				for i := x - 1; i <= x+1; i++ {
 					for j := y - 1; j <= y+1; j++ {
 						if i > 0 && i < heatmapUpperBound {
 							if j > 0 && j < heatmapUpperBound {

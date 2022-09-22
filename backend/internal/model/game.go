@@ -208,7 +208,7 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	if y > heatmapUpperBound || y < 0 {
 		return errors.New("y ball position index out of range")
 	}
-	for i := x - 1; i <= x+1; i = i + 1 {
+	for i := x - 1; i <= x+1; i++ {
 		for j := y - 1; j <= y+1; j++ {
 			if i > 0 && i < heatmapUpperBound {
 				if j > 0 && j < heatmapUpperBound {
@@ -217,7 +217,6 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 				}
 			}
 		}
-
 	}
 	g.gameData.Heatmap[x][y]++
 
