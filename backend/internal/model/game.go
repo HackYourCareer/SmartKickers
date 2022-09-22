@@ -18,7 +18,7 @@ type Game interface {
 	SubGoal(int) error
 	UpdateManualGoals(int, string)
 	UpdateShotsData(Shot) error
-	GetGameStats() GameStats
+	GetGameStats() map[int]TeamStats
 	GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	IncrementHeatmap(float64, float64) error
 }
@@ -26,7 +26,6 @@ type Game interface {
 type game struct {
 	score        GameScore
 	gameData     GameStats
-	heatmap      [config.HeatmapAccuracy][config.HeatmapAccuracy]int
 	scoreChannel chan GameScore
 	m            sync.RWMutex
 }
@@ -37,12 +36,15 @@ type GameScore struct {
 }
 
 type GameStats struct {
-	WhiteShotsCount  int                    `json:"whiteShotsCount"`
-	BlueShotsCount   int                    `json:"blueShotsCount"`
-	FastestShot      Shot                   `json:"fastestShot"`
-	ManualGoals      map[int]map[string]int `json:"manualGoals"`
-	BlueAtGoalCount  int
-	WhiteAtGoalCount int
+	Heatmap [config.HeatmapAccuracy][config.HeatmapAccuracy]int `json:"heatmap"`
+	Team    map[int]TeamStats                                   `json:"teamID"`
+}
+
+type TeamStats struct {
+	ShotsCount       int            `json:"shotsCount"`
+	FastestShot      float64        `json:"fastestShot"`
+	ManualGoals      map[string]int `json:"manualGoals"`
+	ShotsAtGoalCount int            `json:"shotsAtGoal"`
 }
 
 type Shot struct {
@@ -55,14 +57,18 @@ func NewGame() Game {
 	return &game{
 		scoreChannel: make(chan GameScore, 32),
 		gameData: GameStats{
-			ManualGoals: map[int]map[string]int{
-				config.TeamWhite: {
-					config.ActionAdd:      0,
-					config.ActionSubtract: 0,
-				},
+			Team: map[int]TeamStats{
 				config.TeamBlue: {
-					config.ActionAdd:      0,
-					config.ActionSubtract: 0,
+					ManualGoals: map[string]int{
+						config.ActionAdd:      0,
+						config.ActionSubtract: 0,
+					},
+				},
+				config.TeamWhite: {
+					ManualGoals: map[string]int{
+						config.ActionAdd:      0,
+						config.ActionSubtract: 0,
+					},
 				},
 			},
 		},
@@ -77,18 +83,22 @@ func (g *game) ResetStats() {
 	g.score.WhiteScore = 0
 	g.scoreChannel <- g.score
 	g.gameData = GameStats{
-		ManualGoals: map[int]map[string]int{
-			config.TeamWhite: {
-				config.ActionAdd:      0,
-				config.ActionSubtract: 0,
-			},
+		Team: map[int]TeamStats{
 			config.TeamBlue: {
-				config.ActionAdd:      0,
-				config.ActionSubtract: 0,
+				ManualGoals: map[string]int{
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
+			},
+			config.TeamWhite: {
+				ManualGoals: map[string]int{
+					config.ActionAdd:      0,
+					config.ActionSubtract: 0,
+				},
 			},
 		},
 	}
-	g.heatmap = [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}
+	g.gameData.Heatmap = [config.HeatmapAccuracy][config.HeatmapAccuracy]int{}
 }
 
 func (g *game) AddGoal(teamID int) error {
@@ -148,48 +158,37 @@ func (g *game) UpdateShotsData(shot Shot) error {
 	g.m.Lock()
 	defer g.m.Unlock()
 
-	switch shot.Team {
-	case config.TeamWhite:
-		g.gameData.WhiteShotsCount++
-		if shot.ShotAtGoal {
-			g.gameData.WhiteAtGoalCount++
+	if team, ok := g.gameData.Team[shot.Team]; ok {
+		team.ShotsCount++
+		if team.FastestShot < shot.Speed {
+			team.FastestShot = shot.Speed
 		}
-	case config.TeamBlue:
-		g.gameData.BlueShotsCount++
-		if shot.ShotAtGoal {
-			g.gameData.BlueAtGoalCount++
-		}
-	default:
-		return fmt.Errorf("incorrect team ID")
-	}
 
-	if g.isFastestShot(shot.Speed) {
-		g.saveFastestShot(shot)
+		if shot.ShotAtGoal {
+			team.ShotsAtGoalCount++
+		}
+
+		g.gameData.Team[shot.Team] = team
+	} else {
+		return fmt.Errorf("incorrect team ID")
 	}
 
 	return nil
 }
 
-func (g *game) isFastestShot(speed float64) bool {
-	return g.gameData.FastestShot.Speed < speed
-}
-
-func (g *game) saveFastestShot(shot Shot) {
-	g.gameData.FastestShot.Speed = shot.Speed
-	g.gameData.FastestShot.Team = shot.Team
-}
-
-func (g *game) GetGameStats() GameStats {
+func (g *game) GetGameStats() map[int]TeamStats {
 	log.Trace("mutex lock: GetGameStats")
 	g.m.RLock()
 	defer g.m.RUnlock()
-	return g.gameData
+
+	return g.gameData.Team
 }
 
 func (g *game) UpdateManualGoals(teamID int, action string) {
 	g.m.Lock()
 	defer g.m.Unlock()
-	g.gameData.ManualGoals[teamID][action]++
+
+	g.gameData.Team[teamID].ManualGoals[action]++
 }
 
 func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
@@ -201,6 +200,7 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	y := int(math.Round(config.HeatmapAccuracy * yCord))
 
 	heatmapUpperBound := config.HeatmapAccuracy - 1
+
 	if x > heatmapUpperBound || x < 0 {
 		return errors.New("x ball position index out of range")
 	}
@@ -208,7 +208,7 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	if y > heatmapUpperBound || y < 0 {
 		return errors.New("y ball position index out of range")
 	}
-	g.heatmap[x][y]++
+	g.gameData.Heatmap[x][y]++
 
 	return nil
 }
@@ -218,5 +218,5 @@ func (g *game) GetHeatmap() [config.HeatmapAccuracy][config.HeatmapAccuracy]int 
 	g.m.RLock()
 	defer g.m.RUnlock()
 
-	return g.heatmap
+	return g.gameData.Heatmap
 }

@@ -67,6 +67,7 @@ func (dispMsg dispatcherMsg) getMessageCategory() MsgCategory {
 	if dispMsg.MsgType == "" {
 		return MsgPosition
 	}
+
 	return MsgNone
 }
 

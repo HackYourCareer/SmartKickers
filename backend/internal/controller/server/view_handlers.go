@@ -108,7 +108,7 @@ func isValidTeamID(teamID int) bool {
 }
 
 func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := json.Marshal(s.game.GetGameStats())
+	response, err := json.Marshal(map[string]interface{}{"teamID": s.game.GetGameStats()})
 	if err != nil {
 		log.Error(err)
 
@@ -132,7 +132,7 @@ func (s server) ShowStatsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s server) ShowHeatmapHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := json.Marshal(s.game.GetHeatmap())
+	response, err := json.Marshal(map[string]interface{}{"heatmap": s.game.GetHeatmap()})
 	if err != nil {
 		log.Error(err)
 

@@ -3,7 +3,7 @@ import './StatisticItem.css';
 import { useGameDataContext } from '../../../../contexts/GameDataContext';
 
 function FinalScores() {
-  const finalScores = useGameDataContext().finalScores;
+  const { finalScores } = useGameDataContext();
   return (
     <>
       <div className="table-item">{finalScores.blueScore}</div>
