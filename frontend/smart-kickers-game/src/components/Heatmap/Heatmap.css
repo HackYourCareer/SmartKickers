@@ -6,7 +6,7 @@
   transform: scaleY(-1);
   transform: scaleX(-1);
 }
-/* Nesting is required by an external library */
+
 .heatmap-parent {
   width: 100vw;
   display: flex;

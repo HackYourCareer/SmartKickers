@@ -1,39 +1,33 @@
 export const Colors = {
-  green: {
-    red: 150,
-    green: 230,
-    blue: 50,
-    opacity: 50,
+  red: {
+    red: 202,
+    green: 3,
+    blue: 0,
+    opacity: 0.75,
   },
   yellow: {
-    red: 240,
-    green: 230,
-    blue: 20,
-    opacity: 50,
+    red: 225,
+    green: 101,
+    blue: 25,
+    opacity: 1,
   },
-  orangeLight: {
-    red: 240,
-    green: 180,
-    blue: 20,
-    opacity: 50,
+  green: {
+    red: 202,
+    green: 206,
+    blue: 23,
+    opacity: 0.75,
   },
-  orangeDark: {
-    red: 240,
-    green: 130,
-    blue: 20,
-    opacity: 50,
+  purple: {
+    red: 56,
+    green: 140,
+    blue: 4,
+    opacity: 0.5,
   },
-  redLight: {
-    red: 240,
-    green: 80,
-    blue: 20,
-    opacity: 50,
-  },
-  redDark: {
-    red: 240,
-    green: 30,
-    blue: 20,
-    opacity: 50,
+  blue: {
+    red: 4,
+    green: 115,
+    blue: 49,
+    opacity: 0.3,
   },
   none: {
     red: 0,
@@ -48,17 +42,15 @@ export function chooseColor(value) {
     case value <= 2:
       return returnCellColor(Colors.none);
     case value <= 5:
-      return returnCellColor(Colors.green);
+      return returnCellColor(Colors.blue);
     case value <= 10:
-      return returnCellColor(Colors.yellow);
+      return returnCellColor(Colors.purple);
     case value <= 15:
-      return returnCellColor(Colors.orangeLight);
+      return returnCellColor(Colors.green);
     case value <= 25:
-      return returnCellColor(Colors.orangeDark);
-    case value <= 30:
-      return returnCellColor(Colors.redLight);
-    case value > 30:
-      return returnCellColor(Colors.redDark);
+      return returnCellColor(Colors.yellow);
+    case value > 25:
+      return returnCellColor(Colors.red);
     default:
       return returnCellColor(Colors.none);
   }
