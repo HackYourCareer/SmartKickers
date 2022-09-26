@@ -1,32 +1,32 @@
 export const Colors = {
-  purple: {
-    red: 237,
-    green: 2,
-    blue: 245,
-    opacity: 0.5,
-  },
-  green: {
-    red: 2,
-    green: 255,
-    blue: 20,
+  red: {
+    red: 202,
+    green: 3,
+    blue: 0,
     opacity: 0.75,
   },
-  red: {
-    red: 255,
-    green: 0,
-    blue: 0,
+  yellow: {
+    red: 225,
+    green: 101,
+    blue: 25,
     opacity: 1,
   },
-  yellow: {
-    red: 242,
-    green: 239,
-    blue: 52,
-    opacity: 1,
+  green: {
+    red: 202,
+    green: 206,
+    blue: 23,
+    opacity: 0.75,
+  },
+  purple: {
+    red: 56,
+    green: 140,
+    blue: 4,
+    opacity: 0.5,
   },
   blue: {
-    red: 57,
-    green: 191,
-    blue: 187,
+    red: 4,
+    green: 115,
+    blue: 49,
     opacity: 0.3,
   },
   none: {
