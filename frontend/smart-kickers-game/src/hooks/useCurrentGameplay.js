@@ -11,7 +11,7 @@ export default function useCurrentGameplay() {
 
   const { blueScore, whiteScore, setFinalScores, goalsArray, setGoalsArray, setIsGameEnded, setIsGameStarted } = useGameDataContext();
 
-  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
+  const { seconds, minutes, start, pause, reset } = useStopwatch({ autoStart: false });
   const ScorePrevious = (value) => {
     const ref = useRef();
     useEffect(() => {
@@ -23,7 +23,6 @@ export default function useCurrentGameplay() {
   const prevWhiteScore = ScorePrevious(whiteScore);
 
   useEffect(() => {
-    if (!isRunning) return;
     if (prevBlueScore > blueScore) {
       const indexOfLastBlue = goalsArray.indexOf(goalsArray.findLast((e) => e.teamID === TeamID.Team_blue));
       goalsArray.splice(indexOfLastBlue, 1);
@@ -32,7 +31,6 @@ export default function useCurrentGameplay() {
     }
   }, [blueScore]);
   useEffect(() => {
-    if (!isRunning) return;
     if (prevWhiteScore > whiteScore) {
       const indexOfLastWhite = goalsArray.indexOf(goalsArray.findLast((e) => e.teamID === TeamID.Team_white));
       goalsArray.splice(indexOfLastWhite, 1);
