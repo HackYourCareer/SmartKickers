@@ -1,8 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import config from '../config';
+import { useStopwatch } from 'react-timer-hook';
+import { resetGame } from '../apis/resetGame';
 const GameDataContext = createContext({});
 
 export default function GameDataContextProvider({ children }) {
+  const { seconds, minutes, start, reset } = useStopwatch({ autoStart: false });
   const [blueScore, setBlueScore] = useState(0);
   const [whiteScore, setWhiteScore] = useState(0);
   const [goalsArray, setGoalsArray] = useState([]);
@@ -24,6 +27,18 @@ export default function GameDataContextProvider({ children }) {
     };
   }, []);
 
+  const resetGoalsArray = () => {
+    setGoalsArray([]);
+  };
+  const handleResetGame = () => {
+    resetGame().then((data) => {
+      if (data.error) alert(data.error);
+    });
+    reset();
+    start();
+    resetGoalsArray();
+  };
+
   return (
     <GameDataContext.Provider
       value={{
@@ -39,6 +54,12 @@ export default function GameDataContextProvider({ children }) {
         setIsGameEnded,
         isGameStarted,
         setIsGameStarted,
+        handleResetGame,
+        seconds,
+        minutes,
+        start,
+        reset,
+        resetGoalsArray,
       }}
     >
       {children}
