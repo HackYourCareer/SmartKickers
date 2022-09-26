@@ -20,9 +20,10 @@ function Heatmap() {
             background: `${chooseColor(value)} `,
             fontSize: '0px',
             color: '#444',
-            width: '3.28px',
-            height: '3.28px',
+            width: '6.56px',
+            height: '4px',
             margin: '0px',
+            padding: '0px',
           })}
           cellRender={(value) => value && <div>{value}</div>}
         />
