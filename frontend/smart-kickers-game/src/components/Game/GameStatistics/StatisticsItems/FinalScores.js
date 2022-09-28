@@ -7,7 +7,7 @@ function FinalScores() {
   return (
     <>
       <div className="table-item">{finalScores.blueScore}</div>
-      <div className="table-item">score</div>
+      <div className="table-item">Score</div>
       <div className="table-item">{finalScores.whiteScore}</div>
     </>
   );

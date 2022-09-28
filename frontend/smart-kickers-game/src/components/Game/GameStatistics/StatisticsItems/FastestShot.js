@@ -9,7 +9,7 @@ function FastestShot({ statistics }) {
   return (
     <>
       <div className="table-item">{returnFastestShot(TeamID.Team_blue)}</div>
-      <div className="table-item">fastest shot of the game</div>
+      <div className="table-item">Fastest shot of the game</div>
       <div className="table-item">{returnFastestShot(TeamID.Team_white)}</div>
     </>
   );
