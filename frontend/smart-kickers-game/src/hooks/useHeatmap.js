@@ -10,7 +10,7 @@ const useHeatmap = () => {
     },
     { useCache: false }
   );
-  const heatmap = useMemo(() => data && { array: new Array(data.heatmap.length).fill(''), numbersCopy: data.heatmap }, [data]);
+  const heatmap = useMemo(() => data && { array: new Array(data.heatmap.length).fill(''), numbers: data.heatmap }, [data]);
 
   return { loading, error, heatmap };
 };
