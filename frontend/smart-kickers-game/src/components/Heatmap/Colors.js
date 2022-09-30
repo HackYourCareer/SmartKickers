@@ -37,19 +37,19 @@ export const Colors = {
   },
 };
 
-export function chooseColor(value) {
+export function chooseColor(value, max) {
   switch (true) {
     case value <= 2:
       return returnCellColor(Colors.none);
-    case value <= 5:
+    case value <= max / 6:
       return returnCellColor(Colors.blue);
-    case value <= 10:
+    case value <= max / 3:
       return returnCellColor(Colors.purple);
-    case value <= 15:
+    case value <= max / 2:
       return returnCellColor(Colors.green);
-    case value <= 25:
+    case value <= (5 * max) / 6:
       return returnCellColor(Colors.yellow);
-    case value > 25:
+    case value > (5 * max) / 6:
       return returnCellColor(Colors.red);
     default:
       return returnCellColor(Colors.none);
