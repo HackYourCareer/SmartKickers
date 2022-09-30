@@ -15,7 +15,7 @@ function Heatmap() {
         <HeatMap
           xLabels={heatmap.array}
           yLabels={heatmap.array}
-          data={heatmap.numbersCopy}
+          data={heatmap.numbers}
           cellStyle={(background, value, min, max) => ({
             background: `${chooseColor(value)} `,
             fontSize: '0px',

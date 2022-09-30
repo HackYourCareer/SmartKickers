@@ -213,7 +213,7 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 			for j := y - 1; j <= y+1; j++ {
 				if i > 0 && i < heatmapUpperBound {
 					if j > 0 && j < heatmapUpperBound {
-						g.gameData.Heatmap[i][j]++
+						g.gameData.Heatmap[j][i]++
 					}
 				}
 			}
@@ -221,11 +221,11 @@ func (g *game) IncrementHeatmap(xCord float64, yCord float64) error {
 	} else {
 		for i := x - 1; i <= x+1; i++ {
 			for j := y - 1; j <= y+1; j++ {
-				g.gameData.Heatmap[i][j]++
+				g.gameData.Heatmap[j][i]++
 			}
 		}
 	}
-	g.gameData.Heatmap[x][y]++
+	g.gameData.Heatmap[y][x]++
 
 	return nil
 }

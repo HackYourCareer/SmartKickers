@@ -286,7 +286,7 @@ func TestIncrementHeatmap(t *testing.T) {
 				for j := y - 1; j <= y+1; j++ {
 					if i > 0 && i < heatmapUpperBound {
 						if j > 0 && j < heatmapUpperBound {
-							game.gameData.Heatmap[i][j] = tt.startingHeatmapValue
+							game.gameData.Heatmap[j][i] = tt.startingHeatmapValue
 						}
 					}
 				}
@@ -297,10 +297,10 @@ func TestIncrementHeatmap(t *testing.T) {
 					for j := y - 1; j <= y+1; j++ {
 						if i > 0 && i < heatmapUpperBound {
 							if j > 0 && j < heatmapUpperBound {
-								if i == x && j == y {
-									assert.Equal(t, tt.expectedHeatmapMainValue, game.gameData.Heatmap[i][j])
+								if j == y && i == x {
+									assert.Equal(t, tt.expectedHeatmapMainValue, game.gameData.Heatmap[j][i])
 								} else {
-									assert.Equal(t, tt.expectedHeatmapAdjacentValue, game.gameData.Heatmap[i][j])
+									assert.Equal(t, tt.expectedHeatmapAdjacentValue, game.gameData.Heatmap[j][i])
 								}
 							}
 						}
