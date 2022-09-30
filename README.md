@@ -6,21 +6,18 @@ SmartKickers is a project to make your kickers more immersive. It uses Ximea cam
 
 The following repository contains:
 
-- Golang server for processing the data.
-- React client to display game information.
+- Golang server for processing the data
+- React client to display game information
 
 ## Table of contents
 
-- [SmartKickers](#smartkickers)
-  - [Overview](#overview)
-  - [Table of contents](#table-of-contents)
-  - [Features](#features)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Launching](#launching)
-    - [Launching the server and web application](#launching-the-server-and-web-application)
-    - [Launching the ball-tracking software](#launching-the-ball-tracking-software)
-  - [Contact Information](#contact-information)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Launching](#launching)
+  - [Launching the server and web application](#launching-the-server-and-web-application)
+  - [Launching the ball-tracking software](#launching-the-ball-tracking-software)
+- [Contact Information](#contact-information)
 
 ## Features
 
@@ -45,86 +42,105 @@ Get the following:
    - [Linux](https://docs.docker.com/desktop/install/linux-install/)
 7. [NumPy](https://numpy.org/install/)
 
-> **TIP:** If you're a macOS user, you can also use `brew` to install NumPy:
+   > **TIP:** If you're a macOS user, you can also use `brew` to install NumPy:
 
-```bash
-brew install numpy
-```
+   ```bash
+   brew install numpy
+   ```
 
 8. [OpenCV-Python](https://pypi.org/project/opencv-python/)
 
 9. [Imutils](https://pypi.org/project/imutils/)
 
-Check if you have installed all of the [prerequisites](https://github.com/HackYourCareer/SmartKickers#prerequisites).
-
 > **TIP:** If you're a macOS user, you can run the [`requirementsCheck.sh`](requirementsCheck.sh) script to check for any missing dependencies. Note that the script looks for OpenCV, NumPy, Imutils, and the Ximea driver **only after you have successfully installed Python!** If you don't have Python, it doesn't print missing Python-dependent packages except Python itself.
-
-```bash
-sudo ./requirementsCheck.sh
-```
+>
+> ```bash
+> sudo ./requirementsCheck.sh
+> ```
 
 ## Installation
 
 1. Create a new directory and navigate to it in a terminal.
 
-```bash
-mkdir smartkickers
-cd smartkickers
-```
+   ```bash
+   mkdir smartkickers
+   cd smartkickers
+   ```
 
 2. Clone the repository.
 
-```bash
-git clone https://github.com/HackYourCareer/SmartKickersAI.git
-```
+   ```bash
+   git clone https://github.com/HackYourCareer/SmartKickersAI.git
+   ```
 
-3. Pull frontend image from GCR
+3. Pull the frontend image from GCR.
 
-```bash
-docker pull ghcr.io/hackyourcareer/smartkickers-frontend:latest
-```
+   ```bash
+   docker pull ghcr.io/hackyourcareer/smartkickers-frontend:latest
+   ```
 
-4. Pull backend image from GCR
+4. Pull the backend image from GCR.
 
-```bash
-docker pull ghcr.io/hackyourcareer/smartkickers-backend:latest
-```
+   ```bash
+   docker pull ghcr.io/hackyourcareer/smartkickers-backend:latest
+   ```
 
 ## Launching
 
-> **NOTE:** Configuration files for the camera view are provided by the developers in the [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
+> **NOTE:** The configuration files for the camera view are provided by the developers in the [`SmartKickersAI`](https://github.com/HackYourCareer/SmartKickersAI/tree/main/LocalServer) repository.
 
 ### Launching the server and web application
 
-- Run pulled containers
+Run the pulled containers to launch the server and web application.
 
-  - In a terminal run:
+1. In a terminal run:
 
-  ```bash
-  docker run -p 3000:3000 ghcr.io/hackyourcareer/smartkickers-backend:latest
-  ```
+   ```bash
+   docker run -p 3000:3000 ghcr.io/hackyourcareer/smartkickers-backend:latest
+   ```
 
-  - Open a new terminal and run:
+2. Open a new terminal and run:
 
-  ```bash
-  docker run -p 3007:80 ghcr.io/hackyourcareer/smartkickers-frontend:latest
-  ```
+   ```bash
+   docker run -p 3007:80 ghcr.io/hackyourcareer/smartkickers-frontend:latest
+   ```
 
 ### Launching the ball-tracking software
 
 1. Plug in the camera to the computer.
 
-2. In order to launch the application, navigate to the `SmartKickersAI` repo and double click `start` file.
+2. To launch the application, navigate to the `SmartKickersAI` repo and double click the `start` file.
 
-   Successful connection to the Go server shows the connection details like in the screenshot below:
+   On successful connection to the Go server, you see the following output:
 
-   ![Node launch image](assets/nodeLaunch.png "Node launch")
+   ```bash
+    {
+      url: 'ws://127.0.0.1:3000',
+      wsurl: 'ws://127.0.0.1:3000/shot',
+      dispatcherlURL: 'ws://127.0.0.1:3000',
+      cfURL: 'ws://127.0.0.1:3000/cf',
+      tableID: '10',
+      token: 'c3d8c29ec43b9eadb8bc80ad1458ab8',
+      messageTypes: {
+          BallPosition: '615eec77d6be09356891',
+          Shot: '2ca34aee4bb3dec060b1',
+          BestShotGuid: 'c01b38461a678f3eefa5'
+      }
+   }
+   init
+   conn!
+   { type: 'utf8', utf8Data: '{"start":"10"}' }
+   { start: '10' }
+   game id
+   10
+   connected to IoT Services via wss
+   ```
 
-3. In your Internet browser, go to [`localhost:3007`](http://localhost:3007/) to see the React application.
+3. In your Internet browser, go to [`localhost:3007`](http://localhost:3007/) to open the React application.
 
-This takes you to the SmartKickers React application.
+   You can now play the Smart Kickers game. Enjoy!
 
-![React application](assets/reactApp.png "React application")
+   ![React application](assets/reactApp.png "React application")
 
 ## Contact Information
 
