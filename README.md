@@ -138,9 +138,9 @@ Run the pulled containers to launch the server and web application.
 
 3. In your Internet browser, go to [`localhost:3007`](http://localhost:3007/) to open the React application.
 
-   You can now play the Smart Kickers game. Enjoy!
+You can now play the Smart Kickers game. Enjoy!
 
-   ![React application](assets/reactApp.png "React application")
+![React application](assets/reactApp.png "React application")
 
 ## Contact Information
 
