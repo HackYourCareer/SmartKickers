@@ -43,10 +43,10 @@ Get the following:
 7. [NumPy](https://numpy.org/install/)
 
    > **TIP:** If you're a macOS user, you can also use `brew` to install NumPy:
-
-   ```bash
-   brew install numpy
-   ```
+  > 
+   > ```bash
+   > brew install numpy
+   > ```
 
 8. [OpenCV-Python](https://pypi.org/project/opencv-python/)
 
