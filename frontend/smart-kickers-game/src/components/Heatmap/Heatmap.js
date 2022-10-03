@@ -17,7 +17,7 @@ function Heatmap() {
           yLabels={heatmap.array}
           data={heatmap.numbers}
           cellStyle={(background, value, min, max) => ({
-            background: `${chooseColor(value)} `,
+            background: `${chooseColor(value, max)} `,
             fontSize: '0px',
             color: '#444',
             width: '6.56px',

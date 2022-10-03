@@ -5,25 +5,25 @@ export const Colors = {
     blue: 0,
     opacity: 0.75,
   },
-  yellow: {
+  orange: {
     red: 225,
     green: 101,
     blue: 25,
     opacity: 1,
   },
-  green: {
+  yellow: {
     red: 202,
     green: 206,
     blue: 23,
     opacity: 0.75,
   },
-  purple: {
+  lightGreen: {
     red: 56,
     green: 140,
     blue: 4,
     opacity: 0.5,
   },
-  blue: {
+  darkGreen: {
     red: 4,
     green: 115,
     blue: 49,
@@ -37,19 +37,19 @@ export const Colors = {
   },
 };
 
-export function chooseColor(value) {
+export function chooseColor(value, max) {
   switch (true) {
     case value <= 2:
       return returnCellColor(Colors.none);
-    case value <= 5:
-      return returnCellColor(Colors.blue);
-    case value <= 10:
-      return returnCellColor(Colors.purple);
-    case value <= 15:
-      return returnCellColor(Colors.green);
-    case value <= 25:
+    case value <= max / 6:
+      return returnCellColor(Colors.darkGreen);
+    case value <= max / 3:
+      return returnCellColor(Colors.lightGreen);
+    case value <= max / 2:
       return returnCellColor(Colors.yellow);
-    case value > 25:
+    case value <= (5 * max) / 6:
+      return returnCellColor(Colors.orange);
+    case value > (5 * max) / 6:
       return returnCellColor(Colors.red);
     default:
       return returnCellColor(Colors.none);
